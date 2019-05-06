@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Video Player</title>
+</head>
+
+<body>
+	<video id='videoPlayer' width="320" height="240" controls="controls">
+       <source id='mp4Source' src="videos/discovertruth.mp4" type="video/mp4" />
+    </video>
+	<input id="channelNumber" type="hidden" value="1"/>
+	
+<button onclick="changeChannel();">Change Channel</button>
+<script>
+var programs = [
+	"discovertruth",
+	"dynamite",
+	"journey",
+	"migration",	
+	"reach_up",
+	"samaritan",
+	"samuel",
+	"shower",
+	"songs_sung",
+	"whirlwinds"
+];
+function changeChannel() {
+	var video = document.getElementById('videoPlayer');
+	var mp4source = document.getElementById('mp4Source');
+	var channel =  parseInt(document.getElementById('channelNumber').value);
+	if(channel < programs.length - 1){
+		document.getElementById('channelNumber').value = channel + 1;
+	}
+	else {
+		document.getElementById('channelNumber').value = 0;
+	}
+	
+   var filename = programs[channel];
+   mp4source.src = 'videos/' + filename + '.mp4';
+   video.load();
+   video.play();
+}
+</script>
+</body>
+
+</html> 
