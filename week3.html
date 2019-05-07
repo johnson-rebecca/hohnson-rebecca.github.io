@@ -14,7 +14,7 @@
 <button onclick="changeChannel();">Change Channel</button>
 <script>
 var programs = [
-	"discovertruth",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0010-discovering-truth-360p-eng.mp4",
 	"dynamite",
 	"journey",
 	"migration",	
@@ -22,7 +22,7 @@ var programs = [
 	"samaritan",
 	"samuel",
 	"shower",
-	"songs_sung",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0120-songs-sung-and-unsung-360p-eng.mp4",
 	"whirlwinds"
 ];
 function changeChannel() {
@@ -37,7 +37,7 @@ function changeChannel() {
 	}
 	
    var filename = programs[channel];
-   mp4source.src = 'videos/' + filename + '.mp4';
+   mp4source.src = '' + filename + '.mp4';
    video.load();
    video.play();
 }
