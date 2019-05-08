@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON & AJAX</title>
+</head>
+<body>
+
+<select id="selectUser">
+    <option>- Choose a User-</option>
+</select>
+<input type="button" value="Click to AJAX load" onclick="fetch();"/>
+
+
+<script>
+var select = document.getElementById("selectUser");
+var options = [
+	['Rebecca Johnson', 'liralin', 'christmas-ideas']
+];
+
+//loop through array to build dropdown using DOM manipulation
+for(var i = 0; i < options.length; i++) {
+    var el = document.createElement("option");
+    el.textContent = options[i][0];
+    el.value = i;
+    select.appendChild(el);
+}
+
+function fetch() {
+    var xhr = new XMLHttpRequest();
+	var e = document.getElementById("selectUser");
+	var selIndex = e.options[e.selectedIndex].value;
+	var user = options[selIndex][1];
+	var board = options[selIndex][2];
+    xhr.open('GET', "https://api.pinterest.com/v3/pidgets/boards/" + user  + "/" + board + "/pins/", true);
+    xhr.onload = function () {
+      var pins = JSON.parse(this.response),
+      list = "<ul>";
+      pins.forEach(function(pin) {
+        list += "<li>"+ pin+"</li>";
+      });
+      list += "</ul>";
+      //document.getElementById("container").innerHTML = list;
+    }
+    xhr.send();
+  }
+</script>
+</body>
+</html> 
