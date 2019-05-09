@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSON & AJAX</title>
+</head>
+<body>
+
+<select id="selectUser">
+    <option>- Choose a User-</option>
+</select>
+<input type="button" value="Click to AJAX load" onclick="fetch();"/>
+
+
+<script>
+var select = document.getElementById("selectUser");
+var options = [
+	['Rebecca Johnson', 'liralin', 'christmas-ideas']
+];
+
+//loop through array to build dropdown using DOM manipulation
+for(var i = 0; i < options.length; i++) {
+    var el = document.createElement("option");
+    el.textContent = options[i][0];
+    el.value = i;
+    select.appendChild(el);
+}
+
+function fetch() {
+	var e = document.getElementById("selectUser");
+	var selIndex = e.options[e.selectedIndex].value;
+	var user = options[selIndex][1];
+	var board = options[selIndex][2];
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "https://api.pinterest.com/v3/pidgets/boards/" + user  + "/" + board + "/pins/", true);
+	xhr.setRequestHeader('Content-Type', 'text/plain');
+	xhr.responseType = '';
+	xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log('responseText:' + xhr.responseText);
+            try {
+                var json = JSON.parse(xhr.responseText);
+				//var data = json.data;
+				alert(json['domain']);
+            } catch(err) {
+                console.log(err.message + " in " + xhr.responseText);
+                return;
+            }
+            displayPins(json);
+        }
+    }
+    xhr.send();
+  }
+  
+function displayPins(data){
+	for(key in data) {
+		if(data.hasOwnProperty(key)) {
+			var value = data[key]
+
+		}	
+	}
+}
+</script>
+</body>
+</html> 
