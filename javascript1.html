@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JavaScript 1</title>
+	<style>
+		.col-left{
+			width: 50%;
+			float: left;
+		}
+		.col-right {
+			width: 50%;
+			float: right;
+		}
+		.title {
+			font-weight: bold;
+			font-size: 1.1em;
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+<div class="col-left">
+	<form>
+	<div>
+	  Enter a number:
+	  <input type="number" name="inputNumber" id="inputNumber">
+	  <div style="color:red;display:none;" id="errorMessageNumber"></div>
+	 </div>
+	 <div>
+	  <input type="button" id="btnAddNumber" value="Add number to array" onclick="addNumber(document.getElementById('inputNumber').value);"/>
+	  <input type="button" id="btnRemoveNumber" value="Remove number from array" onclick="removeNumber(document.getElementById('inputNumber').value);"/>
+	  </div>
+	</form> 
+</div>
+<div class="col-right">
+	<span class="title">Numbers in Array:</span>
+	<ul id="arrayResultList"></ul>
+</div>
+
+
+
+<script>
+var numbers = [];
+
+function addNumber(nbr){
+	var lstResults = document.getElementById('arrayResultList');
+	//check to see if exists first
+	if(validateNumber(nbr)){
+		//add number
+		numbers.push(nbr);
+		updateList(nbr, lstResults, true);
+		console.log(numbers);
+	}
+}
+
+function removeNumber(nbr){
+	var lstResults = document.getElementById('arrayResultList');
+	var idx = numbers.indexOf(nbr);
+	if(idx !== -1) {
+		numbers.splice(idx, 1);
+		updateList(nbr, lstResults, false);
+		console.log(numbers);
+	}
+}
+
+function validateNumber(nbr){
+	isValid = true;
+	if (!parseInt(nbr)) {
+		isValid = false;
+		document.getElementById('errorMessageNumber').innerHTML  = "Number cannot be blank.";
+		document.getElementById('errorMessageNumber').style.display = "block";
+		console.log('number could not be added  -- blank entry');
+	}
+	if(numbers.includes(nbr)){
+		isValid = false;
+		//display errorMessage
+		document.getElementById('errorMessageNumber').innerHTML  = "Number " + nbr + " already exists in the array. Please enter a new number.";
+		document.getElementById('errorMessageNumber').style.display = "block";	
+		console.log('number could not be added  -- duplicate entry');		
+	}
+	
+	if(isValid){
+		document.getElementById('errorMessageNumber').innerHTML  = "";
+		document.getElementById('errorMessageNumber').style.display = "none";	
+	}
+		
+	return isValid;
+}
+
+function updateList(nbr, ul, isAdd){
+	if(isAdd) {
+		var li = document.createElement("li");
+		li.setAttribute("id", "li_" + nbr); //
+		li.appendChild(document.createTextNode(nbr));
+		ul.appendChild(li);
+	}
+	else {
+		var id = 'li_' + nbr;
+		removeElement(id);
+	}
+}
+
+function removeElement(elementId) {
+    // Removes an element from the document
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
+}
+
+function saveNumberList(){
+	if (typeof(Storage) !== "undefined") {
+	  localStorage.setItem("numberArray", JSON.stringify(numbers));
+	} else {
+	  // Sorry! No Web Storage support..
+	}
+}
+
+function deleteNumberList(){
+
+}
+
+function LoadNumberList(){
+	if(localStorage.numberArray){
+		numbers = JSON.parse(localStorage["numberArray"]);
+	}
+}
+</script>
+</body>
+</html> 
