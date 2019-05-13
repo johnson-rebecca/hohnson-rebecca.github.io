@@ -1,0 +1,84 @@
+body {
+	background-image: url("../img/whiteboard.jpg");
+	background-color: #ffffff;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: 100% 100%;
+}
+.page_title {
+    font-family: 'Kirang Haerang';
+	font-size: 1.8em;
+	padding-top: 1em;
+	text-transform:uppercase;
+}
+.column-title {
+	color: #0000CC;
+	text-transform:uppercase;
+	font-family: 'Kirang Haerang';
+	font-size: 1.5em;
+}
+.task {
+  display: inline-block;
+  vertical-align: middle;
+  line-height:40px 
+}
+.updated {
+	font-family: 'Finger Paint';
+	text-align: center;
+	color: #212121;
+	text-decoration: none;
+	color: red;
+	font-weight: bold;
+	line-height: 15px;
+}
+.taskdiv {
+	font-family: 'Finger Paint';
+	height: 40px;
+	width: 275px;
+	background-image: url("../img/yellow.png");
+	background-size: 100% 100%;
+	vertical-align:  center;
+	text-align: center;
+	position: relative;
+	font-size: .4em;
+	text-align: center;
+	color: #212121;
+}
+.taskhide {
+	background: transparent;
+	height: 40px;
+	width: 275px;
+}
+.hidetext {
+	display: none;
+}
+.taskred {
+	background-image: url("../img/red.png");
+}
+.taskorange {
+	background-image: url("../img/orange.png");
+}
+.taskgreen {
+	background-image: url("../img/green.png");
+}
+.taskpink {
+	background-image: url("../img/pink.png");
+}
+.taskltblue {
+	background-image: url("../img/ltblue.png");
+}
+.taskblue{
+	background-image: url("../img/blue.png");
+}
+.taskpurple {
+	background-image: url("../img/purple.png");
+}
+.col-middle {
+	border-left: 2x;
+	border-right:  2px;
+	border-top:0px;
+	border-bottom: 0px;
+	border-color: #0000CC;
+	border-style: solid;
+}
