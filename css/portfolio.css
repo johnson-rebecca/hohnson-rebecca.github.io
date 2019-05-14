@@ -6,11 +6,105 @@ body {
 	background-position: center;
 	background-size: 100% 100%;
 }
+/* Start of Column CSS */
+#container5 {
+	clear:left;
+	float:left;
+	width:100%;
+	overflow:hidden;
+	text-align:center;
+	border-width: 0px 2px 0px 2px;
+	border-color: #0000CC;
+	border-style: solid;
+	background:transparent; /* column 5 background colour */
+}
+#container4 {
+	clear:left;
+	float:left;
+	width:100%;
+	position:relative;
+	right:20%;
+	border-width: 0px 2px 0px 2px;
+	border-color: #0000CC;
+	border-style: solid;
+	background:transparent; /* column 4 background colour */
+}
+#container3 {
+	clear:left;
+	float:left;
+	width:100%;
+	position:relative;
+	right:20%;
+	border-width: 0px 2px 0px 2px;
+	border-color: #0000CC;
+	border-style: solid;
+	background:transparent; /* column 3 background colour */
+}
+#container2 {
+	clear:left;
+	float:left;
+	width:100%;
+	position:relative;
+	right:20%;
+	text-align:center;
+	border-width: 0px 2px 0px 2px;
+	border-color: #0000CC;
+	border-style: solid;
+	background:transparent; /* column 2 background colour */
+}
+#container1 {
+	float:left;
+	width:100%;
+	position:relative;
+	right:20%;
+	text-align:center;
+	border-width: 0px 2px 0px 2px;
+	border-color: #0000CC;
+	border-style: solid;
+	background:transparent; /* column 1 background colour */
+}
+#col1 {
+	float:left;
+	width:16%;
+	position:relative;
+	left:82%;
+	overflow:hidden;
+}
+#col2 {
+	float:left;
+	width:16%;
+	position:relative;
+	left:86%;
+	overflow:hidden;
+}
+#col3 {
+	float:left;
+	width:16%;
+	position:relative;
+	left:90%;
+	overflow:hidden;
+}
+#col4 {
+	float:left;
+	width:16%;
+	position:relative;
+	left:94%;
+	overflow:hidden;
+}
+#col5 {
+	float:left;
+	width:16%;
+	position:relative;
+	left:98%;
+	overflow:hidden;
+}
+
 .page_title {
     font-family: 'Kirang Haerang';
 	font-size: 1.8em;
 	padding-top: 1em;
 	text-transform:uppercase;
+	text-align: center;
 }
 .column-title {
 	color: #0000CC;
@@ -32,6 +126,11 @@ body {
 	font-weight: bold;
 	line-height: 15px;
 }
+.subtitle {
+	font-size: .7em;
+	text-align: center;
+	font-family: 'Finger Paint';
+}
 .taskdiv {
 	font-family: 'Finger Paint';
 	height: 40px;
@@ -41,12 +140,14 @@ body {
 	vertical-align:  center;
 	text-align: center;
 	position: relative;
-	font-size: .4em;
+	font-size: .6em;
 	text-align: center;
 	color: #212121;
+	margin:0;
 }
 .taskhide {
 	background: transparent;
+	background-image: none !important;
 	height: 40px;
 	width: 275px;
 }
@@ -73,12 +174,4 @@ body {
 }
 .taskpurple {
 	background-image: url("../img/purple.png");
-}
-.col-middle {
-	border-left: 2x;
-	border-right:  2px;
-	border-top:0px;
-	border-bottom: 0px;
-	border-color: #0000CC;
-	border-style: solid;
 }

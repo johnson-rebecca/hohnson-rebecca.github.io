@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JavaScript 1</title>
+	<title>Topic 1: JavaScript and Topic 6: DOM</title>
 	<style>
 		.col-left{
 			width: 34%;
@@ -23,11 +23,17 @@
 	</style>
 </head>
 <body>
+
+<h2>Associative Array</h2>
+<div id="divQuotes"></div>
+<input type="button" id="btnLoadQuotes" value="Load Movie Quotes" onclick="loadAssociativeArray();"/>
+<hr/>
+<h2>JavaScript Array, Functions, Parameters, Variables, Loops</h2>
 <div class="col-left">
 
 	<div>
 	  Enter a number:
-	  <input type="number" name="inputNumber" id="inputNumber">
+	  <input type="number" name="inputNumber" id="inputNumber" min="0" step="1"/>
 	  <div style="color:red;display:none;" id="errorMessageNumber"></div>
 	 </div>
 	 <div>
@@ -69,6 +75,25 @@ input.addEventListener("keyup", function(event) {
   }
 });
 
+function loadAssociativeArray(){
+	var div = document.getElementById('divQuotes');
+	div.innerHTML = ""; //reset
+	
+	var str = "<strong>Movie Quotes</strong><br/>";
+
+	var movieQuotes = {
+	  "Serenity" : "You take care of me, Simon. You've always taken care of me. My turn.",
+	  "UHF" : "Next week on U62, he's back. And this time, he's mad. Gandhi II. No more mister passive resistance. He's out to kick some butt. This is one bad mother you don't wanna mess with.",
+	  "Iron Giant" : "<em>You are who you choose to be.</em> Superman.",
+	  "Better Off Dead" : "I want my TWO DOLLARS!"
+	};
+
+	for(var idx in movieQuotes) {
+	  str += ( idx + " : " + movieQuotes[idx] + "<br /><br/>");
+	}
+	div.innerHTML = str;
+}
+
 function addNumber(nbr){
 	var lstResults = document.getElementById('arrayResultList');
 	var lstResultsOrdered = document.getElementById('arrayResultListOrdered');
@@ -77,11 +102,9 @@ function addNumber(nbr){
 		//add number
 		numbers.push(nbr);
 		updateList(nbr, lstResults, true);
-		console.log(numbers);
 		numbersOrdered = numbers.slice(0);
 		numbersOrdered.sort(sortNumber);
 		updateOrderedList(nbr, lstResultsOrdered, true);
-		console.log('ordered:' + numbersOrdered);
 	}
 }
 //function handle numeric sort on array sort method
@@ -110,18 +133,16 @@ function clearNumbers() {
 
 function validateNumber(nbr){
 	isValid = true;
-	if (!parseInt(nbr)) {
+	if (nbr == "") {
 		isValid = false;
-		document.getElementById('errorMessageNumber').innerHTML  = "Number cannot be blank.";
+		document.getElementById('errorMessageNumber').innerHTML  = "Number must not be blank.";
 		document.getElementById('errorMessageNumber').style.display = "block";
-		console.log('number could not be added  -- blank entry');
 	}
 	if(numbers.includes(nbr)){
 		isValid = false;
 		//display errorMessage
 		document.getElementById('errorMessageNumber').innerHTML  = "Number " + nbr + " already exists in the array. Please enter a new number.";
-		document.getElementById('errorMessageNumber').style.display = "block";	
-		console.log('number could not be added  -- duplicate entry');		
+		document.getElementById('errorMessageNumber').style.display = "block";		
 	}
 	
 	if(isValid){
@@ -145,6 +166,19 @@ function updateList(nbr, ul, isAdd){
 	}
 }
 
+function LoadOrderedList(nbr, ul, isAdd){
+	if(isAdd) {
+		var li = document.createElement("li");
+		li.setAttribute("id", "liOrd_" + nbr); //
+		li.appendChild(document.createTextNode(nbr));
+		ul.appendChild(li);
+	}
+	else {
+		var id = 'liOrd_' + nbr;
+		removeElement(id);
+	}
+}
+
 function updateOrderedList(nbr, ul, isAdd) {
 	var nextNumber = getNextNumberInList(nbr);
 	if(isAdd) {
@@ -158,8 +192,6 @@ function updateOrderedList(nbr, ul, isAdd) {
 		else {
 			var prev_li = document.querySelector("#liOrd_" + nextNumber);
 			var li = document.createElement("li");
-			console.log("next Nbr: " + nextNumber);
-			console.log("refnode: " + prev_li);
 			li.setAttribute("id", "liOrd_" + nbr); //
 			li.appendChild(document.createTextNode(nbr));
 			prev_li.parentNode.insertBefore(li, prev_li);
@@ -191,7 +223,6 @@ function saveNumberList(){
 //first check if array is empty
 	if (typeof(Storage) !== "undefined") {
 	  localStorage.setItem("numberArray", JSON.stringify(numbers));
-	  console.log('LocalStorage: ' +  JSON.stringify(numbers));
 	} else {
 	  // Sorry! No Web Storage support..
 	}
@@ -204,7 +235,6 @@ function deleteNumberList(){
 function loadNumberList(){
 	if(localStorage.numberArray){
 		numbers = JSON.parse(localStorage["numberArray"]);
-		console.log('loaded: ' + numbers);
 		buildDisplay(false);
 		numbersOrdered = numbers.slice(0);
 		numbersOrdered.sort(sortNumber);
@@ -218,7 +248,7 @@ function buildDisplay(isOrdered = false){
 		resetListDisplay(true); 
 		var lstResults = document.getElementById('arrayResultListOrdered');
 		for (var i=0; i < numbersOrdered.length; i++) { 
-			updateOrderedList(numbersOrdered[i], lstResults, true);
+			LoadOrderedList(numbersOrdered[i], lstResults, true);
 		}
 	}
 	else {
