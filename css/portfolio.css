@@ -131,6 +131,9 @@ body {
 	text-align: center;
 	font-family: 'Finger Paint';
 }
+.black {
+		color: #000;
+}
 .taskdiv {
 	font-family: 'Finger Paint';
 	height: 40px;
