@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML 5 Video, Audio and Canvas</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+body{background: #f2f6f8;}
+.img{position:absolute;z-index:20;}
+
+#container{
+    display:inline-block;
+    width:381px; 
+    height:360px;
+    margin: 0 auto; 
+    /*background: black; */
+    position:relative; 
+    border-radius: 10px; 
+}
+
+#videoPlayer{
+    position:relative;
+	padding-top: 45px;
+	padding-left:35px;
+    z-index:1;
+}
+</style>
+</head>
+
+<body>
+
+<div id="container">
+    <img class='img' src="img/old_tv.png" alt="" width="440" height="290" />
+   <video id='videoPlayer' width="310" height="240">
+       <source id='mp4Source' src="http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0010-discovering-truth-360p-eng.mp4" type="video/mp4" />
+    </video>
+		<input id="channelNumber" type="hidden" value="1"/>
+	<br/>
+	
+</div>
+<div id="tvControls">
+	<button onclick="changeChannel(false);"><i class="fa fa-backward"></i></button>
+	<button onclick="playPause()"><i class="fa fa-play"></i><i class="fa fa-pause"></i></button> 
+	<button onclick="changeChannel(true);"><i class="fa fa-forward"></i></button>
+</div>
+
+<script>
+var programs = [
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0010-discovering-truth-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0020-spiritual-dynamite-1080p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2016/2016-11-5000-the-journey-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2019/2019-01-0010-migration-a-yearning-for-home-1080p-eng.mp4",	
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0060-reach-up-to-him-in-faith-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2017/2017-01-009-a-good-samaritan-1080p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0180-samuel-and-the-star-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2015/2015-03-009-a-shower-of-heavenly-blessings-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2018/2018-01-0120-songs-sung-and-unsung-360p-eng.mp4",
+	"http://media2.ldscdn.org/assets/mormon-channel/mormon-messages-2017/2017-01-003-spiritual-whirlwinds-360p-eng.mp4"
+];
+
+function playPause() { 
+	var video = document.getElementById('videoPlayer');
+	  if (video.paused){
+		video.play(); 
+		}
+	  else {
+		video.pause(); 
+	}
+} 
+
+function changeChannel(isForward) {
+	var video = document.getElementById('videoPlayer');
+	var mp4source = document.getElementById('mp4Source');
+	var currentChannel =  parseInt(document.getElementById('channelNumber').value);
+	var nextChannel = 0;
+	if(isForward) {
+		nextChannel = (currentChannel < programs.length - 1) ? currentChannel + 1 : 0;
+	}
+	else {
+		nextChannel = (currentChannel == 0) ? programs.length - 1 : currentChannel - 1;
+	}
+	document.getElementById('channelNumber').value = nextChannel;
+	
+   var filename = programs[nextChannel];
+   mp4source.src = filename;
+   video.load();
+   video.play();
+}
+</script>
+</body>
+
+</html> 
