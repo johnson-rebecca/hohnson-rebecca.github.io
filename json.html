@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JSON & AJAX</title>
+	<title>JS Objects, JSON, AJAX, &amp; Local Storage</title>
+	<link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+	<link href='https://fonts.googleapis.com/css?family=Advent Pro' rel='stylesheet'>
 <style>
 .pincontainer {
 	border: 1px solid #333333;
@@ -24,57 +26,345 @@
 	width: 150px;
 	text-align: center;
 }
+h1 {
+	text-align: center;
+}
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #b5dda4;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius:15px;
+  width: 20%; /* Could be more or less, depending on screen size */
+  min-width: 300px;
+  max-width: 500px;
+  padding-bottom:35px;
+}
+
+/* The Close Button */
+ .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.modal-hide {
+	display:none;
+}
+
+ .close:hover,
+ .close:focus {
+  color: #0B70A4;
+  text-decoration: none;
+  cursor: pointer;
+} 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 23px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #0B70A4;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #0B70A4;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 36px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.welcome {
+font-family: 'Aclonica';
+font-size: 22px;
+text-align: center;
+color: #754668;
+}
+.label {
+	font-family: 'Advent Pro';
+	font-size: 12px;
+	font-weight:bold;
+	color: #0B70A4;
+	/*#587d71; --drk grn color*/
+}
+.modalInput {
+	border-radius:5px;
+}
+.inputRow {
+	padding-top:5px;
+}
+.modalButton {
+	font-family: 'Advent Pro';
+	font-size: 16px;
+	font-weight:bold;
+	color: #0B70A4;
+	float:right;
+	position: relative;
+}
+.modalButtonInactive {
+	color: silver;
+}
+
+.highlight {
+	background-color: #D2D7D3;
+	-webkit-transition: background-color 1s ease-in-out; /* Safari */
+	transition: background-color: 1s ease-in-out;
+}
+#addUserForm {
+	background-color: #dcebed;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+
+
 </style>
 </head>
 <body>
-
+<h1>Topics: 2 - JS Objects, 3 - JSON, 4 - AJAX, &amp; 5 - Local Storage</h1>
 <select id="selectUser">
     <option>- Choose a User-</option>
 </select>
 <input type="button" value="View Christmas Pins" onclick="LoadJSON();"/>
+<input id="btnAddUser" type="button" value="Add Name to List" />
 <div id="displayPins">
+<div id="addUserForm">
+	<span class="label">First name:</span>
+	<input id="txtAddFirstname" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<span class="label">Last name:</span>
+	<input id="txtAddLastname" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<span class="label">Pinterest Id:</span>
+	<input id="txtAddPinterestId" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<span class="label">Board Name:</span>
+	<input id="txtAddBoard" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input type="button" value="Update List"/>
+</div>
+
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <!--<span class="close">&times;</span>-->
+	<div class="welcome">Welcome!</div>
+ 	<div class="inputRow">
+	<span class="label">Enable Local Data Saving:</span>
+	<label class="switch">
+	  <input id="chkAllowSave" type="checkbox" onchange="changeSave(this);">
+	  <span class="slider round"></span></label>
+  </div>
+  
+	<div id="divNameRow" class="inputRow">
+		<span class="label">Your name:</span>
+		<input id="txtUsername" class="modalInput highlight" type="text" size="33" maxlength = "50" disabled="disabled" placeholder="" value=""/>
+	</div>
+	<input id="btnSubmit" class="modalButton" type="button" value="Submit" onclick="SubmitModal();" />
+	
+  </div>
 
 </div>
 
-
 <script>
+var ALLOW_SAVE = false;
+var USERNAME = '';
+window.addEventListener("load", loadPage);
+
+// define object to save Pinterest users for viewing boards
 function BlairCraftUser(firstname, lastname, id, boardname)  {
     this.firstname = firstname;
     this.lastname =  lastname;
 	this.id = id;
     this.boardname = boardname;
 	this.displayname = function() {return this.lastname + ", " + this.firstname;};
+}
+
+document.getElementById('txtUsername').addEventListener('input', (evt) => {
+var modalUN =  document.getElementById('txtUsername');
+	var modalBtn = document.getElementById('btnSubmit');
+  if(document.getElementById('txtUsername').value.length > 1){
+		modalBtn.disabled = false;
+		modalBtn.classList.remove('modalButtonInactive');
+		modalUN.style.backgroundColor = '#D2D7D3';
   }
-
-var listUsers = [];
-listUsers.push(new BlairCraftUser('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
-listUsers.push(new BlairCraftUser('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
-listUsers.push(new BlairCraftUser('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
-listUsers.push(new BlairCraftUser('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
-listUsers.push(new BlairCraftUser('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
-listUsers.push(new BlairCraftUser('Hannah', 'Davenport', 'pinned4life', 'christmas'));
-listUsers.push(new BlairCraftUser('Emily', 'Baier', 'musicebaier', 'christmas'));
-
-//sort users based on displayname
-listUsers.sort(function(a, b) {
-    var textA = a.displayname().toUpperCase();
-    var textB = b.displayname().toUpperCase();
-    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  else {
+		modalUN.style.backgroundColor = '#e8dab2';
+		modalBtn.disabled = true;
+		modalBtn.classList.add("modalButtonInactive");
+  }
 });
 
-//stringify users object
-var obj = JSON.stringify(listUsers);
-console.log(obj);
+function loadPage(){
+	// Get the modal
+	var modal = document.getElementById("myModal");
+	//display modal
+	fadeIn(modal);
+	//modal.style.display = "block";
+	
+	var listUsers = [];
+	listUsers.push(new BlairCraftUser('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
+	listUsers.push(new BlairCraftUser('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
+	listUsers.push(new BlairCraftUser('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
+	listUsers.push(new BlairCraftUser('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
+	listUsers.push(new BlairCraftUser('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
+	listUsers.push(new BlairCraftUser('Hannah', 'Davenport', 'pinned4life', 'christmas'));
+	listUsers.push(new BlairCraftUser('Emily', 'Baier', 'musicebaier', 'christmas'));
+	 
+	//sort users based on displayname
+	listUsers.sort(function(a, b) {
+		var textA = a.displayname().toUpperCase();
+		var textB = b.displayname().toUpperCase();
+		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+	});
 
-var select = document.getElementById("selectUser");
+	//stringify users object
+	var obj = JSON.stringify(listUsers);
+	console.log('Stringified Array of BlairCraftUser Objects');
+	console.log(obj);
 
-//loop through array to build dropdown using DOM manipulation
-for(var i = 0; i < listUsers.length; i++) {
-    var el = document.createElement("option");
-    el.textContent = listUsers[i].displayname();
-    el.value = i;
-    select.appendChild(el);
+	var select = document.getElementById("selectUser");
+	//loop through array to build dropdown using DOM manipulation
+	for(var i = 0; i < listUsers.length; i++) {
+		var el = document.createElement("option");
+		el.textContent = listUsers[i].displayname();
+		el.value = i;
+		select.appendChild(el);
+	}	
 }
+function changeSave(chk){
+	var modalUN =  document.getElementById('txtUsername');
+	var modalBtn = document.getElementById('btnSubmit');
+	if(chk.checked){
+		modalUN.disabled = false;
+		modalUN.placeholder = "Enter your name to enable saving";
+		modalUN.style.backgroundColor = '#e8dab2'; //will trigger css animation
+		modalBtn.disabled = true;
+		modalBtn.classList.add("modalButtonInactive");
+	}
+	else {
+		modalUN.disabled = true;
+		modalUN.placeholder = "";
+		modalUN.style.backgroundColor = '#D2D7D3'; //will trigger css animation
+		modalUN.value = '';
+		modalBtn.disabled = false;
+		modalBtn.classList.remove("modalButtonInactive");		
+	}
+}
+
+//fade in
+function fadeIn(el, display){
+  el.style.opacity = 0;
+  el.style.display = display || "block";
+
+  (function fade() {
+    var val = parseFloat(el.style.opacity);
+    if (!((val += .1) > 1)) {
+      el.style.opacity = val;
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+
+// fade out
+function fadeOut(el){
+  el.style.opacity = 1;
+
+  (function fade() {
+    if ((el.style.opacity -= .1) < 0) {
+      el.style.display = "none";
+    } else {
+      requestAnimationFrame(fade);
+    }
+  })();
+}
+
+function highlightFor(id,color,seconds){
+    var element = document.getElementById(id)
+    var origcolor = element.style.backgroundColor
+    element.style.backgroundColor = color;
+    var t = setTimeout(function(){
+       element.style.backgroundColor = origcolor;
+    },(seconds*1000));
+}
+
+
+function SubmitModal(){
+	var modalUN =  document.getElementById('txtUsername');
+	var modalChk = document.getElementById('chkAllowSave');
+	var modal = document.getElementById("myModal");
+	if(modalChk.checked){
+		ALLOW_SAVE = true;
+		USERNAME = modalUN.value;
+	}
+	else {
+		ALLOW_SAVE = false;
+		USERNAME = '';
+	}
+	//console.log('allowSave:' + ALLOW_SAVE + ' , Uname:' + USERNAME);
+	fadeOut(modal);
+}
+
  
 //build up pin result display
 function displayPins(data){
