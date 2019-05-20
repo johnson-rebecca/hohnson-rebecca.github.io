@@ -163,8 +163,7 @@ color: #754668;
 .modalButtonInactive {
 	color: silver;
 }
-
-.highlight {
+.highlight-disabled {
 	background-color: #D2D7D3;
 	-webkit-transition: background-color 1s ease-in-out; /* Safari */
 	transition: background-color: 1s ease-in-out;
@@ -173,6 +172,18 @@ color: #754668;
 	background-color: #dcebed;
 	border-radius: 10px;
 	padding: 10px;
+}
+.highlight {
+	background-color: #ffffff;
+	-webkit-transition: background-color 1s ease-in-out; /* Safari */
+	transition: background-color: 1s ease-in-out;
+	-webkit-transition: border 1s ease-in-out; /* Safari */
+	transition: border: 1s ease-in-out;
+	border: 1px solid #D2D7D3;
+}
+.error {
+	border: 1px solid red;
+	box-shadow: 0px 0px 10px #8b0000;
 }
 
 
@@ -184,19 +195,19 @@ color: #754668;
 <select id="selectUser">
     <option>- Choose a User-</option>
 </select>
-<input type="button" value="View Christmas Pins" onclick="LoadJSON();"/>
+<input type="button" value="View Pintest Info" onclick="LoadJSON();"/>
 <input id="btnAddUser" type="button" value="Add Name to List" />
 <div id="displayPins">
 <div id="addUserForm">
 	<span class="label">First name:</span>
-	<input id="txtAddFirstname" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddFirstname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
 	<span class="label">Last name:</span>
-	<input id="txtAddLastname" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddLastname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
 	<span class="label">Pinterest Id:</span>
-	<input id="txtAddPinterestId" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddPinterestId" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
 	<span class="label">Board Name:</span>
-	<input id="txtAddBoard" class="modalInput" type="text" size="25" maxlength = "50" placeholder="" value=""/>
-	<input type="button" value="Update List"/>
+	<input id="txtAddBoard" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input type="button" value="Update List" onclic="validateAdd();"/>
 </div>
 
 </div>
@@ -218,7 +229,7 @@ color: #754668;
   
 	<div id="divNameRow" class="inputRow">
 		<span class="label">Your name:</span>
-		<input id="txtUsername" class="modalInput highlight" type="text" size="33" maxlength = "50" disabled="disabled" placeholder="" value=""/>
+		<input id="txtUsername" class="modalInput highlight-disabled" type="text" size="33" maxlength = "50" disabled="disabled" placeholder="" value=""/>
 	</div>
 	<input id="btnSubmit" class="modalButton" type="button" value="Submit" onclick="SubmitModal();" />
 	
@@ -411,6 +422,25 @@ function LoadJSON(){
 		console.log(json);
 	});
 
+}
+
+function validateAdd(){
+	var firstname = document.getElementById('txtAddFirstname');
+	var lastname = document.getElementById('txtAddLastname');
+	var pinId = document.getElementById('txtAddPinterestId');
+	var board = document.getElementById('txtAddBoard');
+	if(firstname.value.length < 1) {
+		firstname.style.classList.add('error');
+	}
+	//make sure all fields are entered
+	//add highlight in red if empty-cells
+	// add error message (review bootstrappy error mesgs to mimic
+	//validate against duplicate
+	//wiggle error msgs
+	//once all entered, check if user and board are valid with json
+	//if not display error
+	//if valid clear form, add data to dropdown and vissually highlight dropdown
+	//save dropdown
 }
 </script>
 </body>
