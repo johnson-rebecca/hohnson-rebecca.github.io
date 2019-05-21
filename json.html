@@ -195,19 +195,19 @@ color: #754668;
 <select id="selectUser">
     <option>- Choose a User-</option>
 </select>
-<input type="button" value="View Pintest Info" onclick="LoadJSON();"/>
+<input type="button" value="View Pinterest Info" onclick="LoadJSON();"/>
 <input id="btnAddUser" type="button" value="Add Name to List" />
 <div id="displayPins">
 <div id="addUserForm">
 	<span class="label">First name:</span>
-	<input id="txtAddFirstname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddFirstname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
 	<span class="label">Last name:</span>
-	<input id="txtAddLastname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddLastname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
 	<span class="label">Pinterest Id:</span>
-	<input id="txtAddPinterestId" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
+	<input id="txtAddPinterestId" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
 	<span class="label">Board Name:</span>
-	<input id="txtAddBoard" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value=""/>
-	<input type="button" value="Update List" onclic="validateAdd();"/>
+	<input id="txtAddBoard" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
+	<input type="button" value="Update List" onclick="validateAdd();"/>
 </div>
 
 </div>
@@ -417,7 +417,6 @@ function LoadJSON(){
 	var div = document.getElementById('displayPins');
 	
 	getJSONFile('https://api.pinterest.com/v3/pidgets/boards/' + user  + '/' + board + '/pins/', function(json){
-		// do something with your JSON data
 		div.innerHTML = displayPins(json.data.pins);
 		console.log(json);
 	});
@@ -425,16 +424,31 @@ function LoadJSON(){
 }
 
 function validateAdd(){
+	var errorCount = 0;
 	var firstname = document.getElementById('txtAddFirstname');
 	var lastname = document.getElementById('txtAddLastname');
 	var pinId = document.getElementById('txtAddPinterestId');
 	var board = document.getElementById('txtAddBoard');
 	if(firstname.value.length < 1) {
-		firstname.style.classList.add('error');
+		firstname.classList.add('error');
+		errorCount ++;
 	}
-	//make sure all fields are entered
-	//add highlight in red if empty-cells
-	// add error message (review bootstrappy error mesgs to mimic
+	if(lastname.value.length < 1) {
+		lastname.classList.add('error');
+		errorCount ++;
+	}
+	if(pinId.value.length < 1) {
+		pinId.classList.add('error');
+		errorCount ++;
+	}
+	if(board.value.length < 1) {
+		board.classList.add('error');
+		errorCount ++;
+	}
+	if(errorCount == 0) {
+		//check json to validate board and id
+	}
+	// add error message (review bootstrappy error msgs to mimic
 	//validate against duplicate
 	//wiggle error msgs
 	//once all entered, check if user and board are valid with json
