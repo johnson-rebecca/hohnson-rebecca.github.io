@@ -4,6 +4,7 @@
 	<title>JS Objects, JSON, AJAX, &amp; Local Storage</title>
 	<link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Advent Pro' rel='stylesheet'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .pincontainer {
 	border: 1px solid #333333;
@@ -166,7 +167,7 @@ color: #754668;
 .highlight-disabled {
 	background-color: #D2D7D3;
 	-webkit-transition: background-color 1s ease-in-out; /* Safari */
-	transition: background-color: 1s ease-in-out;
+	transition: background-color 1s ease-in-out;
 }
 #addUserForm {
 	background-color: #dcebed;
@@ -176,41 +177,86 @@ color: #754668;
 .highlight {
 	background-color: #ffffff;
 	-webkit-transition: background-color 1s ease-in-out; /* Safari */
-	transition: background-color: 1s ease-in-out;
+	transition: background-color 1s ease-in-out;
 	-webkit-transition: border 1s ease-in-out; /* Safari */
-	transition: border: 1s ease-in-out;
+	transition: border 1s ease-in-out;
 	border: 1px solid #D2D7D3;
 }
 .error {
 	border: 1px solid red;
 	box-shadow: 0px 0px 10px #8b0000;
 }
-
+#addUserForm {
+	-webkit-transition: opacity 2s linear;
+	transition: opacity 2s linear;
+	margin: 5px;
+}
+.hidden {
+	opacity: 0;
+}
+.fa-check-circle {
+	color: green;
+	font-size:14px;
+}
+.fa-times-circle {
+	color: red;
+	font-size:14px;
+}
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+   80% { transform: rotate(0deg); }
+   85% { transform: rotate(5deg); }
+   95% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+.fa-star {
+	color: #c2dd90;
+	-webkit-transition: opacity 2s linear;
+	transition: opacity 2s linear;
+	animation: wiggle 2.5s infinite;
+}
+.hide {
+	display: none;
+}
+.highlight-select {
+	background-color: #ffffff;
+	-webkit-transition: background-color 3s linear; /* Safari */
+	transition: background-color 3s linear;
+	-webkit-transition: border 5s linear; /* Safari */
+	transition: border 5s linear;
+	border: 1px solid #D2D7D3;
+	border-radius: 5px;
+}
 
 
 </style>
 </head>
 <body>
 <h1>Topics: 2 - JS Objects, 3 - JSON, 4 - AJAX, &amp; 5 - Local Storage</h1>
-<select id="selectUser">
+<select id="selectUser" class="highlight-select">
     <option>- Choose a User-</option>
 </select>
+<i id="ListUpdated" class="fa fa-star hidden"></i>
 <input type="button" value="View Pinterest Info" onclick="LoadJSON();"/>
 <input id="btnAddUser" type="button" value="Add Name to List" />
-<div id="displayPins">
-<div id="addUserForm">
+<div id="addUserForm" class="hidden">
 	<span class="label">First name:</span>
 	<input id="txtAddFirstname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
 	<span class="label">Last name:</span>
 	<input id="txtAddLastname" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
 	<span class="label">Pinterest Id:</span>
 	<input id="txtAddPinterestId" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
+	<i id="PinterestId_valid" class="fa fa-check-circle hide"></i>
+	<i id="PinterestId_invalid" class="fa fa-times-circle hide"></i>
 	<span class="label">Board Name:</span>
 	<input id="txtAddBoard" class="modalInput highlight" type="text" size="25" maxlength = "50" placeholder="" value="" required/>
+	<i id="Board_valid" class="fa fa-check-circle hide"></i>
+	<i id="Board_invalid" class="fa fa-times-circle hide"></i>
 	<input type="button" value="Update List" onclick="validateAdd();"/>
 </div>
 
-</div>
+<div id="displayPins"></div>
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
@@ -240,15 +286,25 @@ color: #754668;
 <script>
 var ALLOW_SAVE = false;
 var USERNAME = '';
+var listUsers = [];
+var savedPageUsers = [];
 window.addEventListener("load", loadPage);
 
 // define object to save Pinterest users for viewing boards
-function BlairCraftUser(firstname, lastname, id, boardname)  {
+function PinterestUserBoard(firstname, lastname, id, boardname)  {
     this.firstname = firstname;
     this.lastname =  lastname;
 	this.id = id;
     this.boardname = boardname;
 	this.displayname = function() {return this.lastname + ", " + this.firstname;};
+}
+
+//define page user object
+function pageUser(username, dateSaved, users, jsonresults) {
+	this.username = username;
+	this.dateSaved = dateSaved;
+	this.users = users;
+	this.jsonresults = jsonresults;
 }
 
 document.getElementById('txtUsername').addEventListener('input', (evt) => {
@@ -266,34 +322,40 @@ var modalUN =  document.getElementById('txtUsername');
   }
 });
 
+document.getElementById('btnAddUser').addEventListener('click', (evt) => {
+	var formDiv = document.getElementById('addUserForm');
+	formDiv.classList.remove('hidden');
+});
+
 function loadPage(){
-	// Get the modal
-	var modal = document.getElementById("myModal");
 	//display modal
+	var modal = document.getElementById("myModal");
 	fadeIn(modal);
-	//modal.style.display = "block";
 	
-	var listUsers = [];
-	listUsers.push(new BlairCraftUser('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
-	listUsers.push(new BlairCraftUser('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
-	listUsers.push(new BlairCraftUser('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
-	listUsers.push(new BlairCraftUser('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
-	listUsers.push(new BlairCraftUser('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
-	listUsers.push(new BlairCraftUser('Hannah', 'Davenport', 'pinned4life', 'christmas'));
-	listUsers.push(new BlairCraftUser('Emily', 'Baier', 'musicebaier', 'christmas'));
+	buildStandardListUsers();
+	sortListUsers;
+	buildUserListSelect();
 	 
-	//sort users based on displayname
-	listUsers.sort(function(a, b) {
-		var textA = a.displayname().toUpperCase();
-		var textB = b.displayname().toUpperCase();
-		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-	});
-
 	//stringify users object
-	var obj = JSON.stringify(listUsers);
-	console.log('Stringified Array of BlairCraftUser Objects');
-	console.log(obj);
+	//var obj = JSON.stringify(listUsers);
+	//console.log('Stringified Array of PinterestUserBoard Objects');
+	//console.log(obj);
 
+
+}
+
+function buildStandardListUsers(){
+	//build standard list of Pinterest usernames
+	listUsers.push(new PinterestUserBoard('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
+	listUsers.push(new PinterestUserBoard('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
+	listUsers.push(new PinterestUserBoard('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
+	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
+}
+
+function buildUserListSelect(){
 	var select = document.getElementById("selectUser");
 	//loop through array to build dropdown using DOM manipulation
 	for(var i = 0; i < listUsers.length; i++) {
@@ -303,6 +365,16 @@ function loadPage(){
 		select.appendChild(el);
 	}	
 }
+
+function sortListUsers(){
+	//sort users based on displayname
+	listUsers.sort(function(a, b) {
+		var textA = a.displayname().toUpperCase();
+		var textB = b.displayname().toUpperCase();
+		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+	});
+}
+
 function changeSave(chk){
 	var modalUN =  document.getElementById('txtUsername');
 	var modalBtn = document.getElementById('btnSubmit');
@@ -383,9 +455,15 @@ function displayPins(data){
 	for(var i = 0; i < data.length; i++) {
 		var obj = data[i];
 		var imgObj = obj.images;
-		html+="<div class='pincontainer insetshadow'>"
-		html += "<img class='imgpin' src='" + obj.images["237x"].url +"'/><br/>";
-		html +=		obj.description;		
+		html += "<div class='pincontainer insetshadow'>";
+		if(obj.link){
+			html += "<a target='_blank' href='" + obj.link + "'/>";
+		}
+		html += "<img class='imgpin' src='" + obj.images["237x"].url +"'/>";
+		if(obj.link){
+		html +=  "</a>";
+		}
+		html += "<br/>" + obj.description;
 		html += "</div>";
 
 	}
@@ -400,6 +478,20 @@ function getJSONFile(path, callback) {
                 var data = JSON.parse(xhr.responseText);
                 if (callback) callback(data);
             }
+        }
+    };
+    xhr.open('GET', path, true);
+    xhr.send(); 
+}
+
+function getJSONFileForValidation(path, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            //if (xhr.status === 200) {
+                var status = xhr.status;
+                if (callback) callback(status);
+            //}
         }
     };
     xhr.open('GET', path, true);
@@ -423,12 +515,27 @@ function LoadJSON(){
 
 }
 
+function refreshPinterestUserList(){
+	var select = document.getElementById('selectUser');
+	sortListUsers();
+	
+	//clear existing list
+	while (select.lastChild.value != select.firstChild.value) {
+		select.removeChild(select.lastChild);
+	}
+	
+	buildUserListSelect();
+	select.style.borderColor = '#c2dd90';
+	setTimeout(function(){ select.style.borderColor  = '#D2D7D3'; }, 3000);
+}
+
 function validateAdd(){
 	var errorCount = 0;
 	var firstname = document.getElementById('txtAddFirstname');
 	var lastname = document.getElementById('txtAddLastname');
 	var pinId = document.getElementById('txtAddPinterestId');
 	var board = document.getElementById('txtAddBoard');
+
 	if(firstname.value.length < 1) {
 		firstname.classList.add('error');
 		errorCount ++;
@@ -446,12 +553,42 @@ function validateAdd(){
 		errorCount ++;
 	}
 	if(errorCount == 0) {
-		//check json to validate board and id
+		//check json to validatepinterest user	
+		getJSONFileForValidation('https://api.pinterest.com/v3/pidgets/users/' + pinId.value  + '/pins/', function(status){
+			if(status == 200){
+				document.getElementById('PinterestId_valid').classList.remove('hide');
+				document.getElementById('PinterestId_invalid').classList.add('hide');
+				
+				//user passed successfully, so now we need to check for user's board
+				getJSONFileForValidation('https://api.pinterest.com/v3/pidgets/boards/' + pinId.value  + '/' + board.value + '/pins/', function(board_status){
+					if(board_status == 200){
+						document.getElementById('Board_valid').classList.remove('hide');
+						document.getElementById('Board_invalid').classList.add('hide');
+						
+						//board also passed successfully, so if we make it to here, name will be pushed to object containg PinterestUserBoard data// and dropdown will be refreshed
+						//animate to show dropdown updated
+						listUsers.push(new PinterestUserBoard(firstname.value, lastname.value, pinId.value, board.value)); //add to list of objects
+						refreshPinterestUserList();
+					}
+					else { // json for board did not return successfully, so invalid board for user
+						document.getElementById('Board_valid').classList.add('hide');
+						document.getElementById('Board_invalid').classList.remove('hide');
+					}
+				});
+				
+			}
+			else { // json did not return successfully, so invalid user
+				document.getElementById('PinterestId_valid').classList.add('hide');
+				document.getElementById('PinterestId_invalid').classList.remove('hide');
+				errorCount++;				
+			}
+			
+		});
 	}
 	// add error message (review bootstrappy error msgs to mimic
 	//validate against duplicate
 	//wiggle error msgs
-	//once all entered, check if user and board are valid with json
+
 	//if not display error
 	//if valid clear form, add data to dropdown and vissually highlight dropdown
 	//save dropdown
