@@ -286,8 +286,10 @@ color: #754668;
 <script>
 var ALLOW_SAVE = false;
 var USERNAME = '';
+var SELUSER_ID = '';
+var JSON_RESULTS = '';
 var listUsers = [];
-var savedPageUsers = [];
+var savedRDJPageVisitor = new RDJPageVisitor('', -1, null, null);
 window.addEventListener("load", loadPage);
 
 // define object to save Pinterest users for viewing boards
@@ -300,11 +302,11 @@ function PinterestUserBoard(firstname, lastname, id, boardname)  {
 }
 
 //define page user object
-function pageUser(username, dateSaved, users, jsonresults) {
+function RDJPageVisitor(username, selectedUserListId, users, jsonresults) {
 	this.username = username;
-	this.dateSaved = dateSaved;
 	this.users = users;
 	this.jsonresults = jsonresults;
+	this.selectedUserListId = selectedUserListId;
 }
 
 document.getElementById('txtUsername').addEventListener('input', (evt) => {
@@ -328,20 +330,44 @@ document.getElementById('btnAddUser').addEventListener('click', (evt) => {
 });
 
 function loadPage(){
-	//display modal
-	var modal = document.getElementById("myModal");
-	fadeIn(modal);
+	var loadSaved = checkLocalStorage();
 	
-	buildStandardListUsers();
+	if(loadSaved) {
+		ALLOW_SAVE = true;
+		buildSavedListUsers();
+	}
+	else {
+		ALLOW_SAVE = false;
+		//display modal
+		var modal = document.getElementById("myModal");
+		fadeIn(modal);
+		buildStandardListUsers();
+	}
 	sortListUsers;
 	buildUserListSelect();
-	 
-	//stringify users object
-	//var obj = JSON.stringify(listUsers);
-	//console.log('Stringified Array of PinterestUserBoard Objects');
-	//console.log(obj);
+}
 
+function checkLocalStorage(){
+	//if local storage exists, 
+	if(localStorage.getItem("savedRDJPageVisitor")){
+		savedRDJPageVisitor =  JSON.parse(localStorage.getItem("savedRDJPageVisitor"));
+		USERNAME = savedRDJPageVisitor.username;
+		var json = JSON.parse(savedRDJPageVisitor.jsonresults);
+		document.getElementById('displayPins').innerHTML = displayPins(json.data.pins);
+		return true;
+	}
+	else {
+	//if not default dropdown, reset json display, set default allow_save and name & load modal
+	return false;
+	}
+}
 
+function buildSavedListUsers() {
+//build list of Pinterest usernames from saved data
+	var users = savedRDJPageVisitor.listUsers;
+	for (user in users){
+		listUsers.push(new PinterestUserBoard(users[user].firstname, users[user].lastname, users[user].id, users[user].boardname));
+	}
 }
 
 function buildStandardListUsers(){
@@ -353,17 +379,28 @@ function buildStandardListUsers(){
 	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
 	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
+	savedRDJPageVisitor.listUsers = listUsers;
 }
 
 function buildUserListSelect(){
 	var select = document.getElementById("selectUser");
+	var selIndex = '';
 	//loop through array to build dropdown using DOM manipulation
 	for(var i = 0; i < listUsers.length; i++) {
+		if(SELUSER_ID != '' && SELUSER_ID == listUsers[i].id){
+			selIndex = i;
+		}
 		var el = document.createElement("option");
 		el.textContent = listUsers[i].displayname();
 		el.value = i;
 		select.appendChild(el);
-	}	
+	}
+	console.log('selected idx:');
+	console.log(selIndex);
+	if(selIndex != ''){
+		
+		select.selectedIndex = selIndex;
+	}
 }
 
 function sortListUsers(){
@@ -439,12 +476,13 @@ function SubmitModal(){
 	if(modalChk.checked){
 		ALLOW_SAVE = true;
 		USERNAME = modalUN.value;
+		savedRDJPageVisitor.username = USERNAME;
+		saveLocalStorage();//save initial selection to local storage
 	}
 	else {
 		ALLOW_SAVE = false;
 		USERNAME = '';
 	}
-	//console.log('allowSave:' + ALLOW_SAVE + ' , Uname:' + USERNAME);
 	fadeOut(modal);
 }
 
@@ -505,19 +543,37 @@ function LoadJSON(){
 	var e = document.getElementById("selectUser");
 	var selIndex = e.options[e.selectedIndex].value;
 	var user = listUsers[selIndex].id;
+	SELUSER_ID = user;
 	var board = listUsers[selIndex].boardname;
 	var div = document.getElementById('displayPins');
 	
 	getJSONFile('https://api.pinterest.com/v3/pidgets/boards/' + user  + '/' + board + '/pins/', function(json){
 		div.innerHTML = displayPins(json.data.pins);
-		console.log(json);
+		JSON_RESULTS = JSON.stringify(json);
+		saveLocalStorage();
 	});
+}
 
+function saveLocalStorage(){
+	//refresh obj
+	savedRDJPageVisitor.username = USERNAME;
+	savedRDJPageVisitor.listUsers = listUsers;
+	savedRDJPageVisitor.selectedUserListId = SELUSER_ID;
+	savedRDJPageVisitor.jsonresults = JSON_RESULTS;
+	if(ALLOW_SAVE) {
+		localStorage.setItem("savedRDJPageVisitor", JSON.stringify(savedRDJPageVisitor));
+	}
+	console.log('Stored: ' + localStorage.getItem("savedRDJPageVisitor"));
 }
 
 function refreshPinterestUserList(){
 	var select = document.getElementById('selectUser');
 	sortListUsers();
+	savedRDJPageVisitor.listUsers = listUsers;
+	
+	if(ALLOW_SAVE) {
+		saveLocalStorage();
+	}
 	
 	//clear existing list
 	while (select.lastChild.value != select.firstChild.value) {
