@@ -328,7 +328,6 @@ var USERNAME = '';
 var SELUSER_ID = 0;
 var JSON_RESULTS = '';
 var listUsers = [];
-//var savedRDJPageVisitor = new RDJPageVisitor('', -1, '', '');
 window.addEventListener("load", loadPage);
 
 // define object to save Pinterest users for viewing boards
@@ -394,17 +393,7 @@ function resetAddForm(){
 function loadPage(){
 	var loadSaved = checkLocalStorage();
 	
-	if(loadSaved) {
-		ALLOW_SAVE = true;
-		USERNAME = savedRDJPageVisitor.visitor;
-		SELUSER_ID = savedRDJPageVisitor.selectedUserListId;
-		buildSavedListUsers();		
-		var json = JSON.parse(savedRDJPageVisitor.jsonresults);
-		document.getElementById('displayPins').innerHTML = displayPins(json.data.pins);
-		document.getElementById('savedVisitor').innerHTML = USERNAME;
-		document.getElementById('divWelcome').classList.remove('hide');
-	}
-	else {
+	if(!loadSaved) {
 		ALLOW_SAVE = false;
 		USERNAME = '';
 		SELUSER_ID = 0;
@@ -418,13 +407,23 @@ function loadPage(){
 	}
 	sortListUsers;
 	buildUserListSelect();
+
 }
 
 function checkLocalStorage(){
 	//if local storage exists, 
-	if(localStorage.getItem("savedRDJPageVisitor")){
-		savedRDJPageVisitor =  JSON.parse(localStorage.getItem("savedRDJPageVisitor"));
-		console.log(savedRDJPageVisitor);
+	if(localStorage.getItem("RDJPageVisitor_AllowSave")){
+		//console.log(localStorage);
+		ALLOW_SAVE = true;
+		USERNAME = localStorage.getItem("RDJPageVisitor_name");
+		SELUSER_ID = localStorage.getItem("RDJPageVisitor_selectedId");
+		buildSavedListUsers(JSON.parse(localStorage.getItem("RDJPageVisitor_listUsers")));	
+		var json = JSON.parse(localStorage.getItem("RDJPageVisitor_jsonresults"));
+		if(json) {
+			document.getElementById('displayPins').innerHTML = displayPins(json.data.pins);
+		}
+		document.getElementById('savedVisitor').innerHTML = (USERNAME) ? USERNAME : 'Unknown';
+		document.getElementById('divWelcome').classList.remove('hide');
 		return true;
 	}
 	else {
@@ -433,9 +432,9 @@ function checkLocalStorage(){
 	}
 }
 
-function buildSavedListUsers() {
-//build list of Pinterest usernames from saved data
-	var users = savedRDJPageVisitor.listUsers;
+function buildSavedListUsers(users) {
+	//build list of Pinterest usernames from saved data
+	//console.log(users);
 	if(users) {
 		for (user in users){
 			listUsers.push(new PinterestUserBoard(users[user].firstname, users[user].lastname, users[user].id, users[user].boardname));
@@ -444,6 +443,7 @@ function buildSavedListUsers() {
 	else {
 		buildStandardListUsers(); //just in case
 	}
+	sortListUsers();
 }
 
 function buildStandardListUsers(){
@@ -455,20 +455,21 @@ function buildStandardListUsers(){
 	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
 	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
-	savedRDJPageVisitor.listUsers = listUsers;
 }
 
 function buildUserListSelect(){
 	var select = document.getElementById("selectUser");
+	//console.log('inside builduserlistselect');
+	//console.log(listUsers);
 	var selIndex = 0;
 	//loop through array to build dropdown using DOM manipulation
-	for(var i = 1; i < listUsers.length; i++) {
+	for(var i = 0; i < listUsers.length; i++) {
 		if(SELUSER_ID != '' && SELUSER_ID === listUsers[i].id){
 			selIndex = i + 1;
 		}
 		var el = document.createElement("option");
 		el.textContent = listUsers[i].displayname();
-		el.value = i;
+		el.value = i + 1;
 		select.appendChild(el);
 	}
 	if(selIndex != ''){
@@ -549,8 +550,8 @@ function SubmitModal(){
 	if(modalChk.checked){
 		ALLOW_SAVE = true;
 		USERNAME = modalUN.value;
-		savedRDJPageVisitor.visitor = USERNAME;
-		saveLocalStorage();//save initial selection to local storage
+		localStorage.setItem("RDJPageVisitor_AllowSave", ALLOW_SAVE);
+		localStorage.setItem("RDJPageVisitor_name", USERNAME);
 		document.getElementById('divWelcome').classList.remove('hide');
 		document.getElementById('savedVisitor').innerHTML = USERNAME;
 	}
@@ -617,43 +618,40 @@ function LoadJSON(){
 //   it is available
 //	get selected user
 	var e = document.getElementById("selectUser");
-	var selIndex = e.options[e.selectedIndex].value;
+	var selIndex = e.options[e.selectedIndex].value - 1;
 	var user = listUsers[selIndex].id;
 	SELUSER_ID = user;
 	var board = listUsers[selIndex].boardname;
 	var div = document.getElementById('displayPins');
 	
+	localStorage.setItem("RDJPageVisitor_selectedId", SELUSER_ID);
+	
 	getJSONFile('https://api.pinterest.com/v3/pidgets/boards/' + user  + '/' + board + '/pins/', function(json){
 		div.innerHTML = displayPins(json.data.pins);
 		JSON_RESULTS = json;
-		saveLocalStorage();
+		if(ALLOW_SAVE) {
+			localStorage.setItem("RDJPageVisitor_jsonresults", JSON.stringify(json));
+		}
+		//saveLocalStorage();
 	});
-}
-
-function saveLocalStorage(){
-	//refresh obj
-	savedRDJPageVisitor.visitor = USERNAME;
-	savedRDJPageVisitor.listUsers = listUsers;
-	savedRDJPageVisitor.selectedUserListId = SELUSER_ID;
-	savedRDJPageVisitor.jsonresults = JSON_RESULTS;
-	if(ALLOW_SAVE) {
-		localStorage.setItem("savedRDJPageVisitor", JSON.stringify(savedRDJPageVisitor));
-	}
-	//console.log('Stored: ' + localStorage.getItem("savedRDJPageVisitor"));
 }
 
 function notYou(){
 	localStorage.removeItem("savedRDJPageVisitor");
+	localStorage.removeItem("RDJPageVisitor_listUsers");
+	localStorage.removeItem("RDJPageVisitor_AllowSave");
+	localStorage.removeItem("RDJPageVisitor_name");
+	localStorage.removeItem("RDJPageVisitor_jsonresults");
+	localStorage.removeItem("RDJPageVisitor_selectedId");
 	loadPage();
 }
 
 function refreshPinterestUserList(){
 	var select = document.getElementById('selectUser');
 	sortListUsers();
-	savedRDJPageVisitor.listUsers = listUsers;
 	
 	if(ALLOW_SAVE) {
-		saveLocalStorage();
+		localStorage.setItem("RDJPageVisitor_listUsers", JSON.stringify(listUsers));
 	}
 	
 	//clear existing list
@@ -705,8 +703,8 @@ function validateAdd(){
 						//board also passed successfully, so if we make it to here, name will be pushed to object containg PinterestUserBoard data// and dropdown will be refreshed
 						//animate to show dropdown updated
 						listUsers.push(new PinterestUserBoard(firstname.value, lastname.value, pinId.value, board.value)); //add to list of objects
-						savedRDJPageVisitor.listUsers = listUsers; //refresh class object
 						refreshPinterestUserList();
+						console.log(listUsers);
 						//clear form
 						document.getElementById('txtAddFirstname').value = '';
 						document.getElementById('txtAddLastname').value = '';
@@ -727,8 +725,8 @@ function validateAdd(){
 						
 					}
 					else { // json for board did not return successfully, so invalid board for user
-						document.getElementById('Board_valid').classList.add('hidden');
-						document.getElementById('Board_invalid').classList.remove('hidden');
+						document.getElementById('Board_valid').classList.add('hide');
+						document.getElementById('Board_invalid').classList.remove('hide');
 					}
 				});
 				
