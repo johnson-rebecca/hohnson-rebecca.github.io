@@ -212,23 +212,33 @@ color: #754668;
    95% { transform: rotate(-5deg); }
   100% { transform: rotate(0deg); }
 }
-.fa-star {
-	color: #c2dd90;
-	-webkit-transition: opacity 2s linear;
-	transition: opacity 2s linear;
-	animation: wiggle 2.5s infinite;
-}
 .hide {
 	display: none;
 }
 .highlight-select {
 	background-color: #ffffff;
-	-webkit-transition: background-color 3s linear; /* Safari */
-	transition: background-color 3s linear;
+	border: 1px solid #D2D7D3;
+	border-radius: 5px;
+}
+.highlight-select-div {
+	background-color: #ffffff;
+	-webkit-transition: border-color 3s linear; /* Safari */
+	transition: border-color 3s linear;
 	-webkit-transition: border 5s linear; /* Safari */
 	transition: border 5s linear;
 	border: 1px solid #D2D7D3;
 	border-radius: 5px;
+	display:inline-block;
+	width:auto;
+}
+.highlight-select.animated {
+	border-color: #e8dab2;
+	animation: wiggle .1s infinite;
+}
+.highlight-select-div.animated {
+	border-color: #315d28;
+	box-shadow: 0px 0px 10px #d6e9c6;
+	animation: wiggle .1s infinite;
 }
 #divWelcome {
 	font-family: 'Advent Pro';
@@ -274,15 +284,14 @@ color: #754668;
 </head>
 <body>
 <div id="msgSuccess" class="alert-success hidden">
-<div class="alert-title"><i class="fa fa-star"></i><i class="fa fa-star"></i>Success Alert<i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+<div class="alert-title">Success Alert</div>
  Pinterest Name was added to the list successfully.
 </div>
 <div id="divWelcome">Welcome: <span id="savedVisitor"> </span> <a id="lnkNotYou" class="not-you" href="javascript:notYou();">Not You?</a></div>
 <h1>Topics: 2 - JS Objects, 3 - JSON, 4 - AJAX, &amp; 5 - Local Storage</h1>
-<select id="selectUser" class="highlight-select">
-    <option value="0">- Choose a User-</option>
-</select>
-<i id="ListUpdated" class="fa fa-star hidden"></i>
+<div id="selectBorder" class="highlight-select-div">
+<select id="selectUser" class="highlight-select"></select>
+</div>
 <input type="button" value="View Pinterest Info" onclick="LoadJSON();"/>
 <input id="btnAddUser" type="button" value="Add Name to List" />
 <div id="addUserForm" class="hidden">
@@ -359,14 +368,6 @@ function PinterestUserBoard(firstname, lastname, id, boardname)  {
 	this.displayname = function() {return this.lastname + ", " + this.firstname;};
 }
 
-//define page user object
-//function RDJPageVisitor(visitor, selectedUserListId, users, jsonresults) {
-//	this.visitor = visitor;
-//	this.listUsers = users;
-//	this.jsonresults = jsonresults;
-//	this.selectedUserListId = selectedUserListId;
-//}
-
 document.getElementById('txtUsername').addEventListener('input', (evt) => {
 var modalUN =  document.getElementById('txtUsername');
 	var modalBtn = document.getElementById('btnSubmit');
@@ -400,6 +401,10 @@ function resetAddForm(){
 	document.getElementById('txtAddLastname').value = '';
 	document.getElementById('txtAddPinterestId').value = '';
 	document.getElementById('txtAddBoard').value = '';
+	resetAddFormValidations();
+}
+
+function resetAddFormValidations(){
 	document.getElementById('txtAddFirstname').classList.remove('error');
 	document.getElementById('txtAddLastname').classList.remove('error');
 	document.getElementById('txtAddPinterestId').classList.remove('error');
@@ -417,6 +422,7 @@ function resetAddForm(){
 function loadPage(){
 	var loadSaved = checkLocalStorage();
 	
+	//if no storage set defaults
 	if(!loadSaved) {
 		ALLOW_SAVE = false;
 		USERNAME = '';
@@ -424,6 +430,8 @@ function loadPage(){
 		JSON_RESULTS = '';
 		//display modal
 		var modal = document.getElementById("myModal");
+		document.getElementById('txtUsername').value = ''; //reset on open
+		document.getElementById('chkAllowSave').checked = false; //reset
 		fadeIn(modal);
 		buildStandardListUsers();
 		document.getElementById('divWelcome').classList.add('hide');
@@ -451,14 +459,12 @@ function checkLocalStorage(){
 		return true;
 	}
 	else {
-	//if not default dropdown, reset json display, set default allow_save and name & load modal
-	return false;
+		return false;
 	}
 }
 
 function buildSavedListUsers(users) {
 	//build list of Pinterest usernames from saved data
-	//console.log(users);
 	if(users) {
 		for (user in users){
 			listUsers.push(new PinterestUserBoard(users[user].firstname, users[user].lastname, users[user].id, users[user].boardname));
@@ -471,6 +477,7 @@ function buildSavedListUsers(users) {
 }
 
 function buildStandardListUsers(){
+	listUsers = [];
 	//build standard list of Pinterest usernames
 	listUsers.push(new PinterestUserBoard('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
@@ -479,12 +486,20 @@ function buildStandardListUsers(){
 	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
 	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
+	sortListUsers();
 }
 
 function buildUserListSelect(){
 	var select = document.getElementById("selectUser");
-	//console.log('inside builduserlistselect');
-	//console.log(listUsers);
+	if(select.options.length > 0)
+		clearSelect(select);
+	
+	//build top default option
+	var default_opt = document.createElement("option");
+	default_opt.textContent = '- Choose a User-' ;
+	default_opt.value = 0;
+	select.appendChild(default_opt);
+	
 	var selIndex = 0;
 	//loop through array to build dropdown using DOM manipulation
 	for(var i = 0; i < listUsers.length; i++) {
@@ -499,6 +514,11 @@ function buildUserListSelect(){
 	if(selIndex != ''){
 		select.selectedIndex = selIndex;
 	}
+}
+
+function clearSelect(el){
+	sortListUsers(); //before building sort
+	el.options.length = 0; //clear all options
 }
 
 function sortListUsers(){
@@ -656,7 +676,6 @@ function LoadJSON(){
 		if(ALLOW_SAVE) {
 			localStorage.setItem("RDJPageVisitor_jsonresults", JSON.stringify(json));
 		}
-		//saveLocalStorage();
 	});
 }
 
@@ -667,28 +686,32 @@ function notYou(){
 	localStorage.removeItem("RDJPageVisitor_name");
 	localStorage.removeItem("RDJPageVisitor_jsonresults");
 	localStorage.removeItem("RDJPageVisitor_selectedId");
+	//also need to reset page variables to initial defaults
+	if(document.getElementById('selectUser').options.length > 0)
+		clearSelect(document.getElementById('selectUser'));
+	USERNAME = '';
+	SELUSER_ID = 0;
+	JSON_RESULTS = '';
+	listUsers = [];
 	loadPage();
 }
 
 function refreshPinterestUserList(){
 	var select = document.getElementById('selectUser');
-	sortListUsers();
+	//sortListUsers();
 	
 	if(ALLOW_SAVE) {
 		localStorage.setItem("RDJPageVisitor_listUsers", JSON.stringify(listUsers));
 	}
 	
 	//clear existing list
-	while (select.lastChild.value != select.firstChild.value) {
-		select.removeChild(select.lastChild);
-	}
-	
+	if(document.getElementById('selectUser').options.length > 0)
+		clearSelect(document.getElementById('selectUser'));
 	buildUserListSelect();
-	select.style.borderColor = '#c2dd90';
-	setTimeout(function(){ select.style.borderColor  = '#D2D7D3'; }, 3000);
 }
 
 function validateAdd(){
+	resetAddFormValidations();
 	var errorCount = 0;
 	var firstname = document.getElementById('txtAddFirstname');
 	var lastname = document.getElementById('txtAddLastname');
@@ -732,16 +755,7 @@ function validateAdd(){
 						//animate to show dropdown updated
 						listUsers.push(new PinterestUserBoard(firstname.value, lastname.value, pinId.value, board.value)); //add to list of objects
 						refreshPinterestUserList();
-						console.log(listUsers);
 						//clear form
-						//document.getElementById('txtAddFirstname').value = '';
-						//document.getElementById('txtAddLastname').value = '';
-						//document.getElementById('txtAddPinterestId').value = '';
-						//document.getElementById('txtAddPinterestId').value = '';
-						//document.getElementById('PinterestId_valid').classList.add('hide');
-						//document.getElementById('PinterestId_invalid').classList.add('hide');
-						//document.getElementById('Board_valid').classList.add('hide');
-						//document.getElementById('Board_invalid').classList.add('hide');
 						resetAddForm();
 						//hide form
 						var formDiv = document.getElementById('addUserForm');
@@ -751,7 +765,10 @@ function validateAdd(){
 						msg.classList.remove('hidden');
 						setTimeout(function(){ msg.classList.add('hidden') }, 3000);
 						//highlight updated field
-						
+						document.getElementById('selectBorder').classList.add('animated');
+						setTimeout(function() {
+							document.getElementById('selectBorder').classList.remove('animated');
+						}, 1500);
 					}
 					else { // json for board did not return successfully, so invalid board for user
 						document.getElementById('Board_valid').classList.add('hide');
