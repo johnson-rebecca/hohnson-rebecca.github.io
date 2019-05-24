@@ -327,9 +327,6 @@ color: #754668;
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
-
-
   <!-- Modal content -->
   <div class="modal-content">
     <!--<span class="close">&times;</span>-->
@@ -474,6 +471,36 @@ function buildSavedListUsers(users) {
 		buildStandardListUsers(); //just in case
 	}
 	sortListUsers();
+}
+
+function checkForDupe(type, str) {
+	var dupeFound = false;
+	
+	listUsers.forEach(function (obj) {
+		var x = "";
+		switch(type){
+			case "displayname":
+				x = obj.displayname;
+				break;
+			case "id":
+				x = obj.id;
+				break;
+			case "board":
+				x = obj.board;
+				break;
+			case "firstname":
+				x = obj.firstname;
+				break;
+			case "lastname":
+				x = obj.lastname;
+				break;
+		}
+		//var x = obj.id;
+		if(x.toUpperCase() == str.toUpperCase()){
+			dupeFound = true;
+		}
+	});
+	return dupeFound;
 }
 
 function buildStandardListUsers(){
@@ -733,11 +760,19 @@ function validateAdd(){
 		document.getElementById('txtAddPinterestId_msg').innerHTML = '* Required';
 		errorCount ++;
 	}
+	else {
+		//check for duplicate pinId
+		if(checkForDupe("id", pinId.value)){
+			pinId.classList.add('error');
+			document.getElementById('txtAddPinterestId_msg').innerHTML = '* PinterestId previously added.';
+			errorCount ++;
+		}
+	}
 	if(board.value.length < 1) {
 		board.classList.add('error');
 		document.getElementById('txtAddBoard_msg').innerHTML = '* Required';
 		errorCount ++;
-	}
+	}	
 	if(errorCount == 0) {
 		//check json to validatepinterest user	
 		getJSONFileForValidation('https://api.pinterest.com/v3/pidgets/users/' + pinId.value  + '/pins/', function(status){
@@ -751,8 +786,7 @@ function validateAdd(){
 						document.getElementById('Board_valid').classList.remove('hide');
 						document.getElementById('Board_invalid').classList.add('hide');
 						
-						//board also passed successfully, so if we make it to here, name will be pushed to object containg PinterestUserBoard data// and dropdown will be refreshed
-						//animate to show dropdown updated
+						//board also passed successfully, so if we make it to here, name will be pushed to object containg PinterestUserBoard data and dropdown will be refreshed
 						listUsers.push(new PinterestUserBoard(firstname.value, lastname.value, pinId.value, board.value)); //add to list of objects
 						refreshPinterestUserList();
 						//clear form

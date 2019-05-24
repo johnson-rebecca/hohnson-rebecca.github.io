@@ -6,6 +6,9 @@ body {
 	background-position: center;
 	background-size: 100% 100%;
 }
+h1 {
+	text-align: center;
+}
 /* Start of Column CSS */
 #container5 {
 	clear:left;
@@ -125,6 +128,9 @@ body {
 	color: red;
 	font-weight: bold;
 	line-height: 15px;
+}
+.graded {
+	color: #a9a9a9;
 }
 .subtitle {
 	font-size: .7em;
