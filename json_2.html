@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>JS Objects, JSON, AJAX, &amp; Local Storage</title>
+	<title>JS Objects, JSON, AJAX, Local Storage, CSS3 Anim/Trans. triggered by JS, &amp; JS Events</title>
 	<link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
 	<link href='https://fonts.googleapis.com/css?family=Advent Pro' rel='stylesheet'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -170,18 +170,14 @@ color: #754668;
 	-webkit-transition: background-color 1s ease-in-out; /* Safari */
 	transition: background-color 1s ease-in-out;
 }
-#addUserForm {
-	background-color: #dcebed;
-	border-radius: 10px;
-	padding: 10px;
-	pointer-events:all;
-}
 .highlight {
 	background-color: #ffffff;
 	-webkit-transition: background-color 1s ease-in-out; /* Safari */
 	transition: background-color 1s ease-in-out;
-	-webkit-transition: border 1s ease-in-out; /* Safari */
-	transition: border 1s ease-in-out;
+	-webkit-transition: border 1s linear; /* Safari */
+	transition: border 1s linear;
+	-webkit-transition: box-shadow 1s linear; /* Safari */
+	transition: box-shadow 1s linear;
 	border: 1px solid #D2D7D3;
 }
 .error {
@@ -192,6 +188,10 @@ color: #754668;
 	-webkit-transition: opacity 2s linear;
 	transition: opacity 2s linear;
 	margin: 5px;
+	background-color: #dcebed;
+	border-radius: 10px;
+	padding: 10px;
+	pointer-events:all;
 }
 .hidden {
 	opacity: 0;
@@ -288,7 +288,8 @@ color: #754668;
  Pinterest Name was added to the list successfully.
 </div>
 <div id="divWelcome">Welcome: <span id="savedVisitor"> </span> <a id="lnkNotYou" class="not-you" href="javascript:notYou();">Not You?</a></div>
-<h1>Topics: 2 - JS Objects, 3 - JSON, 4 - AJAX, &amp; 5 - Local Storage</h1>
+<h1>Topics: 2 - JS Objects, 3 - JSON, 4 - AJAX, 5 - Local Storage,<br/>
+ 8 - CSS3 Anim/Trans. triggered by JS, 9 - JS Events</h1>
 <div id="selectBorder" class="highlight-select-div">
 <select id="selectUser" class="highlight-select"></select>
 </div>
@@ -356,13 +357,22 @@ var JSON_RESULTS = '';
 var listUsers = [];
 window.addEventListener("load", loadPage);
 
+//define Person class (could be used for various types of people/user objects
+class Person {
+	constructor(firstname, lastname) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.displayname = function() {return this.lastname + ", " + this.firstname;};
+	}
+}
+
 // define object to save Pinterest users for viewing boards
-function PinterestUserBoard(firstname, lastname, id, boardname)  {
-    this.firstname = firstname;
-    this.lastname =  lastname;
-	this.id = id;
-    this.boardname = boardname;
-	this.displayname = function() {return this.lastname + ", " + this.firstname;};
+class PinterestUserBoard extends Person {
+	constructor(firstname, lastname, id, boardname)  {
+		super(firstname, lastname);
+		this.id = id;
+		this.boardname = boardname;
+		}
 }
 
 document.getElementById('txtUsername').addEventListener('input', (evt) => {
