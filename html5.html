@@ -5,9 +5,13 @@
 <title>CSS3 using JS &amp; HTML5 tags for media</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href='https://fonts.googleapis.com/css?family=Fascinate' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Arsenal' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Sarpanch' rel='stylesheet'>
 <style>
 
-body{background: #f2f6f8;}
+body{
+	font-family: 'Arsenal';
+}
 .img{position:absolute;z-index:20;}
 
 #container{
@@ -32,16 +36,23 @@ body{background: #f2f6f8;}
 }
 #radioDiv {
 	width:50%;
+	display:inline-block;
+}
+h1 {
+	font-family: "Times New Roman", Times, serif;
+	color: #000000;
 }
 </style>
 </head>
 
 <body>
 <h1 id="pageTitle" class="center">Topics: 7 - CSS3 using JS &amp; 10 - HTML5 tags for media</h1>
-<div id="radioDiv" class="center">
-	<input type="radio" id="styleRetro" name="displayStyle" value="retro"> Retro
-  <input type="radio" id="styleModern" name="displayStyle" value="modern"> Modern
-  <input type="radio" id="styleOther" name="displayStyle" value="other" checked> None
+<div class="center">
+	<div id="radioDiv" class="center">
+		<input type="radio" id="styleRetro" name="displayStyle" value="retro"> Retro
+	  <input type="radio" id="styleModern" name="displayStyle" value="modern"> Modern
+	  <input type="radio" id="styleOther" name="displayStyle" value="other" checked> None
+	</div>
 </div>
 <div id="container">
 	<div id="tv_frame"></div>
@@ -114,8 +125,8 @@ function changeStyle() {
 			document.getElementById('radioDiv').style.margin = '5px';
 			document.getElementById('radioDiv').style.borderRadius = '8px';
 			document.getElementById('pageTitle').style.fontFamily = 'Fascinate';
-			document.getElementById('pageTitle').style.color = '#e47f80';
-			document.getElementById('pageTitle').style.textShadow = '0px 0px 2px #46B1C9';
+			document.getElementById('pageTitle').style.color = '#ec2045';
+			document.getElementById('pageTitle').style.textShadow = '2px 1px 0px #c7c12f';
 			break;
 		case 'modern':
 			div.style.backgroundImage = "url('img/flat_panel_tv.png')";
@@ -127,12 +138,15 @@ function changeStyle() {
 			video.style.paddingTop = "0px";
 			video.style.paddingLeft = "15px";
 			video.style.marginTop = "-20px";
-			document.body.style.background = 'url(img/fibonacci.png) no-repeat';
-			document.body.style.backgroundSize = 'cover';
+			document.body.style.background = 'url(img/modern_back3.png) repeat';
+			document.body.style.backgroundSize = 'auto';
 			document.getElementById('radioDiv').style.background = 'rgba(255, 255, 255, 0.8)';
 			document.getElementById('radioDiv').style.padding = '5px';
 			document.getElementById('radioDiv').style.margin = '5px';
 			document.getElementById('radioDiv').style.borderRadius = '8px';
+			document.getElementById('pageTitle').style.fontFamily = 'Sarpanch';
+			document.getElementById('pageTitle').style.color = '#2b5e6d';
+			document.getElementById('pageTitle').style.textShadow = '5px 2px 5px #367588';
 			break;
 		default:
 			div.style.backgroundImage = '';
@@ -149,6 +163,9 @@ function changeStyle() {
 			document.getElementById('radioDiv').style.padding = '5px';
 			document.getElementById('radioDiv').style.margin = '5px';
 			document.getElementById('radioDiv').style.borderRadius = '8px';
+			document.getElementById('pageTitle').style.fontFamily = '"Times New Roman", Times, serif';
+			document.getElementById('pageTitle').style.color = '#000000';
+			document.getElementById('pageTitle').style.textShadow = '';
 	}
 }
 
