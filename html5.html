@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>CSS3 using JS &amp; HTML5 tags for media</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Fascinate' rel='stylesheet'>
 <style>
 
 body{background: #f2f6f8;}
@@ -29,11 +30,14 @@ body{background: #f2f6f8;}
 .center {
 	text-align: center;
 }
+#radioDiv {
+	width:50%;
+}
 </style>
 </head>
 
 <body>
-<h1 class="center">Topics: 7 - CSS3 using JS &amp; 10 - HTML5 tags for media</h1>
+<h1 id="pageTitle" class="center">Topics: 7 - CSS3 using JS &amp; 10 - HTML5 tags for media</h1>
 <div id="radioDiv" class="center">
 	<input type="radio" id="styleRetro" name="displayStyle" value="retro"> Retro
   <input type="radio" id="styleModern" name="displayStyle" value="modern"> Modern
@@ -103,11 +107,15 @@ function changeStyle() {
 			video.style.paddingTop = "45px";
 			video.style.paddingLeft = "35px";
 			video.style.marginTop = "0px";
-			document.body.style.background = 'url(img/retro_back3.png) repeat';
+			document.body.style.background = 'url(img/colour.png) no-repeat';
+			document.body.style.backgroundSize = 'cover';
 			document.getElementById('radioDiv').style.background = 'rgba(255, 255, 255, 0.8)';
 			document.getElementById('radioDiv').style.padding = '5px';
 			document.getElementById('radioDiv').style.margin = '5px';
 			document.getElementById('radioDiv').style.borderRadius = '8px';
+			document.getElementById('pageTitle').style.fontFamily = 'Fascinate';
+			document.getElementById('pageTitle').style.color = '#e47f80';
+			document.getElementById('pageTitle').style.textShadow = '0px 0px 2px #46B1C9';
 			break;
 		case 'modern':
 			div.style.backgroundImage = "url('img/flat_panel_tv.png')";
@@ -119,7 +127,8 @@ function changeStyle() {
 			video.style.paddingTop = "0px";
 			video.style.paddingLeft = "15px";
 			video.style.marginTop = "-20px";
-			document.body.style.background = 'url(img/modern_back.png) repeat';
+			document.body.style.background = 'url(img/fibonacci.png) no-repeat';
+			document.body.style.backgroundSize = 'cover';
 			document.getElementById('radioDiv').style.background = 'rgba(255, 255, 255, 0.8)';
 			document.getElementById('radioDiv').style.padding = '5px';
 			document.getElementById('radioDiv').style.margin = '5px';
