@@ -4,13 +4,11 @@
 <meta charset="UTF-8">
 <title>CSS3 using JS &amp; HTML5 tags for media</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href='https://fonts.googleapis.com/css?family=Pattaya' rel='stylesheet'>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Fascinate' rel='stylesheet'>
 <link href='https://fonts.googleapis.com/css?family=Arsenal' rel='stylesheet'>
 <link href='https://fonts.googleapis.com/css?family=Sarpanch' rel='stylesheet'>
 <style>
-@import url('https://fonts.googleapis.com/css?family=Pattaya');
-
 body{
 	font-family: 'Arsenal';
 }
@@ -74,7 +72,7 @@ border:1px solid #ffc826; -webkit-border-radius: 21px; -moz-border-radius: 21px;
  background-image: linear-gradient(to bottom, #ffc92b, #ce9a01);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffc92b, endColorstr=#ce9a01);
 }
 
-.btn{
+.btnNormal{
 border:1px solid #d1dcdf; -webkit-border-radius: 3px; -moz-border-radius: 3px;border-radius: 3px;font-size:12px;font-family:arial, helvetica, sans-serif; padding: 10px 10px 10px 10px; text-decoration:none; display:inline-block;text-shadow: -1px -1px 0 rgba(21,135,176,0.3);font-weight:bold; color: #141414;
  background-color: #f2f5f6; background-image: -webkit-gradient(linear, left top, left bottom, from(#f2f5f6), to(#c8d7dc));
  background-image: -webkit-linear-gradient(top, #f2f5f6, #c8d7dc);
@@ -84,7 +82,7 @@ border:1px solid #d1dcdf; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #f2f5f6, #c8d7dc);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f2f5f6, endColorstr=#c8d7dc);
 }
 
-.btn:hover{
+.btnNormal:hover{
  border:1px solid #b6c7cc;
  background-color: #d4dee1; background-image: -webkit-gradient(linear, left top, left bottom, from(#d4dee1), to(#a9c0c8));
  background-image: -webkit-linear-gradient(top, #d4dee1, #a9c0c8);
@@ -94,134 +92,87 @@ border:1px solid #d1dcdf; -webkit-border-radius: 3px; -moz-border-radius: 3px;bo
  background-image: linear-gradient(to bottom, #d4dee1, #a9c0c8);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d4dee1, endColorstr=#a9c0c8);
 }
 
-.button_modern{
- border: 2px solid #2980b9;
- color: #000000;
- 
-}
-.button_modern:hover:after {
- background: #2980b9;
- -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+/* General button style (reset) */
+.btn {
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 5px 10px;
+	display: inline-block;
+	margin: 5px 2px;
+	letter-spacing: 1px;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
 }
 
-/************** base styles for animated buttons ***********************/
-/***********http://designify.me/tutorials/flat-buttons-with-animated-hover-effects/#.XPAW1vZFyUk*************/
-/*another ex. https://codepen.io/derekmorash/pen/XddZJY*/
-a.animated-button:link, a.animated-button:visited {
- position: relative;
- display: block;
- margin: 30px auto 0;
- padding: 14px 15px;
- color: #fff;
- font-size:14px;
- font-weight: bold;
- text-align: center;
- text-decoration: none;
- text-transform: uppercase;
- overflow: hidden;
- letter-spacing: .08em;
- border-radius: 0;
- text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
- -webkit-transition: all 1s ease;
- -moz-transition: all 1s ease;
- -o-transition: all 1s ease;
- transition: all 1s ease;
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
 }
-a.animated-button:link:after, a.animated-button:visited:after {
- content: "";
- position: absolute;
- height: 0%;
- left: 50%;
- top: 50%;
- width: 150%;
- z-index: -1;
- -webkit-transition: all 0.75s ease 0s;
- -moz-transition: all 0.75s ease 0s;
- -o-transition: all 0.75s ease 0s;
- transition: all 0.75s ease 0s;
+/* Button 1 */
+.btn-1 {
+	border: 2px solid #46b6fe;
+	color: #46b6fe;
 }
-a.animated-button:link:hover, a.animated-button:visited:hover {
- color: #FFF;
- text-shadow: none;
-}
-a.animated-button:link:hover:after, a.animated-button:visited:hover:after {
- height: 450%;
-}
-a.animated-button:link, a.animated-button:visited {
- position: relative;
- display: block;
- margin: 30px auto 0;
- padding: 14px 15px;
- color: #fff;
- font-size:14px;
- border-radius: 0;
- font-weight: bold;
- text-align: center;
- text-decoration: none;
- text-transform: uppercase;
- overflow: hidden;
- letter-spacing: .08em;
- text-shadow: 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(0, 0, 0, 0.2);
- -webkit-transition: all 1s ease;
- -moz-transition: all 1s ease;
- -o-transition: all 1s ease;
- transition: all 1s ease;
-}
-/********************************* victoria effects *************************************/
-/* Victoria Buttons */
 
-a.animated-button.victoria-one {
- border: 2px solid #D24D57;
+/* Button 1a */
+.btn-1a:hover,
+.btn-1a:active {
+	color: #0e83cd;
 }
-a.animated-button.victoria-one:after {
- background: #D24D57;
- -moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- -ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- -webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
- transform: translateX(-50%) translateY(-50%) rotate(-25deg);
+/* Button modern */
+.btn-modern {
+	overflow: hidden;
 }
-a.animated-button.victoria-two {
- border: 2px solid #D24D57;
+
+.btn-modern:after {
+	width: 90%;
+	height: 0;
+	top: 50%;
+	left: 50%;
+	background: #8ee3ff;
+	opacity: 0;
+	-webkit-transform: translateX(-50%) translateY(-50%) rotate(20deg);
+	-moz-transform: translateX(-50%) translateY(-50%) rotate(20deg);
+	-ms-transform: translateX(-50%) translateY(-50%) rotate(20deg);
+	transform: translateX(-50%) translateY(-50%) rotate(20deg);
 }
-a.animated-button.victoria-two:after {
- background: #D24D57;
- -moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
- -ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
- -webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
- transform: translateX(-50%) translateY(-50%) rotate(25deg);
+.btn-modern:hover,
+.btn-modern:active {
+	color: #fff;
 }
-a.animated-button.victoria-three {
- border: 2px solid #D24D57;
+
+.btn-modern:hover:after {
+	height: 260%;
+	opacity: 1;
 }
-a.animated-button.victoria-three:after {
- background: #D24D57;
- opacity: .5;
- -moz-transform: translateX(-50%) translateY(-50%);
- -ms-transform: translateX(-50%) translateY(-50%);
- -webkit-transform: translateX(-50%) translateY(-50%);
- transform: translateX(-50%) translateY(-50%);
+
+.btn-modern:active:after {
+	height: 400%;
+	opacity: 1;
 }
-a.animated-button.victoria-three:hover:after {
- height: 140%;
- opacity: 1;
+#tvControlsContainer {
+	width: 640px;
+	text-align: center;
 }
-a.animated-button.victoria-four {
- border: 2px solid #D24D57;
+#tvControls {
+	float: right;
+	display:inline-block;
 }
-a.animated-button.victoria-four:after {
- background: #D24D57;
- opacity: .5;
- -moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
- -ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
- -webkit-transform: translateY(-50%) translateX(-50%) rotate(90deg);
- transform: translateY(-50%) translateX(-50%) rotate(90deg);
-}
-a.animated-button.victoria-four:hover:after {
- opacity: 1;
- height: 600% !important;
+#divAudioPlayer {
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 </style>
 </head>
@@ -240,6 +191,7 @@ a.animated-button.victoria-four:hover:after {
 	  <input type="radio" id="styleOther" name="displayStyle" value="other" checked> None
 	</div>
 </div>
+
 <div id="container">
 	<div id="tv_frame"></div>
    <video id='videoPlayer'>
@@ -249,10 +201,12 @@ a.animated-button.victoria-four:hover:after {
 	<br/>
 	
 </div>
+<div id="tvControlsContainer">
 <div id="tvControls">
-	<button id="tv_back" class="btn" onclick="changeChannel(false);"><i class="fa fa-backward"></i></button>
-	<button id="tv_playpause" class="btn" onclick="playPause()"><i class="fa fa-play"></i><i class="fa fa-pause"></i></button> 
-	<button id="tv_fore" class="btn" onclick="changeChannel(true);"><i class="fa fa-forward"></i></button>
+	<button id="tv_back" class="" onclick="changeChannel(false);"><i class="fa fa-backward"></i></button>
+	<button id="tv_playpause" class="" onclick="playPause()"><i class="fa fa-play"></i><i class="fa fa-pause"></i></button> 
+	<button id="tv_fore" class="" onclick="changeChannel(true);"><i class="fa fa-forward"></i></button>
+</div>
 </div>
 
 <div id="divAudioPlayer">
@@ -264,6 +218,13 @@ a.animated-button.victoria-four:hover:after {
 </div>
 
 <script>
+WebFont.load({
+    google: {
+      families: ['Source Sans Pro:400,600,700,400italic,700italic', 'Pattaya:400,700', 'Six Caps:400,700']
+    }
+  });
+
+
 var programs = [];
 window.addEventListener("load", loadPage);
 
@@ -308,6 +269,10 @@ function changeStyle() {
 			div.style.height = "290px";
 			div.style.width = "440px";
 			video.style.height = "240px";
+			document.getElementById('tvControlsContainer').style.width = '440px';
+			document.getElementById('tvControls').style.marginTop = '-70px';
+			document.getElementById('tvControls').style.marginLeft = '155px';
+			document.getElementById('tvControls').style.float = 'left';
 			video.style.width = "310px";
 			video.style.paddingTop = "45px";
 			video.style.paddingLeft = "35px";
@@ -335,10 +300,14 @@ function changeStyle() {
 			div.style.width = "440px";
 			video.style.height = "280px";
 			video.style.width = "410px";
+			document.getElementById('tvControlsContainer').style.width = '440px';
+			document.getElementById('tvControls').style.marginTop = '-70px';
+			document.getElementById('tvControls').style.marginLeft = '0px';
+			document.getElementById('tvControls').style.float = 'right';
 			video.style.paddingTop = "0px";
 			video.style.paddingLeft = "15px";
 			video.style.marginTop = "-20px";
-			document.body.style.background = 'url(img/waves2.jpg) no-repeat';
+			document.body.style.background = 'url(img/waves.jpg) no-repeat';
 			document.body.style.backgroundSize = 'cover';
 			document.getElementById('radioDiv').style.background = 'rgba(255, 255, 255, 0.8)';
 			document.getElementById('radioDiv').style.padding = '5px';
@@ -349,9 +318,9 @@ function changeStyle() {
 			document.getElementById('pageTitle').style.textShadow = '5px 2px 5px #367588';
 			document.getElementById('pageTitle').classList.add('hide');
 			document.getElementById('cvs_pageTitleRetro').classList.add('hide');
-			document.getElementById('tv_back').className = 'button_modern';
-			document.getElementById('tv_fore').className = 'button_modern';
-			document.getElementById('tv_playpause').className = 'button_modern';
+			document.getElementById('tv_back').className = 'btn btn-1 btn-modern';
+			document.getElementById('tv_fore').className = 'btn btn-1 btn-modern';
+			document.getElementById('tv_playpause').className = 'btn btn-1 btn-modern';
 			drawModernTitle();
 			break;
 		default:
@@ -375,36 +344,42 @@ function changeStyle() {
 			document.getElementById('pageTitle').classList.remove('hide');
 			document.getElementById('cvs_pageTitleRetro').classList.add('hide');
 			document.getElementById('cvs_pageTitleModern').classList.add('hide');
-			document.getElementById('tv_back').className = 'btn';
-			document.getElementById('tv_fore').className = 'btn';
-			document.getElementById('tv_playpause').className = 'btn';
+			document.getElementById('tv_back').className = '';
+			document.getElementById('tv_fore').className = '';
+			document.getElementById('tv_playpause').className = '';
+			document.getElementById('tvControls').style.float = 'right';
+			document.getElementById('tvControlsContainer').style.width = '640px';
+			document.getElementById('tvControls').style.marginTop = '0px';
+			document.getElementById('tvControls').style.marginLeft = '0px';
 	}
 }
 
 function drawRetroTitle(){
 	var title1 = 'Topics: 7 - CSS3 using JS';
-			var title2 = '& 10 - HTML5 tags for media';
-			var can = document.getElementById('cvs_pageTitleRetro');
-			var ctx = can.getContext('2d');
+	var title2 = '& 10 - HTML5 tags for media';
+	var can = document.getElementById('cvs_pageTitleRetro');
+	var ctx = can.getContext('2d');
+	
+	ctx.clearRect(0, 0, can.width, can.height);
 
-			function drawStroked(text, x, y) {
-				ctx.font = "50px 'Pattaya'";
-				ctx.strokeStyle = '#ec2045';
-				ctx.lineWidth = 5;
-				ctx.strokeText(text, x, y);
-				ctx.fillStyle = '#ff7f27';
-				ctx.fillText(text, x, y);
-			}
-
-			drawStroked(title1, 50, 50);
-			drawStroked(title2, 10, 100);
-			
-			document.getElementById('cvs_pageTitleRetro').classList.remove('hide');
+	drawStroked(ctx, title1, 50, 50, "50px 'Pattaya'", '#ff7f27', '#ec2045');
+	drawStroked(ctx, title2, 10, 100, "50px 'Pattaya'", '#ff7f27', '#ec2045');
+	
+	document.getElementById('cvs_pageTitleRetro').classList.remove('hide');
 }
 
 function drawModernTitle() {
 	document.getElementById('cvs_pageTitleModern').classList.remove('hide');
 }
+
+function drawStroked(ctx, text, x, y, font, fillStyle, strokeStyle) {
+				ctx.font = font;
+				ctx.strokeStyle = strokeStyle;
+				ctx.lineWidth = 5;
+				ctx.strokeText(text, x, y);
+				ctx.fillStyle = fillStyle;
+				ctx.fillText(text, x, y);
+			}
 
 function playPause() { 
 	var video = document.getElementById('videoPlayer');
@@ -814,12 +789,29 @@ only reveal specific functions and values. It looks like this:
         so the particles move. Otherwise, the particles would just look like long curvy lines.
         */
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        //This sets the color to draw with.
-        ctx.strokeStyle = "#00FFFF";
 
         //This calls the function to update the particle positions.
         update_particle();
+		
+		//add text
+		var title1 = 'Topics: 7 - CSS3 using JS & 10 - HTML5 tags for media';
+		//var title2 = '& 10 - HTML5 tags for media';
+		canvas = document.getElementById("cvs_pageTitleModern");
+		ctx = canvas.getContext("2d");
+		
+		// Create gradient
+		var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+		gradient.addColorStop("0"," #ac60fe");
+		gradient.addColorStop("0.5", "#8ee3ff");
+		gradient.addColorStop("1.0", "#3f48cc");
+		// Fill with gradient
+		//ctx.fillStyle = gradient;
+
+		drawStroked(ctx, title1, 10, 90, "55px 'Six Caps'", '#ffffff', gradient);
+
+       
+        //This sets the color to draw particles with.
+        ctx.strokeStyle = gradient;
 
         /*
         This calls the function to update the cell velocity for every cell by looping through
@@ -1033,8 +1025,7 @@ only reveal specific functions and values. It looks like this:
         mouse.x = e.touches[0].pageX - rect.left;
         mouse.y = e.touches[0].pageY - rect.top;
     }
-
-  
+	  
     /*
     And this line attaches an object called "Fluid" to the global scope. "window" was passed into
     the self-invoking function as "w", so setting "w.Fluid" adds it to "window".
@@ -1055,6 +1046,7 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequ
 
 //And this line calls the init() function defined above to start the script.
 Fluid.initialize();
+
 
 </script>
 </body>
