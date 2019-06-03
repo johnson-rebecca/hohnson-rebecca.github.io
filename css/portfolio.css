@@ -123,11 +123,13 @@ h1 {
 .updated {
 	font-family: 'Finger Paint';
 	text-align: center;
-	color: #212121;
 	text-decoration: none;
 	color: red;
 	font-weight: bold;
 	line-height: 15px;
+}
+.graded {
+	color: #65727A !important;
 }
 .graded {
 	color: #a9a9a9;
