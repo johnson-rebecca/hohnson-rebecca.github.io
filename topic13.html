@@ -8,6 +8,8 @@
 html, body {
     height: 100%;
     margin: 0;
+	overflow: hidden;
+	background: url("img/space2.jpg") no-repeat center fixed;
 }
 
 .panel {
@@ -52,14 +54,6 @@ html, body {
     background: url("img/space3.jpg") no-repeat center fixed;
 }
 
-#back4 {
-    background: url("img/space.jpg") no-repeat center fixed;
-}
-
-#back5 {
-    background: url(img/space2.jpg") no-repeat center fixed;
-}
-
 @keyframes backgroundchangeFadeInOut {
   0% {
     opacity:1;
@@ -100,33 +94,24 @@ html, body {
   -webkit-animation-delay: 8s;
 }
 #backgroundchange div:nth-of-type(2) {
-  animation-delay: 6s;
-  -webkit-animation-delay: 6s;
-}
-#backgroundchange div:nth-of-type(3) {
   animation-delay: 4s;
   -webkit-animation-delay: 4s;
 }
-#backgroundchange div:nth-of-type(4) {
-  animation-delay: 2s;
-  -webkit-animation-delay: 2s;
-}
-
-#backgroundchange div:nth-of-type(5) {
-  animation-delay: 0;
-  -webkit-animation-delay: 0;
+#backgroundchange div:nth-of-type(3) {
+  animation-delay: 0s;
+  -webkit-animation-delay: 0s;
 }
 
 #backgroundchange div {
 animation-name: backgroundchangeFadeInOut;
 animation-timing-function: ease-in-out;
 animation-iteration-count: infinite;
-animation-duration: 15s;
+animation-duration: 8s;
 
 -webkit-animation-name: backgroundchangeFadeInOut;
 -webkit-animation-timing-function: ease-in-out;
 -webkit-animation-iteration-count: infinite;
--webkit-animation-duration: 15s;
+-webkit-animation-duration: 8s;
 
 }
 </style>
@@ -138,8 +123,6 @@ animation-duration: 15s;
                     <div class="backgroundimg" id="back1"></div>
                     <div class="backgroundimg" id="back2"></div>
                     <div class="backgroundimg" id="back3"></div>
-                    <div class="backgroundimg" id="back4"></div>
-                    <div class="backgroundimg" id="back5"></div>
                 </div>
             </div>
         </div>
