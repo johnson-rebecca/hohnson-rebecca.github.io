@@ -10,7 +10,7 @@
     position: relative;
     height: 100%;
 	width:100%;
-    background: transparent url(/images/outerspace.jpg);
+    background: #fff;
     color: #fff;
   }
   div.serenity {
@@ -32,19 +32,12 @@
     background: url(img/serenity_logo_500.png) no-repeat;
 	background-position: center center;
 	z-index:25;
-	-webkit-animation: fadeInOpacity 5s ease-in 1; /* Safari 4+ */
-	-moz-animation:    fadeInOpacity 5s ease-in 1; /* Fx 5+ */
-	-o-animation:      fadeInOpacity 5s ease-in 1; /* Opera 12+ */
-	animation:         fadeInOpacity 5s ease-in 1; /* IE 10+, Fx 29+ */
-	animation-fill-mode: forwards;  
+	-webkit-animation: diagonal-appear 7s steps(2, end) forwards;
+	animation: diagonal-appear 7s steps(2, end) forwards;
 	animation-delay: 10s;
 	-webkit-transition: -webkit-transform .8s ease-in-out;
     transition:         transform .8s ease-in-out;
-  }
-  #logo:hover {
-		-webkit-transform: rotate(360deg) scale(.75);
-        transform: rotate(360deg) scale(.75);
-  }
+  } 
   div.serenity div {
     width: 450px;
     height: 151px;
@@ -55,10 +48,10 @@
 	0%   {transform: translatex(0px) translatey(0px)}
 	20%  {transform: rotate(-15deg) translatex(100px) translatey(-150px); }
 	35%  {transform: rotate(-25deg) translatex(250px) translatey(-180px); }
-	100% {transform: translatex(2000px) translatey(-800px) scale(.35)}
+	100% {transform: translatex(2000px) translatey(-800px) scale(.35) skewY(-35deg)}
 }
 
-/*cross fade backgrounds-*/
+/*cross fade backgrounds*/
 html, body {
     height: 100%;
     margin: 0;
@@ -93,88 +86,118 @@ html, body {
     left: 0;
     height: 100%;
     width: 100%;
-
 }
 
 #back1 {
     background: url("img/space.jpg") no-repeat center fixed;
 }
-
 #back2 {
     background: url("img/space2.jpg") no-repeat center fixed;
 }
-
 #back3 {
     background: url("img/space3.jpg") no-repeat center fixed;
 }
+#back4 {
+    background: url("img/space4.jpg") no-repeat center fixed;
+}
+#back5 {
+    background: url("img/space5.jpg") no-repeat center fixed;
+}
 
 @keyframes backgroundchangeFadeInOut {
-  0% {
-    opacity:1;
-  }
-  17% {
-    opacity:1;
-  }
-  25% {
-    opacity:0;
-  }
-  92% {
-    opacity:0;
-  }
-  100% {
-    opacity:1;
-  }
+  0%   {opacity:1;}
+  17%  {opacity:1;}
+  25%  {opacity:0;}
+  92%  {opacity:0;}
+  100% {opacity:1;}
 }
 
 @-webkit-keyframes backgroundchangeFadeInOut {
-  0% {
-    opacity:1;
-  }
-  17% {
-    opacity:1;
-  }
-  25% {
-    opacity:0;
-  }
-  92% {
-    opacity:0;
-  }
-  100% {
-    opacity:1;
-  }
+  0%   {opacity:1;}
+  17%  {opacity:1;}
+  25%  {opacity:0;}
+  92%  {opacity:0;}
+  100% {opacity:1;}
 }
 #backgroundchange div:nth-of-type(1) {
-  animation-delay: 8s;
-  -webkit-animation-delay: 8s;
+  animation-delay: 12s;
+  -webkit-animation-delay: 12s;
 }
 #backgroundchange div:nth-of-type(2) {
-  animation-delay: 4s;
-  -webkit-animation-delay: 4s;
+  animation-delay: 9s;
+  -webkit-animation-delay: 9s;
 }
 #backgroundchange div:nth-of-type(3) {
-  animation-delay: 0s;
-  -webkit-animation-delay: 0s;
+  animation-delay: 6s;
+  -webkit-animation-delay: 6s;
+}
+#backgroundchange div:nth-of-type(4) {
+  animation-delay: 3s;
+  -webkit-animation-delay: 3s;
+}
+
+#backgroundchange div:nth-of-type(5) {
+  animation-delay: 0;
+  -webkit-animation-delay: 0;
 }
 
 #backgroundchange div {
 animation-name: backgroundchangeFadeInOut;
 animation-timing-function: ease-in-out;
-animation-iteration-count: infinite;
-animation-duration: 8s;
+animation-iteration-count: 1;
+animation-duration:12s;
 
 -webkit-animation-name: backgroundchangeFadeInOut;
 -webkit-animation-timing-function: ease-in-out;
--webkit-animation-iteration-count: infinite;
--webkit-animation-duration: 8s;
+-webkit-animation-iteration-count: 1;
+-webkit-animation-duration:12s;
 }
 
-@keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+@-webkit-keyframes diagonal-appear {
+  0% {
+    -webkit-transform: translateZ(-800px) rotate3d(1, 1, 0, 90deg);
+    transform: translateZ(-800px) rotate3d(1, 1, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  54% {
+    -webkit-transform: translateZ(-160px) rotate3d(1, 1, 0, 87deg);
+    transform: translateZ(-160px) rotate3d(1, 1, 0, 87deg);
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: .85;
+  }
+  100% {
+    -webkit-transform: translateZ(0) rotate3d(1, 1, 0, 0);
+    transform: translateZ(0) rotate3d(1, 1, 0, 0);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+	 opacity: 1;
+  }
+}
+@keyframes diagonal-appear {
+  0% {
+    -webkit-transform: translateZ(-800px) rotate3d(1, 1, 0, 90deg);
+    transform: translateZ(-800px) rotate3d(1, 1, 0, 90deg);
+    -webkit-animation-timing-function: ease-in;
+    animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  54% {
+    -webkit-transform: translateZ(-160px) rotate3d(1, 1, 0, 87deg);
+    transform: translateZ(-160px) rotate3d(1, 1, 0, 87deg);
+    -webkit-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    opacity: .85;
+  }
+  100% {
+    -webkit-transform: translateZ(0) rotate3d(1, 1, 0, 0);
+    transform: translateZ(0) rotate3d(1, 1, 0, 0);
+    -webkit-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+	 opacity: 1;
+  }
 }
 </style>
 </head>
@@ -192,6 +215,8 @@ animation-duration: 8s;
                     <div class="backgroundimg" id="back1"></div>
                     <div class="backgroundimg" id="back2"></div>
                     <div class="backgroundimg" id="back3"></div>
+					<div class="backgroundimg" id="back4"></div>
+					<div class="backgroundimg" id="back5"></div>
                 </div>
             </div>
         </div>
