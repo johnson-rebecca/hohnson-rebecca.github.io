@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Topic 13: CSS3 Animations</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<style>
+html, body, .page {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  transition: all .6s cubic-bezier(.5, .2, .2, 1.1);
+  -webkit-transition: all .6s cubic-bezier(.5, .2, .2, 1.1);
+  -moz-transition: all .6s cubic-bezier(.5, .2, .2, 1.1);
+  -o-transition: all .6s cubic-bezier(.5, .2, .2, 1.1);  
+  color: #fff;
+  overflow: hidden; 
+}
+
+* {
+  font-family: 'open sans', 'lato', 'helvetica', sans-serif;
+}
+
+.page {
+  position: absolute;
+}
+
+#p1 {
+  left: 0;
+}
+
+#p2, #p3, #p4, #p5 {
+  left: 200%;
+}
+
+#p1 {
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00b7ea+0,009ec3+100;Blue+3D+%2315 */
+background: rgb(0,183,234); /* Old browsers */
+background: -moz-radial-gradient(center, ellipse cover,  rgba(0,183,234,1) 0%, rgba(0,158,195,1) 100%); /* FF3.6-15 */
+background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,183,234,1) 0%,rgba(0,158,195,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: radial-gradient(ellipse at center,  rgba(0,183,234,1) 0%,rgba(0,158,195,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b7ea', endColorstr='#009ec3',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+#p2 { 
+background: rgb(149,149,149); /* Old browsers */
+background: -moz-linear-gradient(-45deg,  rgba(149,149,149,1) 0%, rgba(13,13,13,1) 46%, rgba(1,1,1,1) 50%, rgba(10,10,10,1) 53%, rgba(78,78,78,1) 76%, rgba(56,56,56,1) 87%, rgba(27,27,27,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#959595', endColorstr='#1b1b1b',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+#p3 { 
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f6e6b4+0,ed9017+100;Yellow+3D+%231 */
+background: rgb(246,230,180); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(246,230,180,1) 0%, rgba(237,144,23,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(246,230,180,1) 0%,rgba(237,144,23,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6e6b4', endColorstr='#ed9017',GradientType=0 ); /* IE6-9 */
+}
+#p4 { 
+background: #8648a5; /* Old browsers */
+background: -moz-linear-gradient(left, #8648a5 0%, #a95fc6 52%, #d666a0 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left, #8648a5 0%,#a95fc6 52%,#d666a0 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right, #8648a5 0%,#a95fc6 52%,#d666a0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8648a5', endColorstr='#d666a0',GradientType=1 ); /* IE6-9 */
+}
+#p5 { background: rebeccapurple; }
+
+#t2:target #p2,
+#t4:target #p4,
+#t5:target #p5 {
+  transform: translateX(-190%);
+  -webkit-transform: translateX(-190%);
+  -moz-transform: translateX(-190%);
+  -o-transform: translateX(-190%);
+  transition-delay: .4s !important;
+}
+
+#t3:target #p3{
+
+  -webkit-animation-name: rotateInDownLeft;
+  animation-name: rotateInDownLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes rotateInDownLeft {
+  0% {
+  -webkit-transform-origin: left bottom;
+  transform-origin: left bottom;
+  -webkit-transform: rotate3d(0, 0, 1, -45deg);
+  transform: rotate3d(0, 0, 1, -45deg);
+  opacity: 0;
+  }
+  100% {
+  -webkit-transform-origin: left bottom;
+  transform-origin: left bottom;
+  -webkit-transform: none;
+  transform: none;
+  opacity: 1;
+  transform: translateX(-190%);
+  -webkit-transform: translateX(-190%);
+  -moz-transform: translateX(-190%);
+  -o-transform: translateX(-190%);
+  }
+}
+
+#t4:target #p4 {
+ -webkit-animation-name: rotateInDownLeft;
+  animation-name: rotateInDownLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  }
+  @-webkit-keyframes rotateInDownLeft {
+  0% {
+  -webkit-transform-origin: left bottom;
+  transform-origin: left bottom;
+  -webkit-transform: rotate3d(0, 0, 1, -45deg);
+  transform: rotate3d(0, 0, 1, -45deg);
+  opacity: 0;
+  }
+  100% {
+  -webkit-transform-origin: left bottom;
+  transform-origin: left bottom;
+  -webkit-transform: none;
+  transform: none;
+  opacity: 1;
+  transform: translateX(-190%);
+  -webkit-transform: translateX(-190%);
+  -moz-transform: translateX(-190%);
+  -o-transform: translateX(-190%);
+  }
+}
+
+
+
+#t2:target #p1, 
+#t3:target #p1,
+#t4:target #p1,
+#t5:target #p1{
+  background: black;
+}
+
+#t2:target #p1 .icon, 
+#t3:target #p1 .icon,
+#t4:target #p1 .icon,
+#t5:target #p1 .icon {
+  -webkit-filter: blur(3px);
+}
+
+.icon {
+  color: #fff;
+  font-size: 32px;
+  display: block;
+}
+
+ul .icon:hover {
+  opacity: 0.5;
+}
+
+.page .icon .title {
+  line-height: 1;
+}
+
+#t2:target ul .icon,
+#t3:target ul .icon,
+#t4:target ul .icon,
+#t5:target ul .icon{
+  transform: scale(.6);
+  -webkit-transform: scale(.6);
+  -moz-transform: scale(.6);
+  -o-transform: scale(.6);
+  transition-delay: .25s;
+}
+
+#t2:target #page2,
+#t3:target #page3,
+#t4:target #page4,
+#t4:target #page5 {
+  transform: scale(1.2) !important;
+  -webkit-transform: scale(1.2) !important;
+  -moz-transform: scale(1.2) !important;
+  -o-transform: scale(1.2) !important;
+}
+
+ul {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  height: 280px;
+  width: 10%;
+  padding: 0;
+  text-align: center;
+ }
+
+#menu .icon {
+  margin: 30px 0;
+  transition: all .5s ease-out !important;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+}
+
+a {
+  text-decoration: none;
+}
+
+.title, .hint {
+  display: block;
+}
+
+.title {
+  font-size: 38px;
+}
+
+.hint {
+  font-size: 13px;
+}
+
+#p4 .hint {
+  display: inherit !important;
+}
+
+.hint a {
+  color: yellow;
+  transition: all 250ms ease-out;
+  -webkit-transition: all 250ms ease-out;
+  -moz-transition: all 250ms ease-out;
+  -o-transition: all 250ms ease-out;
+}
+
+.hint a:hover {
+  color: #FFF;
+}
+
+.line-trough {
+  text-decoration: line-through;
+}
+
+.page .icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10%;
+  left: 0;
+  width: 65%;
+  height: 100%;
+  margin: auto;
+  text-align: center;
+  font-size: 80px;
+  line-height: 1;
+  transform: translateX(360%);
+  -webkit-transform: translateX(360%);
+  -moz-transform: translateX(360%);
+  -o-transform: translateX(360%);
+  transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+  -webkit-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+  -moz-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+  -o-transition: all .5s cubic-bezier(.25, 1, .5, 1.25);
+}
+
+.page#p1 .icon {
+  height: 220px;
+}
+
+.page#p1 .icon {
+  transform: translateX(10%) !important;
+}
+
+#t2:target .page#p2 .icon,
+#t3:target .page#p3 .icon,
+#t4:target .page#p4 .icon,
+#t5:target .page#p5 .icon {
+  transform: translateX(0) !important;
+  -webkit-transform: translateX(0) !important;
+  -moz-transform: translateX(0) !important;
+  -o-transform: translateX(0) !important;
+  transition-delay: 1s;
+}
+
+#gallery {
+		width: 1000px;
+		height: 1200px;
+		margin: 80px auto;
+		padding: 80px;
+		
+		position: relative;
+}
+	
+#gallery div {
+	background: #fff;
+	position: absolute;
+	overflow: hidden;
+	opacity: 0.9;
+	-webkit-transition: all 1500ms linear;
+
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+
+	-webkit-box-shadow: -3px -3px 50px #666;
+	-moz-box-shadow: -3px -3px 50px #666;
+	box-shadow: -3px -3px 50px #666;
+}
+			
+#gallery div#img1:hover,
+#gallery div#img2:hover,
+#gallery div#img3:hover,
+#gallery div#img4:hover,
+#gallery div#img5:hover,
+#gallery div#img6:hover {
+	z-index: 999;
+	-webkit-transform: rotate(0deg) scale(1.05);
+	-moz-transform: rotate(0deg);
+	opacity: 1;
+	-webkit-filter: grayscale(0%);
+}
+		
+#gallery span {
+	position: absolute;
+	right: 0;
+	bottom: 15px;
+	color: #999;
+	background: #fff;
+	width: 35%;
+	text-align: right;
+	padding: 10px;
+	font-size: 13px;
+	font-weight: bold;
+}
+	
+	
+#gallery img {
+	-webkit-mask-box-image: url(img/background.svg);
+	-webkit-mask-repeat: none;
+	-webkit-filter: grayscale(100%);
+	filter: gray;
+	transition: filter 1.5s;
+}
+
+#gallery img:hover {
+	-webkit-filter: grayscale(0%);
+	filter: gray;
+}
+
+#gallery #img1 { /* dresden*/
+	-webkit-transform: rotate(-15deg);
+	-moz-transform: rotate(-15deg);
+	top: 20px;
+	left: 130px;
+	z-index:1;
+}
+	
+#gallery #img2 { /* lyra*/
+	-webkit-transform: rotate(-15deg);
+	-moz-transform: rotate(-15deg);
+	top: 250px;
+	left:70px;
+	z-index:7;
+}
+	
+#gallery #img3 { /* fizzgig*/
+	-webkit-transform: rotate(-5deg);
+	-moz-transform: rotate(-15deg);
+	top: 425px;
+	left:375px;
+	z-index:3;
+}
+
+#img1 img,
+#img2 img,
+#img4 img,
+#img5 img,
+#img6 img
+ {
+	transform:scale(.9);
+}
+	
+#img3 img {
+	width:350px;
+	transform:scale(.9);
+}
+
+#gallery #img4 { /*tika*/
+	-webkit-transform: rotate(-10deg);
+	-moz-transform: rotate(-10deg);
+	top: 400px;
+	right: 50px;
+	z-index:4;
+}
+
+#img4 img {
+	height: 250px;
+}
+	
+#gallery #img5 { /* kira*/
+	-webkit-transform: rotate(5deg);
+	-moz-transform: rotate(5deg);
+	top: -30px;
+	right: 200px;
+	z-index:5;
+}
+	
+#gallery #img6 { /*thor*/
+	-webkit-transform: rotate(20deg);
+	-moz-transform: rotate(20deg);
+	top: 200px;
+	right: 80px;
+	z-index:6;
+}
+
+</style>
+</head>
+<body>
+
+	<div class="ct" id="t1">
+	  <div class="ct" id="t2">
+		<div class="ct" id="t3">
+		  <div class="ct" id="t4">
+			 <div class="ct" id="t5">
+			  <ul id="menu">
+				<a href="#t1"><li class="icon far fa-handshake" id="icon_pg1"></li></a>
+				<a href="#t2"><li class="icon far fa-images" id="icon_pg2"></li></a>
+				<a href="#t3"><li class="icon fas fa-camera-retro" id="icon_pg3"></li></a>
+				<a href="#t4"><li class="icon fa far fa-keyboard" id="icon_pg4"></li></a>
+				<a href="#t5"><li class="icon far fa-check-square" id="icon_pg5"></li></a>
+				<a href="#t6"><li class="icon far fa-lightbulb" id="icon_pg6"></li></a>
+			  </ul>
+			  <div class="page" id="p1">
+				 <section class="icon fa fa-handshake">
+					 <span class="title">Welcome to my CSS3 Transitions & Transforms Demo!</span>
+					 <span class="hint">Click through the menu to options to view CSS3 transitions and transforms used in various ways.</span>
+				 </section>  
+			  </div>
+			  <div class="page" id="p2"> <!--gallery-->
+				<section class="icon far fa-images">
+					<span class="title">Photo Gallery 1</span>
+					<span class="hint">On hover, images rotate increase in size and transition from grayscale to color</span>				
+					<div id="gallery">
+						<div id="img1">
+							<img src="img/photo_Dresden.jpg">
+							<span>Good-boy, Dresden</span>
+						</div>	
+						<div id="img2">
+							<img src="img/photo_lyra.jpg">
+							<span>Lyra the skinnyface</span>
+						</div>	
+						<div id="img3">
+							<img src="img/photo_fizzgig.jpg">
+							<span>Fizzgig helping pack</span>
+						</div>	
+						<div id="img4">
+							<img src="img/photo_tika.jpg">
+							<span>Our Tika-girl</span>
+						</div>	
+						<div id="img5">
+							<img src="img/photo_kira2.jpg">
+							<span>Our Floofy Princess, Kira</span>
+						</div>	
+						<div id="img6">
+							<img src="img/photo_thor.jpg">
+							<span>The Mighty Thor!</span>
+						</div>	
+					</div>
+					
+				
+				
+				
+				</section>
+			  </div>  
+			  <div class="page" id="p3">
+				<section class="icon fa fa-rocket"><span class="title">Rocket</span></section>
+			  </div>
+			  <div class="page" id="p4">
+				<section class="icon fa fa-dribbble">
+				  <span class="title">Dribbble</span>
+				  <p class="hint">
+					<a href="https://dribbble.com/albertohartzet" target="_blank">Im ready to play, <span class="hint line-trough">invite me </span> find me</a>
+				  </p>
+				  <p class="hint">Already invited by <a href="http://www.dribbble.com/mrpeters" target="_blank">Stan Peters</a></p>
+				</section>
+			  </div> 
+			  <div class="page" id="p5">
+				<section class="icon fa fa-plus-circle">
+				  <span class="title">More</span>
+				  <p class="hint">
+					<span>You love one page & CSS only stuff? </span><br/>
+					<a href="https://codepen.io/hrtzt/details/pgXMYb/" target="_blank">check this pen "Pure CSS One page vertical navigation"</a>
+				  </p>
+				</section>
+			  </div> 
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+</body>
+</html>
