@@ -150,6 +150,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8648a5', end
 #t4:target #p1 .icon,
 #t5:target #p1 .icon {
   -webkit-filter: blur(3px);
+  filter: blur(5px);
 }
 
 .icon {
@@ -157,13 +158,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8648a5', end
   font-size: 32px;
   display: block;
 }
+.icon:hover {
+	transform: rotate(360deg); 
+}
 
 ul .icon:hover {
   opacity: 0.5;
 }
 
 .page .icon .title {
-  line-height: 1;
+  line-height: 1.25;
 }
 
 #t2:target ul .icon,
@@ -177,14 +181,16 @@ ul .icon:hover {
   transition-delay: .25s;
 }
 
-#t2:target #page2,
-#t3:target #page3,
-#t4:target #page4,
-#t4:target #page5 {
-  transform: scale(1.2) !important;
-  -webkit-transform: scale(1.2) !important;
-  -moz-transform: scale(1.2) !important;
-  -o-transform: scale(1.2) !important;
+
+#t2:target #icon_pg2,
+#t3:target #icon_pg3,
+#t4:target #icon_pg4,
+#t5:target #icon_pg5,
+#t6:target #icon_pg6 {
+  transform: scale(1.3) !important;
+  -webkit-transform: scale(1.3) !important;
+  -moz-transform: scale(1.3) !important;
+  -o-transform: scale(1.3) !important;
 }
 
 ul {
@@ -392,6 +398,8 @@ a {
 	transform:scale(.9);
 }
 
+
+
 #gallery #img4 { /*tika*/
 	-webkit-transform: rotate(-10deg);
 	-moz-transform: rotate(-10deg);
@@ -439,14 +447,14 @@ a {
 			  </ul>
 			  <div class="page" id="p1">
 				 <section class="icon fa fa-handshake">
-					 <span class="title">Welcome to my CSS3 Transitions & Transforms Demo!</span>
-					 <span class="hint">Click through the menu to options to view CSS3 transitions and transforms used in various ways.</span>
+					 <span class="title">Welcome to my Transitions/Transforms Demo!</span>
+					 <span class="hint">Click through the sidebar menu to options to view CSS3 transitions and transforms used in various ways.</span>
 				 </section>  
 			  </div>
 			  <div class="page" id="p2"> <!--gallery-->
 				<section class="icon far fa-images">
 					<span class="title">Photo Gallery 1</span>
-					<span class="hint">On hover, images rotate increase in size and transition from grayscale to color</span>				
+					<span class="hint">On hover, images move to top, rotate, grow and transition from grayscale to color</span>				
 					<div id="gallery">
 						<div id="img1">
 							<img src="img/photo_Dresden.jpg">
