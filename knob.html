@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Topic 12: CSS# Transforms</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href='https://fonts.googleapis.com/css?family=Anaheim' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
 <style>
 /* MASTER
 --------------------------------------------- */
@@ -23,7 +26,7 @@ body {
     background-attachment: fixed;
 }
 
-/* SWITCH
+/* DIAL
 --------------------------------------------- */
 
 .container {
@@ -306,7 +309,7 @@ body {
     visibility: hidden;
 }
 
-/* SWITCH LIGHT */
+/* DIAL LIGHT */
 
 .den .light {
     z-index: 1;
@@ -337,7 +340,7 @@ body {
     background: -o-radial-gradient(center, ellipse cover, rgba(184, 163, 204, 1) 0%, rgba(159, 197, 224, 0.42) 42%, rgba(111, 113, 179, 0) 72%, rgba(67, 34, 137, 0) 100%);
 }
 
-/* SWITCH LIGHT POSITION */
+/* DIAL LIGHT POSITION */
 
 .den #switch_off:checked ~ .light {
     -moz-transform: rotate(-72deg);
@@ -399,7 +402,7 @@ body {
     -o-transform: rotate(250deg);
 }
 
-/* SWITCH LIGHT */
+/* DIAL LIGHT */
 
 .den .dot {
     z-index: 6;
@@ -428,7 +431,7 @@ body {
     background: -o-linear-gradient(top, #dae2e4 0%, #ecf5f4 100%);
 }
 
-/* SWITCH LIGHT POSITION */
+/* DIAL LIGHT POSITION */
 
 .den #switch_off:checked ~ .dot {
     -moz-transform: rotate(-81deg);
@@ -600,6 +603,360 @@ body {
     -webkit-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
 }
+.dialSelMsg {
+	font-family: 'Anaheim';font-size: 22px;
+	vertical-align:text-bottom;
+	width:500px;
+}
+#dialSelValue {
+	font-family: 'Press Start 2P';font-size: 45px;
+	vertical-align:text-bottom;
+	transition: all .5s;
+	-webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+	opacity: 0;
+}
+.on {
+	color: #318c5a;
+	opacity: 1 !important;
+	letter-spacing: 0em;
+}
+.off {
+	color: #505351;
+	opacity: 1 !important;
+	letter-spacing: -0.15em;
+}
+
+
+.on_off {
+  margin: 50px auto;
+  position: relative;
+}
+
+.on_off label {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+
+.on_off input {
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0;
+  opacity: 0;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* DEMO 1 */
+
+.on_off.example1 {
+  width: 100px;
+  height: 100px;
+}
+
+.on_off.example1 label {
+  border-radius: 50%;
+  background: #eaeaea;
+  box-shadow: 
+      0 3px 5px rgba(0,0,0,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.3),
+      inset 0 -5px 5px rgba(100,100,100,0.1),
+      inset 0 5px 5px rgba(255,255,255,0.3);
+}
+
+.on_off.example1 label:after {
+  content: "";
+  position: absolute;
+  top: -8%; right: -8%; bottom: -8%; left: -8%;
+  z-index: -1;
+  border-radius: inherit;
+  background: #ddd;
+  background: -moz-linear-gradient(#ccc, #fff);
+  background: -ms-linear-gradient(#ccc, #fff);
+  background: -o-linear-gradient(#ccc, #fff);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#ccc), to(#fff));
+  background: -webkit-linear-gradient(#ccc, #fff);
+  background: linear-gradient(#ccc, #fff);
+  box-shadow: 
+    inset 0 2px 1px rgba(0,0,0,0.15),
+    0 2px 5px rgba(200,200,200,0.1);
+}
+
+.on_off.example1 label:before {
+  content: "";
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border-radius: inherit;
+  left: 40%;
+  top: 40%;
+  background: #969696;
+  background: radial-gradient(40% 35%, #ccc, #969696 60%);
+  box-shadow:
+      inset 0 2px 4px 1px rgba(0,0,0,0.3),
+      0 1px 0 rgba(255,255,255,1),
+      inset 0 1px 0 white;
+}
+
+.on_off.example1 input:checked ~ label {
+  background: #dedede;
+  background: -moz-linear-gradient(#dedede, #fdfdfd);
+  background: -ms-linear-gradient(#dedede, #fdfdfd);
+  background: -o-linear-gradient(#dedede, #fdfdfd);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#dedede), to(#fdfdfd));
+  background: -webkit-linear-gradient(#dedede, #fdfdfd);
+  background: linear-gradient(#dedede, #fdfdfd);
+}
+
+.on_off.example1 input:checked ~ label:before {
+  background: #25d025;
+  background: radial-gradient(40% 35%, #5aef5a, #25d025 60%);
+  box-shadow:
+      inset 0 3px 5px 1px rgba(0,0,0,0.1),
+      0 1px 0 rgba(255,255,255,0.4),
+      0 0 10px 2px rgba(0, 210, 0, 0.5);
+}
+
+
+.on_off.example2 {
+  width: 180px;
+  height: 50px;
+}
+
+.on_off.example2 label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #a5a39d;
+  border-radius: 40px;
+  box-shadow:
+      inset 0 3px 8px 1px rgba(0,0,0,0.2),
+      0 1px 0 rgba(255,255,255,0.5);
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+
+.on_off.example2 label:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -8px; right: -8px; bottom: -8px; left: -8px;
+  border-radius: inherit;
+  background: #ababab;
+  background: -moz-linear-gradient(#f2f2f2, #ababab);
+  background: -ms-linear-gradient(#f2f2f2, #ababab);
+  background: -o-linear-gradient(#f2f2f2, #ababab);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#ababab));
+  background: -webkit-linear-gradient(#f2f2f2, #ababab);
+  background: linear-gradient(#f2f2f2, #ababab);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3),
+        0 1px 1px rgba(0,0,0,0.25);
+}
+
+.on_off.example2 label:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -18px; right: -18px; bottom: -18px; left: -18px;
+  border-radius: inherit;
+  background: #eee;
+  background: -moz-linear-gradient(#e5e7e6, #eee);
+  background: -ms-linear-gradient(#e5e7e6, #eee);
+  background: -o-linear-gradient(#e5e7e6, #eee);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#e5e7e6), to(#eee));
+  background: -webkit-linear-gradient(#e5e7e6, #eee);
+  background: linear-gradient(#e5e7e6, #eee);
+  box-shadow:
+      0 1px 0 rgba(255,255,255,0.5);
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -ms-filter: blur(1px);
+  -o-filter: blur(1px);
+  filter: blur(1px);
+}
+
+.on_off.example2 label i {
+  display: block;
+  height: 100%;
+  width: 60%;
+  border-radius: inherit;
+  background: silver;
+  position: absolute;
+  z-index: 2;
+  right: 40%;
+  top: 0;
+  background: #b2ac9e;
+  background: -moz-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -ms-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -o-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f2f6), to(#b2ac9e));
+  background: -webkit-linear-gradient(#f7f2f6, #b2ac9e);
+  background: linear-gradient(#f7f2f6, #b2ac9e);
+  box-shadow:
+      inset 0 1px 0 white,
+      0 0 8px rgba(0,0,0,0.3),
+      0 5px 5px rgba(0,0,0,0.2);
+}
+
+.on_off.example2 label i:after {
+  content: "";
+  position: absolute;
+  left: 15%;
+  top: 25%;
+  width: 70%;
+  height: 50%;
+  background: #d2cbc3;
+  background: -moz-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -ms-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -o-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#cbc7bc), to(#d2cbc3));
+  background: -webkit-linear-gradient(#cbc7bc, #d2cbc3);
+  background: linear-gradient(#cbc7bc, #d2cbc3);
+  border-radius: inherit;
+}
+
+.on_off.example2 label i:before {
+  content: "off";
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: bold;
+  color: rgba(0,0,0,0.4);
+  text-shadow: 0 1px 0 #bcb8ae, 0 -1px 0 #97958e;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  margin-top: -12px;
+  right: -50%;
+}
+
+.on_off.example2 input:checked ~ label {
+  background: #9abb82;
+}
+
+.on_off.example2 input:checked ~ label i {
+  right: -1%;
+}
+
+.on_off.example2 input:checked ~ label i:before {
+  content: "on";
+  right: 115%;
+  color: #82a06a;
+  text-shadow: 
+    0 1px 0 #afcb9b,
+    0 -1px 0 #6b8659;
+}
+
+/* EXAMPLE 3 */
+
+.on_off.example3 {
+  width: 150px;
+  height: 150px;
+}
+
+.on_off.example3 label {
+  border-radius: 50%;
+  background: #b2ac9e;
+  background: -moz-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -ms-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -o-linear-gradient(#f7f2f6, #b2ac9e);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#f7f2f6), to(#b2ac9e));
+  background: -webkit-linear-gradient(#f7f2f6, #b2ac9e);
+  background: linear-gradient(#f7f2f6, #b2ac9e);
+  position: relative;
+  color: #a5a39d;
+  font-size: 70px;
+  text-align: center;
+  line-height: 150px;
+
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+
+  text-shadow: 0 2px 1px rgba(0,0,0,0.25);
+
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.13),
+    0 5px 8px rgba(0,0,0,0.3),
+    0 10px 10px 4px rgba(0,0,0,0.3);
+  z-index: -1;
+}
+
+.on_off.example3 label:after {
+  content: ""; 
+  position: absolute;
+  left: -20px;
+  right: -20px;
+  top: -20px;
+  bottom: -20px;
+  z-index: -2;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 1px 2px rgba(0,0,0,0.3),
+    0 0 10px rgba(0,0,0,0.15);
+}
+
+.on_off.example3 label:before {
+  content: ""; 
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: -10px;
+  bottom: -10px;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: inset 0 10px 10px rgba(0,0,0,0.13); 
+  -webkit-filter:blur(1px);
+  -moz-filter:blur(1px);
+  -ms-filter:blur(1px);
+  -o-filter:blur(1px);
+  filter: blur(1px); 
+}
+
+.on_off.example3 input:checked ~ label {
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.13),
+    0 5px 8px rgba(0,0,0,0.35),
+    0 3px 10px 4px rgba(0,0,0,0.2);
+  color: #98ca73;
+} 
+
+.on_off.example3 .fa-power-off:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  margin: -35% 0 0 -35%;
+  border-radius: 50%;
+  background: #d2cbc3;
+  background: -moz-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -ms-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -o-linear-gradient(#cbc7bc, #d2cbc3);
+  background: -webkit-gradient(linear, 0 0, 0 100%, from(#cbc7bc), to(#d2cbc3));
+  background: -webkit-linear-gradient(#cbc7bc, #d2cbc3);
+  background: linear-gradient(#cbc7bc, #d2cbc3);
+  box-shadow:
+    0 -2px 5px rgba(255,255,255,0.05),
+    0 2px 5px rgba(255,255,255,0.1);
+}
+
 </style>
 </head>
 <body>
@@ -618,7 +975,7 @@ body {
             <hr class="line">
 			<hr class="line">
 
-            <!-- SWITCH -->
+            <!-- DIAL -->
             <div class="switch">
 
                 <!-- TEXT -->
@@ -661,6 +1018,28 @@ body {
             </div>
         </div>
     </div>
+	<div class="dialSelMsg">Your selection:<span id="dialSelValue"></span></div>
+	<!--end knob-->
+	
+	<!-- first on/off switch -->
+	<section class="main">
+	
+	<div class="on_off example1">
+		<input type="checkbox">
+		<label></label>
+	</div>
+	
+	<div class="on_off example2">
+		<input type="checkbox">
+		<label><i></i></label>
+	</div>
+	
+	<div class="on_off example3">
+		<input type="checkbox">
+		<label><i class="fas fa-power-off"></i></label>
+	</div>
+	
+</section>
 </div>
 <script>
 //add event listener to dial control
@@ -669,6 +1048,16 @@ for(var i = 0; i < inputElem.length; i++) {
 
     inputElem[i].addEventListener('click', function(){
 		var channel = this.id.substr(7);
+		document.getElementById('dialSelValue').innerHTML = channel;
+		switch(channel) {
+			case 'off':
+			document.getElementById('dialSelValue').classList.remove('on');
+				document.getElementById('dialSelValue').classList.add('off');
+				break;
+			default:
+				document.getElementById('dialSelValue').classList.add('on');
+				document.getElementById('dialSelValue').classList.remove('off');
+		}
         //console.log(channel);
     }, false);
 }
