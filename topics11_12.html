@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <link href='https://fonts.googleapis.com/css?family=Anaheim' rel='stylesheet'>
 <link href='https://fonts.googleapis.com/css?family=Press Start 2P' rel='stylesheet'>
+<link href='http://fonts.googleapis.com/css?family=Arizonia' rel='stylesheet' type='text/css'>
 <style>
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 html, body, .page {
@@ -33,7 +34,7 @@ html, body, .page {
   left: 0;
 }
 
-#p2, #p3, #p4, #p5 {
+#p2, #p3, #p4, #p5, #p6 {
   left: 200%;
 }
 
@@ -64,12 +65,21 @@ background: -webkit-linear-gradient(left, #8648a5 0%,#a95fc6 52%,#d666a0 100%); 
 background: linear-gradient(to right, #8648a5 0%,#a95fc6 52%,#d666a0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8648a5', endColorstr='#d666a0',GradientType=1 ); /* IE6-9 */
 }
-#p5 { background: rebeccapurple; }
+#p5 {
+	background: rebeccapurple;
+}
 
+#p6 {
+	background-color: #0cbaba;
+	background-image: linear-gradient(315deg, #0cbaba 0%, #380036 74%);
+}
+
+/*page transition in*/
 #t2:target #p2,
 #t3:target #p3,
 #t4:target #p4,
-#t5:target #p5 {
+#t5:target #p5,
+#t6:target #p6 {
   transform: translateX(-190%);
   -webkit-transform: translateX(-190%);
   -moz-transform: translateX(-190%);
@@ -77,48 +87,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8648a5', end
   transition-delay: .4s !important;
 }
 
-#t4:target #p4 {
- -webkit-animation-name: rotateInDownLeft;
-  animation-name: rotateInDownLeft;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  }
-  @-webkit-keyframes rotateInDownLeft {
-  0% {
-  -webkit-transform-origin: left bottom;
-  transform-origin: left bottom;
-  -webkit-transform: rotate3d(0, 0, 1, -45deg);
-  transform: rotate3d(0, 0, 1, -45deg);
-  opacity: 0;
-  }
-  100% {
-  -webkit-transform-origin: left bottom;
-  transform-origin: left bottom;
-  -webkit-transform: none;
-  transform: none;
-  opacity: 1;
-  transform: translateX(-190%);
-  -webkit-transform: translateX(-190%);
-  -moz-transform: translateX(-190%);
-  -o-transform: translateX(-190%);
-  }
-}
-
-
-
 #t2:target #p1, 
 #t3:target #p1,
 #t4:target #p1,
-#t5:target #p1{
+#t5:target #p1,
+#t6:target #p1{
   background: black;
 }
 
 #t2:target #p1 .icon, 
 #t3:target #p1 .icon,
 #t4:target #p1 .icon,
-#t5:target #p1 .icon {
+#t5:target #p1 .icon,
+#t6:target #p1 .icon {
   -webkit-filter: blur(3px);
   filter: blur(5px);
 }
@@ -140,22 +121,20 @@ ul .icon:hover {
   line-height: 1.25;
 }
 
-#t2:target ul .icon,
-#t3:target ul .icon,
-#t4:target ul .icon,
-#t5:target ul .icon{
-  transform: scale(.6);
-  -webkit-transform: scale(.6);
-  -moz-transform: scale(.6);
-  -o-transform: scale(.6);
-  transition-delay: .25s;
+.titlePad {
+	padding-top:100px;
 }
 
 #t2:target ul .icon,
 #t3:target ul .icon,
 #t4:target ul .icon,
-#t5:target ul .icon:hover{
-  transform: rotate(360deg); 
+#t5:target ul .icon,
+#t6:target ul .icon{
+  transform: scale(.6);
+  -webkit-transform: scale(.6);
+  -moz-transform: scale(.6);
+  -o-transform: scale(.6);
+  transition-delay: .25s;
 }
 
 #t2:target #icon_pg2,
@@ -263,7 +242,8 @@ a {
 #t2:target .page#p2 .icon,
 #t3:target .page#p3 .icon,
 #t4:target .page#p4 .icon,
-#t5:target .page#p5 .icon {
+#t5:target .page#p5 .icon,
+#t6:target .page#p6 .icon {
   transform: translateX(0) !important;
   -webkit-transform: translateX(0) !important;
   -moz-transform: translateX(0) !important;
@@ -2252,11 +2232,15 @@ a {
 .dialSelMsg {
 	font-family: 'Anaheim';font-size: 22px;
 	vertical-align:text-bottom;
+	text-align:left;
 	width:500px;
 }
 #dialSelValue {
-	font-family: 'Press Start 2P';font-size: 45px;
+	font-family: 'Press Start 2P';
+	font-size: 45px;
+	margin-left:10px;
 	vertical-align:text-bottom;
+	text-shadow: 2px 2px 8px #fff;
 	transition: all .5s;
 	-webkit-transition: all .5s;
     -moz-transition: all .5s;
@@ -2600,6 +2584,345 @@ a {
     0 2px 5px rgba(255,255,255,0.1);
 }
 
+/*  styles for farewell page */
+.container_end{
+  width: 400px;
+  height: 220px;
+  position: relative;
+}
+
+.title_end{
+  font-size: 75px;
+  font-family: 'Arizonia', cursive;
+}
+
+.end_span{
+    width: 100%;
+    float: left;
+    color: #fff;
+	font-family: 'Arizonia', cursive;
+	line-height:1.2em;
+    -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+    transform: translateY(-50px);
+    opacity: 0;
+    animation-name: titleAnimation;
+    animation-timing-function:ease;
+    animation-duration: 3s;
+}
+
+.h1_title1{
+  animation-delay: 1.6s;
+  -webkit-animation-fill-mode: forwards;
+}
+
+.h1_title2{
+    animation-delay: 2.7s;
+
+}
+
+.h1_title3{
+    color: #ffe221;
+    animation-delay: 3.5s;
+}
+
+
+@keyframes titleAnimation {
+    0% {
+      transform: translateY(-50px);
+      opacity: 0;
+      -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
+  }
+  20% {
+      transform: translateY(0);
+      opacity: 1;
+      -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+  }
+  80% {
+       transform: translateY(0);
+       opacity: 1;
+      -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+  }
+  100% {
+       transform: translateY(50px);
+       opacity: 0;
+      -webkit-clip-path: polygon(100% 0, 100% -0%, 0 100%, 0 100%);
+      clip-path: polygon(100% 0, 100% -0%, 0 100%, 0 100%);
+    
+  }
+}
+
+.stayShiny {
+	background: url(img/stay_shiny.png) no-repeat;
+	background-position: center center;
+	width:348px;
+	width:343px;
+}
+
+.rotate-in {
+	-webkit-animation: rotate-in-2-cw 2.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) 4s both;
+	        animation: rotate-in-2-cw 2.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) 4s both;
+}
+
+/**animation rotate-in-2-cw**/
+@-webkit-keyframes rotate-in-2-cw {
+  0% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+    opacity: 1;
+  }
+  100% {
+	-webkit-transform: translateY(-300px);
+	transform: translateY(-300px);
+  }
+}
+@keyframes rotate-in-2-cw {
+  0% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    opacity: 0;
+  }
+  80% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+    opacity: 1;
+  }
+  100% {
+	-webkit-transform: translateY(-300px);
+	transform: translateY(-300px);
+  }
+}
+
+.rotateLeft {
+	color: rgba(255,255,255, .15);
+	font-variant: small-caps;
+	font-size: 80px;
+	font-weight:bold;
+	position:absolute;
+	left: 50px;
+	transform: rotate(-45deg);
+	padding-top:50px;
+	z-index:0;
+}
+
+/* card flip example*/
+/**{
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}*/
+
+.wrapper_card{
+  width: 90%;
+  margin: 0 auto;
+  max-width: 80rem;
+    margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.cols{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.col{
+  width: calc(25% - 2rem);
+  margin: 1rem;
+  cursor: pointer;
+}
+
+.container_card{
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+	-webkit-perspective: 1000px;
+	        perspective: 1000px;
+			  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.front,
+.back{
+    background-size: cover;
+	background-position: center;
+	-webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+	transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+	-o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+	transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+	transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+	-webkit-backface-visibility: hidden;
+	        backface-visibility: hidden;
+	text-align: center;
+	min-height: 280px;
+	height: auto;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 1.5rem;
+}
+
+.front {
+	color:rgba(255,255,255,.55);
+	font-weight:bold;
+}
+
+.back{
+  background: #cedce7;
+  background: -webkit-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+  background: -o-linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+  background: linear-gradient(45deg,  #cedce7 0%,#596a72 100%);
+}
+
+.front:after{
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    content: '';
+    display: block;
+    opacity: .2;
+    background-color: #000;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    border-radius: 10px;
+}
+.container_card:hover .front,
+.container_card:hover .back{
+    -webkit-transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    -o-transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1), -webkit-transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.back{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.inner{
+    -webkit-transform: translateY(-50%) translateZ(60px) scale(0.94);
+            transform: translateY(-50%) translateZ(60px) scale(0.94);
+    top: 50%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-perspective: inherit;
+            perspective: inherit;
+    z-index: 2;
+}
+
+.container_card .back{
+    -webkit-transform: rotateY(180deg);
+            transform: rotateY(180deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+
+.container_card .front{
+    -webkit-transform: rotateY(0deg);
+            transform: rotateY(0deg);
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+
+.container_card:hover .back{
+  -webkit-transform: rotateY(0deg);
+          transform: rotateY(0deg);
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+}
+
+.container_card:hover .front{
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+}
+
+.front .inner p{
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.front .inner p:after{
+  content: '';
+  width: 4rem;
+  height: 2px;
+  position: absolute;
+  background: #C6D4DF;
+  display: block;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: -.75rem;
+}
+
+.front .inner span{
+  color: rgba(255,255,255,0.7);
+  font-family: 'Montserrat';
+  font-weight: 300;
+}
+
+.card1 {
+	background: url(img/card1.jpg) no-repeat;
+	background-size:cover;
+}
+.card2 {
+	background: url(img/card2.jpg) no-repeat;
+	background-size:cover;
+}
+.card3 {
+	background: url(img/card3.jpg) no-repeat;
+	background-size:cover;
+	background-position: right bottom;
+}
+.card4 {
+	background: url(img/card4.jpg) no-repeat;
+	background-size:cover;
+	background-position: right bottom;
+}
+.card5 {
+	background: url(img/card5.jpg) no-repeat;
+	background-size:cover;
+}
+.card6 {
+	background: url(img/card6.jpg) no-repeat;
+	background-size:cover;
+}
+.card7 {
+	background: url(img/card7.jpg) no-repeat;
+	background-size:cover;
+}
+.card8 {
+	background: url(img/card8.jpg) no-repeat;
+	background-size:cover;
+}
 </style>
 </head>
 <body>
@@ -2609,13 +2932,14 @@ a {
 		<div class="ct" id="t3">
 		  <div class="ct" id="t4">
 			 <div class="ct" id="t5">
+				<div class="ct" id="t6">
 			  <ul id="menu">
 				<a href="#t1"><li class="icon fas fa-door-open" id="icon_pg1"></li></a>
 				<a href="#t2"><li class="icon far fa-images" id="icon_pg2"></li></a>
 				<a href="#t3"><li class="icon fas fa-braille" id="icon_pg3"></li></a>
 				<a href="#t4"><li class="icon fa far fa-power-off" id="icon_pg4"></li></a>
-				<a href="#t5"><li class="icon far fa-check-square" id="icon_pg5"></li></a>
-				<a href="#t6"><li class="icon far fa-lightbulb" id="icon_pg6"></li></a>
+				<a href="#t5"><li class="icon far fa-file" id="icon_pg5"></li></a>
+				<a href="#t6"><li class="icon far fas fa-door-closed" id="icon_pg6"></li></a>
 			  </ul>
 			  <div class="page" id="p1">
 				 <section class="logo">
@@ -2665,8 +2989,8 @@ a {
 			  <div class="page" id="p3">
 				<div class="container">
 					<section>
-						<h1 class="title">Button Styles</h1>
-						<p class="hint">Hover: to see effects using transforms and transitions</p>
+						<h1 class="title">Button Styles Gallery</h1>
+						<div class="rotateLeft">{Hover}</div>
 						<p>
 							<button class="btn btn1 btn1a">Button</button>
 							<button class="btn btn1 btn1b">Button</button>
@@ -2686,7 +3010,7 @@ a {
 							<button class="btn btn4 btn4b icon-cog"><span>Settings</span></button>
 						</p>
 						<hr/>
-						<p class="hint">Click: to see the transform effects</p>
+						<div class="rotateLeft">{Click}</div>
 						<p>
 							<button class="btn btn5 btn5a btnValidate icon-truck">Order item</button>
 							<button class="btn btn5 btn5b btnValidate icon-envelope">Send message</button>
@@ -2712,8 +3036,8 @@ a {
 				</section>
 			  </div>
 			  <div class="page" id="p4">
-				<section class="icon fa-power-off">
-				  <span class="title">Dials & On/Off Switches</span>
+				<section class="icon">
+				  <span class="title titlePad"><i class="fas fa-power-off"></i> Dials & On/Off Switches</span>
 
 					<div class="container-dial">
 
@@ -2802,14 +3126,151 @@ a {
 				</section>
 			  </div> 
 			  <div class="page" id="p5">
-				<section class="icon fa fa-plus-circle">
-				  <span class="title">More</span>
+				<section class="icon">
+				  <span class="title titlePad">Card Flip Example</span>
 				  <p class="hint">
-					<span>You love one page & CSS only stuff? </span><br/>
-					<a href="https://codepen.io/hrtzt/details/pgXMYb/" target="_blank">check this pen "Pure CSS One page vertical navigation"</a>
+					<span>https://codepen.io/tyrellrummage/pen/wqGgLO</span><br/>
 				  </p>
+					<div class="wrapper_card">
+					  <div class="cols">
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card1">
+											<div class="inner">
+												<p>Serenity</p>
+												<span>Lorem ipsum</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+											  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum repellat velit quae suscipit c.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card2">
+											<div class="inner">
+												<p>River</p>
+												<span>the weapon</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>Also, I can kill you with my brain.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card4">
+											<div class="inner">
+												<p>Mal</p>
+												<span>the captain</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>And I’m thinking you weren’t burdened with an overabundance of schooling. So why don’t we just ignore each other ’til we go away.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card3">
+											<div class="inner">
+												<p>Kaylee</p>
+												<span>the mechanic</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>Yes sir, Captain Tightpants!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card5">
+											<div class="inner">
+												<p>Wash</p>
+												<span>the pilot</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>Curse your sudden but inevitable betrayal!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card6">
+											<div class="inner">
+												<p>Jayne</p>
+												<span>public relations</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>Let's go be bad guys!</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card7">
+											<div class="inner">
+												<p>Inara</p>
+												<span>the companion</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>And what exactly was our net profit on the famous wobbly-headed doll caper?</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col" ontouchstart="this.classList.toggle('hover');">
+									<div class="container_card">
+										<div class="front card8">
+											<div class="inner">
+												<p>Zoe</p>
+								  <span>Lorem ipsum</span>
+											</div>
+										</div>
+										<div class="back">
+											<div class="inner">
+												<p>First rule of battle, little one: Don’t ever let them know where you are....Course there’s other schools of thought.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+					 </div>
 				</section>
 			  </div> 
+			  
+			  <div class="page" id="p6">
+				<section class="icon container_end">
+					  <h1 class="end_title">
+						<span class="end_span h1_title1">Thank you</span>
+						<span class="end_span h1_title2">for reviewing</span>
+						<span class="end_span h1_title3">my page!</span>
+					  </h1>
+					  <!-- then bring in "Stay shiny!"-->
+					  <img src="img/stay_shiny.png" height="348" width="343" class="rotate-in slide-up"/>
+
+				</section>
+				</div>
+			  </div>
 			</div>
 		  </div>
 		</div>
@@ -2817,6 +3278,11 @@ a {
 	</div>
 
 <script>
+
+window.addEventListener('DOMContentLoaded', (event) => {
+	//preload OFF selection (default) until another selection is made
+    document.getElementById('switch_off').click();
+});
 	
 var validateButtons = document.getElementsByClassName('btnValidate');
 
