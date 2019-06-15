@@ -804,7 +804,7 @@ a {
 	width: 40%;
 }
 
-/* Button 4 */
+/* Button 2 */
 .btn2 {
 	border-radius: 50px;
 	border: 3px solid #fff;
@@ -836,7 +836,7 @@ a {
 	color: #642c7b;
 }
 
-/* Button 4c */
+/* Button 2c */
 .btn2c:before {
 	left: 70%;
 	opacity: 0;
@@ -849,7 +849,7 @@ a {
 	opacity: 1;
 }
 
-/* Button 4d */
+/* Button 2d */
 .btn2d:before {
 	left: 30%;
 	opacity: 0;
@@ -1021,7 +1021,7 @@ a {
 	100% { transform: translateX(0%); }
 }
 
-/* Button 7b */
+/* Button 5b */
 .btn5b {
 	overflow: hidden;
 }
@@ -2278,7 +2278,7 @@ a {
   cursor: pointer;
 }
 
-/* DEMO 1 */
+/* ON/OFF 1 */
 
 .on_off.example1 {
   width: 100px;
@@ -2674,13 +2674,6 @@ a {
 }
 
 /* card flip example*/
-/**{
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}*/
-
 .wrapper_card{
   width: 90%;
   margin: 0 auto;
