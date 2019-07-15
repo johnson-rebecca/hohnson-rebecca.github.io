@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Status - Blair Family Gift Exchange Helper</title>
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<style>
+.status_section{
+	text-align:left;
+}
+.package {
+	display:inline-block;
+	background-image: url("assets/images/cardboard-box.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+	color:#fff;
+	margin-left:5px;
+	height:50px;
+	width:50px;
+	vertical-align: middle;
+	font-weight:bold;
+	text-align:center;
+	line-height:50px;
+	font-size: 1.2rem
+}
+.inlineblock {
+	display:inline-block;
+}
+.package div {
+}
+	
+#xmas_countdown {
+	margin-top:30px;
+  width: 130px;
+  text-align: center;
+  position: relative;
+  border: 2px #61AD65 solid;
+  border-radius: 3px;
+  background: white;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 3px rgba(0, 0, 0, 0.12);
+}
+#xmas_countdown svg {
+  width: 130px;
+  position: absolute;
+  top: -40px;
+  left: 0;
+}
+#xmas_countdown svg .st5 {
+  fill: #C13D2C;
+}
+#xmas_countdown svg .st6 {
+  fill: #E64E3D;
+}
+#xmas_countdown #message {
+  font-size: 1.03rem;
+  line-height:1.01rem;
+  background: #61AD65;
+  color: white;
+  text-transform: uppercase;
+  padding: 5px 0;
+  text-shadow: 1px 1px 1px #5A5A5A;
+}
+#xmas_countdown #countdown {
+  font-size: 2.4rem;
+  color: #E64E3D;
+  line-height: 1em;
+}
+#daystilShipDue {
+	display:inline-block;
+}
+.shippingnear {
+	color:
+}
+
+.heartbeat {
+	-webkit-animation: heartbeat 1.5s ease-in-out infinite both;
+	        animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+.ping {
+	-webkit-animation: ping 0.8s ease-in-out infinite both;
+	        animation: ping 0.8s ease-in-out infinite both;
+}
+
+/**
+ * ----------------------------------------
+ * animation heartbeat
+ * ----------------------------------------
+ */
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation ping
+ * ----------------------------------------
+ */
+@-webkit-keyframes ping {
+  0% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    opacity: .3;
+  }
+  100% {
+    -webkit-transform: scale(2.2);
+            transform: scale(2.2);
+    opacity: 0;
+  }
+}
+@keyframes ping {
+  0% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+    opacity: 1;
+  }
+  80% {
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    -webkit-transform: scale(2.2);
+            transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+
+</style>
+<script>
+var listUsers = [];
+
+// define object to save Pinterest users for viewing boards
+function PinterestUserBoard(firstname, lastname, id, boardname)  {
+    this.firstname = firstname;
+    this.lastname =  lastname;
+	this.id = id;
+    this.boardname = boardname;
+	this.displayname = function() {return this.lastname + ", " + this.firstname;};
+}
+
+function buildStandardListUsers(){
+	//build standard list of Pinterest usernames
+	listUsers.push(new PinterestUserBoard('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
+	listUsers.push(new PinterestUserBoard('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
+	listUsers.push(new PinterestUserBoard('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
+	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Emma', 'Whiting', 'emmanem101', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Kelly', 'Cormell', 'kcrmll', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Dianna', 'Burns', 'diannamburns', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Jennifer', 'Baier', 'squirrelsmomjb', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Barbara', 'McLain', 'julieandchris', 'for-mom'));
+	listUsers.push(new PinterestUserBoard('DNece', 'Thompson', 'dnecet', 'christmas-cheers'));
+	listUsers.push(new PinterestUserBoard('Natalie', 'Costa', 'costa5837', 'xmas'));
+	//savedRDJPageVisitor.listUsers = listUsers;
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+	window.addEventListener("load", loadPage);
+});
+
+function loadPage() {
+	buildStandardListUsers();
+	sortListUsers();
+	buildUserListSelect();
+}
+
+function buildUserListSelect(){
+	var select = document.getElementById("recipient");
+	var selIndex = 0;
+	//loop through array to build dropdown using DOM manipulation
+	for(var i = 0; i < listUsers.length; i++) {
+		//if(SELUSER_ID != '' && SELUSER_ID === listUsers[i].id){
+		//	selIndex = i + 1;
+		//}
+		var el = document.createElement("option");
+		el.textContent = listUsers[i].displayname();
+		el.value = i;
+		select.appendChild(el);
+	}
+	if(selIndex != ''){
+		select.selectedIndex = selIndex;
+	}
+}
+
+function sortListUsers(){
+	//sort users based on displayname
+	listUsers.sort(function(a, b) {
+		var textA = a.displayname().toUpperCase();
+		var textB = b.displayname().toUpperCase();
+		return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+	});
+}
+
+
+</script>
+</head>
+
+<body>
+  <!-- Navigation / nav-wrapper component -->
+  <header class="nav-wrapper -sticky">
+    <nav class="nav">
+      <button class="toggle-nav" type="button">
+        <div class="burger -squeeze" type="button">
+          <span class="burger-lines"></span>
+        </div>
+      </button>
+      <a class="logo-link" href="index.html">
+        	  <span class="fa-stack fa-lg">
+		  <i class="fas fa-circle fa-stack-2x"></i>
+		  <i class="fas fa-gifts fa-stack-1x fa-inverse"></i>
+	  </span>
+      </a>
+      <ul class="nav-list" role="navigation">
+        <div class="list -left">
+			<li class="item">
+            <a class="link" href="status.html">Status</a>
+          </li>
+          <li class="item">
+            <a class="link" href="recipient.html">Recipient</a>
+          </li>
+		   <li class="item">
+            <a class="link" href="recipient.html">Discover Ideas</a>
+          </li>
+          <li class="item">
+            <a class="link" href="favorites.html">Favorites</a>
+          </li>
+          <li class="item">
+            <a class="link" href="gift.html">Gift</a>
+          </li>
+        </div>
+        <div class="list -right">
+          <div class="overlay"></div>
+        </div>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+  
+
+
+    <section class="status_section">
+	<label for="giftyear">Gift Year:</label>
+	<input type="number" id="giftyear"/>
+	<label for="recipient">Recipient Dropdown:</label>
+	<select id="recipient" class="highlight-select">
+		<option value="0">- Choose a User-</option>
+	</select>
+	<label for="favesubjects">Subjects:</label>
+	<input type="text" id="favesubjects"/>
+	<label for="favecolors">Colors:</label>
+	<input type="text" id="favecolors"/>
+	<label for="shipped">Shipped Date:</label>
+	<input type="date" id="shipped"/>
+	<label for="tracking">Tracking Number:</label>
+	<input type="text" id="tracking"/>
+	
+	
+
+    <div id="countdown"></div>
+</div> 
+     <hr class="-major">
+	<p>Planned Gift</p>
+
+	
+      
+
+ 
+    </section>
+
+  </main>
+  
+  <footer class="footer">
+
+  </footer>
+
+
+
+  <script src="assets/js/simply-nav.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
