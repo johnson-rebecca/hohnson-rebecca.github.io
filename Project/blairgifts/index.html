@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blair Family Gift Exchange Helper</title>
+
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<style>
+#txtUserName {
+  border: 1px solid transparent;
+  transition: all .5s ease-out !important;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+}
+#txtUserName:focus { 
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+.error-vibrate {
+	-webkit-animation: error-vibrate 0.3s linear 6 both;
+	        animation: error-vibrate 0.3s linear 6 both;
+			  outline: none;
+		 border-color: red;
+		   box-shadow: 0 0 10px red;
+}
+
+.jello-horizontal {
+	-webkit-animation: jello-horizontal 0.9s both;
+	        animation: jello-horizontal 0.9s both;
+}
+
+/**
+ * ----------------------------------------
+ * animation error-vibrate
+ * ----------------------------------------
+ */
+@-webkit-keyframes error-vibrate {
+  0% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+@keyframes error-vibrate {
+  0% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+            transform: translate(-2px, 2px);
+  }
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+            transform: translate(-2px, -2px);
+  }
+  60% {
+    -webkit-transform: translate(2px, 2px);
+            transform: translate(2px, 2px);
+  }
+  80% {
+    -webkit-transform: translate(2px, -2px);
+            transform: translate(2px, -2px);
+  }
+  100% {
+    -webkit-transform: translate(0);
+            transform: translate(0);
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation jello-horizontal
+ * ----------------------------------------
+ */
+@-webkit-keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jello-horizontal {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+            transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+            transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+            transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+            transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+            transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+}
+
+.btn {
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 15px 50px;
+	display: inline-block;
+	margin: 15px 10px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn5 {
+	background: rgba(0,0,0,0.15);
+	color: rgba(255,255,255,0.85);
+	border-radius: 7px;
+	box-shadow: 0 5px rgba(0,0,0,0.35);
+	padding: 15px 20px 15px 20px;
+}
+
+.btn5:hover {
+	box-shadow: 0 5px rgba(0,0,0,0.35), 0 0 20px #839D56;
+}
+
+.btn-attention {
+	padding: 25px 20px 25px 20px !important;
+	color: rgba(98, 185, 102, .65) !important;
+}
+
+/* Button 5h */
+
+.btn5h span {
+	display: inline-block;
+	width: 100%;
+}
+
+.btn5h:before {
+	position: absolute;
+	left: 0;
+	width: 30%;
+	font-size: 140%;
+	line-height: 0.8;
+	color: rgba(0,0,0,0.35);
+}
+
+
+/* Success and error */
+
+.btnsuccess,
+.btnerror {
+	color: transparent;
+}
+
+.btnsuccess:after,
+.btnerror:after {
+	z-index: 1;
+	color: #fff !important;
+	left: 40%;
+}
+
+.btnsuccess:before {
+	content: "\f580";
+}
+
+.btnsuccess:after {
+	content: "Success!";
+	-webkit-animation: moveUp 0.5s;
+	-moz-animation: moveUp 0.5s;
+	animation: moveUp 0.5s;
+}
+
+@-webkit-keyframes moveUp {
+	0% {
+		-webkit-transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-webkit-transform: translateY(0);
+	}
+}
+
+@-moz-keyframes moveUp {
+	0% {
+		-moz-transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-moz-transform: translateY(0);
+	}
+}
+
+@keyframes moveUp {
+	0% {
+		transform: translateY(50%);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.btn:before,
+.icon-heart:after,
+.icon-star:after,
+.icon-file:before {
+	font-family: "Font Awesome 5 Free";
+	speak: none;
+	font-style: normal;
+	font-weight: 900;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+	padding-right: 5px;
+}
+
+.icon-open:before {
+	content: "\f07c";
+	font-weight:400;
+}
+.icon-new:before {
+	content: "\f0fe";
+	font-weight:400;
+}
+.icon-save:before {
+	content: "\f0c7";
+	font-weight:400;
+}
+.btnerror {
+	-webkit-animation: shake 0.5s;
+	-moz-animation: shake 0.5s;
+	animation: shake 0.5s;
+}
+
+/* From Dan Eden's animate.css: http://daneden.me/animate/ */
+@-webkit-keyframes shake {
+	0%, 100% {-webkit-transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {-webkit-transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {-webkit-transform: translateX(10px);}
+}
+
+@-moz-keyframes shake {
+	0%, 100% {-moz-transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {-moz-transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {-moz-transform: translateX(10px);}
+}
+
+@keyframes shake {
+	0%, 100% {transform: translateX(0);}
+	10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
+	20%, 40%, 60%, 80% {transform: translateX(10px);}
+}
+
+
+.btnerror:before {
+	content: "\f119";
+}
+
+.btnerror:after {
+	content: "Error!";
+	-webkit-animation: scaleFromUp 0.5s;
+	-moz-animation: scaleFromUp 0.5s;
+	animation: scaleFromUp 0.5s;
+}
+
+@-webkit-keyframes scaleFromUp {
+	0% {
+		-webkit-transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-webkit-transform: scale(1);
+	}
+}
+
+@-moz-keyframes scaleFromUp {
+	0% {
+		-moz-transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		-moz-transform: scale(1);
+	}
+}
+
+@keyframes scaleFromUp {
+	0% {
+		transform: scale(0);
+		opacity: 0;
+	}
+	100% { 
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+</style>
+<script>
+//https://holidayapi.com/v1/holidays?country=US&year=2018&key=8e12b200-a2e2-4363-b9b7-1445e6f0b243
+var calendarAPIKey = '8e12b200-a2e2-4363-b9b7-1445e6f0b243';
+//define profile object
+var currentProfile = new Profile('', -1, null, null);
+
+function Profile(username, users, assignedRecipient, jsonresults, savedFavorites, plannedGift, shippedDate) {
+	this.username = username;
+	this.users = users;
+	this.assignedRecipient = assignedRecipient;
+	this.jsonresults = jsonresults;
+	this.savedFavorites = savedFavorites;
+	this.plannedGift = plannedGift;
+	this.shippedDate = shippedDate;
+	//this.selectedUserListId = selectedUserListId;
+}
+document.addEventListener("DOMContentLoaded", function() {
+  // event listeners
+  document.getElementById("txtUserName").addEventListener("blur", checkUser, false);
+  document.getElementById("txtUserName").addEventListener("focus", resetButtons, false);
+  document.getElementById("btnLoad").addEventListener("click", loadProfile, false);
+  document.getElementById("btnNew").addEventListener("click", addProfile, false);
+});
+
+function resetButtons() {
+	document.getElementById("btnLoad").classList.remove('btn-attention');
+	document.getElementById("btnNew").classList.remove('btn-attention');
+}
+
+function checkUser(){
+	//first validate field and display error if not filled out
+	if(document.getElementById("txtUserName").value.length  == 0){
+		//add class to username
+		document.getElementById("txtUserName").classList.add('error-vibrate');
+		document.getElementById("txtUserName").placeholder = 'Username is required.';
+		setTimeout(function(){
+			document.getElementById("txtUserName").classList.remove('error-vibrate');
+			document.getElementById("txtUserName").placeholder = 'Enter Username';
+		}, 3000);
+	}
+	//if there are values, check for local storage
+	var username = document.getElementById("txtUserName").value;
+	if (username != '' && localStorage.getItem(name) === null) {
+		//draw attention to add account button
+		document.getElementById("btnNew").classList.add('jello-horizontal', 'btn-attention');
+		setTimeout(function(){
+			document.getElementById("btnNew").classList.remove('jello-horizontal');
+		}, 3000);
+	}
+	else {
+		//draw attention to load profile button
+		if(username != ''){
+			document.getElementById("btnLoad").classList.add('jello-horizontal', 'btn-attention');
+			setTimeout(function(){
+				document.getElementById("btnLoad").classList.remove('jello-horizontal');
+			}, 3000);
+		}
+	}
+}
+
+function loadProfile(){
+	//first check to make sure that the user exists in local storage
+	if (localStorage.getItem(name) === null) {
+		//set error class on button
+		document.getElementById("btnLoad").classList.add('btnerror');
+		setTimeout(function(){
+			document.getElementById("btnLoad").classList.remove('btnerror');
+		}, 2000);
+	}
+}
+function addProfile(){
+	//first check to make sure that the user exists in local storage
+	if (localStorage.getItem(name) === null) {
+		document.getElementById("btnNew").classList.add('btnsuccess');
+		setTimeout(function(){
+			document.getElementById("btnNew").classList.remove('btnsuccess');
+		}, 2000);
+	}
+	else{
+		//set error class on button
+		document.getElementById("btnNew").classList.add('btnsuccess');
+		setTimeout(function(){
+			document.getElementById("btnNew").classList.remove('btnsuccess');
+		}, 2000);
+	}
+}
+</script>
+</head>
+
+<body>
+  <!-- Navigation / nav-wrapper component -->
+  <header class="nav-wrapper -sticky">
+    <nav class="nav">
+      <button class="toggle-nav" type="button">
+        <div class="burger -squeeze" type="button">
+          <span class="burger-lines"></span>
+        </div>
+      </button>
+      <a class="logo-link" href="#">
+        	  <span class="fa-stack fa-lg">
+		  <i class="fas fa-circle fa-stack-2x"></i>
+		  <i class="fas fa-gifts fa-stack-1x fa-inverse"></i>
+	  </span>
+      </a>
+      <ul class="nav-list" role="navigation">
+        <div class="list -left">
+			<li class="item">
+            <a class="link" href="#how-to-use">Status</a>
+          </li>
+          <li class="item">
+            <a class="link" href="#">Recipient</a>
+          </li>
+          <li class="item">
+            <a class="link" href="#features">Favorites</a>
+          </li>
+          <li class="item">
+            <a class="link" href="#custom">Gift</a>
+          </li>
+        </div>
+        <div class="list -right">
+          <div class="overlay"></div>
+        </div>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+  
+
+
+    <section>
+	<p>[logo]</p>
+	
+		<label for="txtUserName">Username:</label>
+      <input type="text" id="txtUserName" class="formfield" placeholder="Enter Username" value=""/>
+	  <br/><br/>
+	  <button id="btnLoad" class="btn btn5 btn5h icon-open">Open Profile</button>
+	  <button id="btnNew" class="btn btn5 btn5h icon-new">New Profile</button>
+      
+      <hr class="-major">
+ 
+    </section>
+
+  </main>
+  
+  <footer class="footer">
+
+  </footer>
+
+
+
+  <script src="assets/js/simply-nav.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>
