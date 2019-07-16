@@ -11,6 +11,19 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <style>
+
+input {
+  border: 1px solid transparent;
+  transition: all .5s ease-out !important;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  -o-transition: all .5s ease-out;
+}
+input:focus { 
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
 .status_section{
 	text-align:left;
 }
@@ -203,31 +216,113 @@
   }
 }
 
+.scale-down {
+	-webkit-animation: scale-down 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-down 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.scale-up {
+	-webkit-animation: scale-up 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-up 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+#authenticated {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+
+#unauthenticated {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+			   height: 0;
+		   margin-top: 0;
+		margin-bottom: 0;
+}
+
+/**
+ * ----------------------------------------
+ * animation scale-down
+ * ----------------------------------------
+ */
+@-webkit-keyframes scale-down {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+			   height: 0;
+		   margin-top: 0;
+		margin-bottom: 0;
+  }
+}
+@keyframes scale-down {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+			   height: 0;
+		   margin-top: 0;
+		margin-bottom: 0;
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation scale-up
+ * ----------------------------------------
+ */
+@-webkit-keyframes scale-up {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes scale-up {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
 
 </style>
 <script>
 var listUsers = [];
 
 // define object to save Pinterest users for viewing boards
-function PinterestUserBoard(firstname, lastname, id, boardname)  {
+function PinterestUserBoard(firstname, lastname, id, boardname, interests, colors)  {
     this.firstname = firstname;
     this.lastname =  lastname;
 	this.id = id;
     this.boardname = boardname;
+	this.interests - interests;
+	this.colors = colors;
 	this.displayname = function() {return this.lastname + ", " + this.firstname;};
 }
 
 function buildStandardListUsers(){
 	//build standard list of Pinterest usernames
-	listUsers.push(new PinterestUserBoard('Cindy', 'Whiting', 'cindywhiting138', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Cindy', 'Whiting', 'cindywhiting138', 'christmas', 'Nativities, religious, carolers, nutcrackers', 'traditional colors'));
 	listUsers.push(new PinterestUserBoard('Catherine', 'Poole', 'koneechee', 'christmas-decor'));
 	listUsers.push(new PinterestUserBoard('Rebecca', 'Johnson', 'liralin', 'christmas-ideas'));
 	listUsers.push(new PinterestUserBoard('Sarah', 'Van Wagoner', 'sarahvanwagoner4', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Brittany', 'Morgan', 'brittnkatie', 'christmas-time-is-here'));
-	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas'));
-	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas'));
-	listUsers.push(new PinterestUserBoard('Emma', 'Whiting', 'emmanem101', 'christmas'));
-	listUsers.push(new PinterestUserBoard('Kelly', 'Cormell', 'kcrmll', 'christmas'));
+	listUsers.push(new PinterestUserBoard('Hannah', 'Davenport', 'pinned4life', 'christmas', 'Non-religious', ''));
+	listUsers.push(new PinterestUserBoard('Emily', 'Baier', 'musicebaier', 'christmas', '', ''));
+	listUsers.push(new PinterestUserBoard('Emma', 'Whiting', 'emmanem101', 'christmas', '', ''));
+	listUsers.push(new PinterestUserBoard('Kelly', 'Cormell', 'kcrmll', 'christmas', 'See Pinterest ideas', 'traditional'));
 	listUsers.push(new PinterestUserBoard('Dianna', 'Burns', 'diannamburns', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Jennifer', 'Baier', 'squirrelsmomjb', 'christmas'));
 	listUsers.push(new PinterestUserBoard('Barbara', 'McLain', 'julieandchris', 'for-mom'));
@@ -245,6 +340,7 @@ function loadPage() {
 	buildStandardListUsers();
 	sortListUsers();
 	buildUserListSelect();
+	checkLoggedIn();
 }
 
 function buildUserListSelect(){
@@ -274,7 +370,12 @@ function sortListUsers(){
 	});
 }
 
-
+function checkLoggedIn(){
+	if(localStorage.getItem('loggedUser') === null){
+		document.getElementById('authenticated').classList.add('scale-down');
+		document.getElementById('unauthenticated').classList.add('scale-up');
+	}
+}
 </script>
 </head>
 
@@ -323,32 +424,33 @@ function sortListUsers(){
 
 
     <section class="status_section">
-	<label for="giftyear">Gift Year:</label>
-	<input type="number" id="giftyear"/>
-	<label for="recipient">Recipient Dropdown:</label>
-	<select id="recipient" class="highlight-select">
-		<option value="0">- Choose a User-</option>
-	</select>
-	<label for="favesubjects">Subjects:</label>
-	<input type="text" id="favesubjects"/>
-	<label for="favecolors">Colors:</label>
-	<input type="text" id="favecolors"/>
-	<label for="shipped">Shipped Date:</label>
-	<input type="date" id="shipped"/>
-	<label for="tracking">Tracking Number:</label>
-	<input type="text" id="tracking"/>
 	
-	
+		<div id="unauthenticated">
+			Login or create an account to access this page.<br/>
+			Thank you.
+			<a href="index.html"> - Return to login -</a>
+		</div>
+		<div id="authenticated">
+			<label for="giftyear">Gift Year:</label>
+			<input type="number" id="giftyear"/>
+			<label for="recipient">Recipient Dropdown:</label>
+			<select id="recipient" class="highlight-select">
+				<option value="0">- Choose a User-</option>
+			</select>
+			<label for="favesubjects">Subjects:</label>
+			<input type="text" id="favesubjects"/>
+			<label for="favecolors">Colors:</label>
+			<input type="text" id="favecolors"/>
+			<label for="shipped">Shipped Date:</label>
+			<input type="date" id="shipped"/>
+			<label for="tracking">Tracking Number:</label>
+			<input type="text" id="tracking"/>
+			
+			
+			 <hr class="-major">
 
-    <div id="countdown"></div>
-</div> 
-     <hr class="-major">
-	<p>Planned Gift</p>
-
-	
-      
-
- 
+		</div>
+	       
     </section>
 
   </main>

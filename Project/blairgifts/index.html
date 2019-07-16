@@ -381,20 +381,19 @@
 
 </style>
 <script>
-//https://holidayapi.com/v1/holidays?country=US&year=2018&key=8e12b200-a2e2-4363-b9b7-1445e6f0b243
-var calendarAPIKey = '8e12b200-a2e2-4363-b9b7-1445e6f0b243';
 //define profile object
-var currentProfile = new Profile('', -1, null, null);
+var currentProfile = new Profile('', null, null, null, null, null, null, null);
 
-function Profile(username, users, assignedRecipient, jsonresults, savedFavorites, plannedGift, shippedDate) {
+function Profile(username, giftYear, assignedRecipient, jsonresults, savedFavorites, lastSearchedUser, plannedGift, shippedDate, trackingnbr) {
 	this.username = username;
-	this.users = users;
+	this.giftYear = giftYear;
 	this.assignedRecipient = assignedRecipient;
 	this.jsonresults = jsonresults;
 	this.savedFavorites = savedFavorites;
+	this.lastSearchedUser = lastSearchedUser;
 	this.plannedGift = plannedGift;
 	this.shippedDate = shippedDate;
-	//this.selectedUserListId = selectedUserListId;
+	this.trackingnbr = trackingnbr;
 }
 document.addEventListener("DOMContentLoaded", function() {
   // event listeners
@@ -451,12 +450,22 @@ function loadProfile(){
 	}
 }
 function addProfile(){
+	var username = document.getElementById("txtUserName").value;
 	//first check to make sure that the user exists in local storage
-	if (localStorage.getItem(name) === null) {
+	if (localStorage.getItem(username) === null) {
 		document.getElementById("btnNew").classList.add('btnsuccess');
 		setTimeout(function(){
 			document.getElementById("btnNew").classList.remove('btnsuccess');
 		}, 2000);
+		//add record
+		currentProfile.username = username;
+		console.log(username);
+		var currentDate = new Date();
+		var currentYear = currentDate.getFullYear();
+		currentProfile.giftYear = currentYear; //default to current year
+		localStorage.setItem(username, JSON.stringify(currentProfile));
+		localStorage.setItem('loggedUser', username);
+		document.getElementById("btnNew").classList.remove('btn-attention');
 	}
 	else{
 		//set error class on button
