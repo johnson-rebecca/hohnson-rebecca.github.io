@@ -305,10 +305,6 @@
 	content: "\f0fe";
 	font-weight:400;
 }
-.icon-save:before {
-	content: "\f0c7";
-	font-weight:400;
-}
 .btnerror {
 	-webkit-animation: shake 0.5s;
 	-moz-animation: shake 0.5s;
@@ -333,7 +329,6 @@
 	10%, 30%, 50%, 70%, 90% {transform: translateX(-10px);}
 	20%, 40%, 60%, 80% {transform: translateX(10px);}
 }
-
 
 .btnerror:before {
 	content: "\f119";
@@ -385,6 +380,7 @@
 .welcome {
 	font-size: .8rem;
 	display:inline-block;
+	text-align:center;
 }
 
 #welcomeUser {
@@ -396,11 +392,85 @@
 	display: none;
 }
 
+/**
+ * ----------------------------------------
+ * animation tracking-in-expand
+ * ----------------------------------------
+ */
+@-webkit-keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/**
+ * ----------------------------------------
+ * animation tracking-out-contract
+ * ----------------------------------------
+ */
+@-webkit-keyframes tracking-out-contract {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+}
+@keyframes tracking-out-contract {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+}
+
+
+.tracking-in-expand {
+	-webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+	        animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+.tracking-out-contract {
+	-webkit-animation: tracking-out-contract 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: tracking-out-contract 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+.errormsg {
+	font-size:.75rem;
+	font-weight:bold;
+	color: #891F30;
+}
+
 </style>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-	checkLoggedIn();
-});
 //define profile object
 var currentProfile = new Profile('', null, null, null, null, null, null, null);
 
@@ -416,16 +486,21 @@ function Profile(username, giftYear, assignedRecipient, jsonresults, savedFavori
 	this.trackingnbr = trackingnbr;
 }
 document.addEventListener("DOMContentLoaded", function() {
+	checkLoggedIn();
   // event listeners
   document.getElementById("txtUserName").addEventListener("blur", checkUser, false);
   document.getElementById("txtUserName").addEventListener("focus", resetButtons, false);
   document.getElementById("btnLoad").addEventListener("click", loadProfile, false);
   document.getElementById("btnNew").addEventListener("click", addProfile, false);
+   document.getElementById("lnkLogout").addEventListener("click", logOut, false);
 });
 
 function resetButtons() {
 	document.getElementById("btnLoad").classList.remove('btn-attention');
 	document.getElementById("btnNew").classList.remove('btn-attention');
+	document.getElementById('usernameErrorMsg').classList.remove('tracking-in-expand');
+	document.getElementById('usernameErrorMsg').classList.add('tracking-out-contract');		
+	
 }
 
 function checkUser(){
@@ -441,7 +516,7 @@ function checkUser(){
 	}
 	//if there are values, check for local storage
 	var username = document.getElementById("txtUserName").value;
-	if (username != '' && localStorage.getItem(name) === null) {
+	if (username != '' && localStorage.getItem(username) === null) {
 		//draw attention to add account button
 		document.getElementById("btnNew").classList.add('jello-horizontal', 'btn-attention');
 		setTimeout(function(){
@@ -461,7 +536,7 @@ function checkUser(){
 
 function checkLoggedIn(){
 	var username = localStorage.getItem("loggedUser");
-	console.log(username);
+	//console.log(username);
 	if(!(username === null)){
 		document.getElementById("welcomeUser").innerHTML = username;
 		document.getElementById("welcomeDiv").classList.remove('hide');
@@ -471,18 +546,40 @@ function checkLoggedIn(){
 
 function loadProfile(){
 	//first check to make sure that the user exists in local storage
-	if (localStorage.getItem(name) === null) {
+	var username = document.getElementById('txtUserName').value;
+	if (localStorage.getItem(username) === null) {
 		//set error class on button
 		document.getElementById("btnLoad").classList.add('btnerror');
 		setTimeout(function(){
 			document.getElementById("btnLoad").classList.remove('btnerror');
 		}, 2000);
 	}
+	else {
+		//
+		//console.log(username);
+		if(!(localStorage.getItem(username) === null)){
+			localStorage.setItem("loggedUser", username);
+			document.getElementById("welcomeUser").innerHTML = username;
+			document.getElementById("welcomeDiv").classList.remove('hide');
+			//set success class on button
+			document.getElementById("btnLoad").classList.add('btnsuccess');
+			setTimeout(function(){
+				document.getElementById("btnLoad").classList.remove('btnsuccess');
+			}, 2000);
+			//now navigate user to status page
+			setTimeout(function(){
+				console.log('test');
+				window.location.href = "status.html";
+			}, 2500);
+			
+		}	
+	}
 }
 function addProfile(){
 	var username = document.getElementById("txtUserName").value;
 	//first check to make sure that the user exists in local storage
-	if (localStorage.getItem(username) === null) {
+	if (username != '' && localStorage.getItem(username) === null) {
+	//then add
 		document.getElementById("btnNew").classList.add('btnsuccess');
 		setTimeout(function(){
 			document.getElementById("btnNew").classList.remove('btnsuccess');
@@ -498,12 +595,30 @@ function addProfile(){
 		document.getElementById("btnNew").classList.remove('btn-attention');
 	}
 	else{
+		//add prevented
+		//display error msg
+		document.getElementById('usernameErrorMsg').innerHTML = "User already exists.";
+		document.getElementById('usernameErrorMsg').classList.remove('tracking-out-contract');		
+		document.getElementById('usernameErrorMsg').classList.add('tracking-in-expand');
 		//set error class on button
-		document.getElementById("btnNew").classList.add('btnsuccess');
+		document.getElementById("btnNew").classList.add('btnerror');
 		setTimeout(function(){
-			document.getElementById("btnNew").classList.remove('btnsuccess');
+			document.getElementById("btnNew").classList.remove('btnerror');
 		}, 2000);
+		//draw attention to load profile button
+		if(username != ''){
+			document.getElementById("btnLoad").classList.add('jello-horizontal', 'btn-attention');
+			setTimeout(function(){
+				document.getElementById("btnLoad").classList.remove('jello-horizontal');
+			}, 3000);
+		}
 	}
+}
+
+function logOut(){
+	localStorage.removeItem("loggedUser");
+	document.getElementById("welcomeUser").innerHTML = '';
+	document.getElementById("welcomeDiv").classList.add('hide');
 }
 </script>
 </head>
@@ -519,7 +634,8 @@ function addProfile(){
       </button>
 	  <div id="welcomeDiv" class="welcome hide">
 		Welcome: <div id="welcomeUser">[]</div>
-		<a  class="lnkLogout" href="#">Log Out</a>
+		<br/>
+		<a id="lnkLogout" class="lnkLogout" href="#">Log Out</a>
 	  </div>	  
       <a class="logo-link" href="#">
         	  <span class="fa-stack fa-lg">
@@ -565,6 +681,7 @@ function addProfile(){
 	
 		<label for="txtUserName">Username:</label>
       <input type="text" id="txtUserName" class="formfield" placeholder="Enter Username" value=""/>
+	  <div id="usernameErrorMsg" class="errormsg"></div>
 	  <br/><br/>
 	  <button id="btnLoad" class="btn btn5 btn5h icon-open">Open Profile</button>
 	  <button id="btnNew" class="btn btn5 btn5h icon-new">New Profile</button>
