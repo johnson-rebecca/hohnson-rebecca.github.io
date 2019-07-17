@@ -545,6 +545,7 @@ function checkLoggedIn(){
 }
 
 function loadProfile(){
+	document.getElementById("btnLoad").classList.remove('btn-attention');
 	//first check to make sure that the user exists in local storage
 	var username = document.getElementById('txtUserName').value;
 	if (localStorage.getItem(username) === null) {
