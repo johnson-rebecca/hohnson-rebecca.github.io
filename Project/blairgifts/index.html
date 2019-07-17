@@ -379,8 +379,28 @@
 	}
 }
 
+.lnkLogout {
+	font-size: .75rem;
+}
+.welcome {
+	font-size: .8rem;
+	display:inline-block;
+}
+
+#welcomeUser {
+	font-weight: bold;
+	display:inline;
+}
+
+.hide {
+	display: none;
+}
+
 </style>
 <script>
+document.addEventListener("DOMContentLoaded", function() {
+	checkLoggedIn();
+});
 //define profile object
 var currentProfile = new Profile('', null, null, null, null, null, null, null);
 
@@ -439,6 +459,16 @@ function checkUser(){
 	}
 }
 
+function checkLoggedIn(){
+	var username = localStorage.getItem("loggedUser");
+	console.log(username);
+	if(!(username === null)){
+		document.getElementById("welcomeUser").innerHTML = username;
+		document.getElementById("welcomeDiv").classList.remove('hide');
+	}	
+
+}
+
 function loadProfile(){
 	//first check to make sure that the user exists in local storage
 	if (localStorage.getItem(name) === null) {
@@ -487,12 +517,20 @@ function addProfile(){
           <span class="burger-lines"></span>
         </div>
       </button>
+	  <div id="welcomeDiv" class="welcome hide">
+		Welcome: <div id="welcomeUser">[]</div>
+		<a  class="lnkLogout" href="#">Log Out</a>
+	  </div>	  
       <a class="logo-link" href="#">
         	  <span class="fa-stack fa-lg">
 		  <i class="fas fa-circle fa-stack-2x"></i>
 		  <i class="fas fa-gifts fa-stack-1x fa-inverse"></i>
 	  </span>
       </a>
+	  
+	  
+	  </div>
+
       <ul class="nav-list" role="navigation">
         <div class="list -left">
 			<li class="item">
