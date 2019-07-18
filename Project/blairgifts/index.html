@@ -541,7 +541,6 @@ function checkLoggedIn(){
 		document.getElementById("welcomeUser").innerHTML = username;
 		document.getElementById("welcomeDiv").classList.remove('hide');
 	}	
-
 }
 
 function loadProfile(){
@@ -569,7 +568,7 @@ function loadProfile(){
 			}, 2000);
 			//now navigate user to status page
 			setTimeout(function(){
-				console.log('test');
+				//console.log('test');
 				window.location.href = "status.html";
 			}, 2500);
 			
@@ -594,6 +593,7 @@ function addProfile(){
 		localStorage.setItem(username, JSON.stringify(currentProfile));
 		localStorage.setItem('loggedUser', username);
 		document.getElementById("btnNew").classList.remove('btn-attention');
+		window.location.href = "recipient.html";
 	}
 	else{
 		//add prevented

@@ -297,6 +297,20 @@ input:focus {
   }
 }
 
+.lnkLogout {
+	font-size: .75rem;
+}
+.welcome {
+	font-size: .8rem;
+	display:inline-block;
+	text-align:center;
+}
+
+#welcomeUser {
+	font-weight: bold;
+	display:inline;
+}
+
 </style>
 <script>
 var listUsers = [];
@@ -341,6 +355,7 @@ function loadPage() {
 	sortListUsers();
 	buildUserListSelect();
 	checkLoggedIn();
+	loadForm();
 }
 
 function buildUserListSelect(){
@@ -371,10 +386,31 @@ function sortListUsers(){
 }
 
 function checkLoggedIn(){
-	if(localStorage.getItem('loggedUser') === null){
+	var username = localStorage.getItem("loggedUser");
+	if(username === null){
 		document.getElementById('authenticated').classList.add('scale-down');
 		document.getElementById('unauthenticated').classList.add('scale-up');
 	}
+	if(!(username === null)){
+		document.getElementById("welcomeUser").innerHTML = username;
+		document.getElementById("welcomeDiv").classList.remove('hide');
+	}	
+}
+
+function logOut(){
+	localStorage.removeItem("loggedUser");
+	document.getElementById("welcomeUser").innerHTML = '';
+	document.getElementById("welcomeDiv").classList.add('hide');
+	window.location.href = "index.html";
+}
+
+function loadForm(){
+	var username = localStorage.getItem("loggedUser");
+	var user = JSON.parse(localStorage.getItem(username));
+	console.log(user);
+	//document.getElementById('giftYear').innerHTML = user.username;
+	document.getElementById('giftYear').value = user.giftYear;
+	document.getElementById('shipped').value = user.shippedDate;
 }
 </script>
 </head>
@@ -388,6 +424,11 @@ function checkLoggedIn(){
           <span class="burger-lines"></span>
         </div>
       </button>
+	  <div id="welcomeDiv" class="welcome hide">
+		Welcome: <div id="welcomeUser">[]</div>
+		<br/>
+		<a id="lnkLogout" class="lnkLogout" href="#">Log Out</a>
+	  </div>
       <a class="logo-link" href="index.html">
         	  <span class="fa-stack fa-lg">
 		  <i class="fas fa-circle fa-stack-2x"></i>
@@ -400,7 +441,7 @@ function checkLoggedIn(){
             <a class="link" href="status.html">Status</a>
           </li>
           <li class="item">
-            <a class="link" href="recipient.html">Recipient</a>
+            <a class="link -active" href="recipient.html">Recipient</a>
           </li>
 		   <li class="item">
             <a class="link" href="recipient.html">Discover Ideas</a>
@@ -432,7 +473,7 @@ function checkLoggedIn(){
 		</div>
 		<div id="authenticated">
 			<label for="giftyear">Gift Year:</label>
-			<input type="number" id="giftyear"/>
+			<input type="number" id="giftYear" min="1900" max="2100"/>
 			<label for="recipient">Recipient Dropdown:</label>
 			<select id="recipient" class="highlight-select">
 				<option value="0">- Choose a User-</option>

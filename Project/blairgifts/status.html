@@ -284,6 +284,25 @@
   }
 }
 
+.lnkLogout {
+	font-size: .75rem;
+}
+.welcome {
+	font-size: .8rem;
+	display:inline-block;
+	text-align:center;
+}
+
+#welcomeUser {
+	font-weight: bold;
+	display:inline;
+}
+
+.profileVal {
+	font-weight:bold;
+	text-decoration: underline;
+}
+
 
 
 
@@ -294,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	getRemaining('12/25/' + currentYear, 'countdown', timer);
 	getRemainingShip('11/20/' + currentYear, 'daystilShipDue', timer);
 	checkLoggedIn();
+	loadStatus();
 });
 
 const currentYear = new Date().getFullYear()
@@ -340,10 +360,30 @@ const timer = () => {
 }
 
 function checkLoggedIn(){
-	if(localStorage.getItem('loggedUser') === null){
+	var username = localStorage.getItem("loggedUser");
+	if(username === null){
 		document.getElementById('authenticated').classList.add('scale-down');
 		document.getElementById('unauthenticated').classList.add('scale-up');
 	}
+	if(!(username === null)){
+		document.getElementById("welcomeUser").innerHTML = username;
+		document.getElementById("welcomeDiv").classList.remove('hide');
+	}	
+}
+
+function logOut(){
+	localStorage.removeItem("loggedUser");
+	document.getElementById("welcomeUser").innerHTML = '';
+	document.getElementById("welcomeDiv").classList.add('hide');
+	window.location.href = "index.html";
+}
+
+function loadStatus(){
+	var username = localStorage.getItem("loggedUser");
+	var user = JSON.parse(localStorage.getItem(username));
+	//console.log(user);
+	document.getElementById('displayUsername').innerHTML = user.username;
+	document.getElementById('displayGiftYear').innerHTML = user.giftYear;
 }
 
 
@@ -359,6 +399,11 @@ function checkLoggedIn(){
           <span class="burger-lines"></span>
         </div>
       </button>
+	  <div id="welcomeDiv" class="welcome hide">
+		Welcome: <div id="welcomeUser">[]</div>
+		<br/>
+		<a id="lnkLogout" class="lnkLogout" href="#">Log Out</a>
+	  </div>
       <a class="logo-link" href="index.html">
         	  <span class="fa-stack fa-lg">
 		  <i class="fas fa-circle fa-stack-2x"></i>
@@ -368,7 +413,7 @@ function checkLoggedIn(){
       <ul class="nav-list" role="navigation">
         <div class="list -left">
 			<li class="item">
-            <a class="link" href="status.html">Status</a>
+            <a class="link -active" href="status.html">Status</a>
           </li>
           <li class="item">
             <a class="link" href="recipient.html">Recipient</a>
@@ -404,9 +449,9 @@ function checkLoggedIn(){
 	
 	<div id="authenticated">
 	
-		<p>Welcome: [username]</p>
-		<p>Gift Year: [Year]</p>
-		<p>Assigned Recipient: [Recipient]</p>
+		<p>Welcome: <span id="displayUsername" class="profileVal">[username]</span></p>
+		<p>Gift Year: <span id="displayGiftYear" class="profileVal">[Year]</span></p>
+		<p>Assigned Recipient: <span id="displayRecipient" class="profileVal">[Recipient]</span></p>
 		<p class="inlineblock"># days til shipping due: <div class="package"><div id="daystilShipDue">00</div></div></p>
 		
 		<div id="xmas_countdown">
