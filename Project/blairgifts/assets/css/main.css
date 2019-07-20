@@ -116,9 +116,9 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: auto; }
 
 h1 {
-  font-size: 1.75rem;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  margin-top: .6rem;
+  margin-bottom: 1rem;
   color: #f7f7f7; }
 
 h2 {
@@ -871,4 +871,10 @@ main {
 	max-height:500px;
 	text-align: center;
 	padding:10px;
+}
+.hollyLeft {
+  transform: rotate(30deg);
+}
+.hollyRight {
+  transform: rotate(-30deg);
 }
