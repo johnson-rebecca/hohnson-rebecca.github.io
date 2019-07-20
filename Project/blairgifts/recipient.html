@@ -578,7 +578,7 @@ function loadForm(){
 	var username = localStorage.getItem("loggedUser");
 	var user = JSON.parse(localStorage.getItem(username));
 	document.getElementById('giftYear').value = user.giftYear;
-	document.getElementById('shipped').value = user.shippedDate;
+	//document.getElementById('shipped').value = user.shippedDate;
 	currentProfile = user;
 }
 
@@ -682,10 +682,6 @@ else {
 			<div id="divColors" class="hiddenDiv">
 				[Info loaded after selection made]
 			</div>
-			<label for="shipped">Shipped Date:</label>
-			<input type="date" id="shipped"/>
-			<label for="tracking">Tracking Number:</label>
-			<input type="text" id="tracking"/>
 			<br/>
 			<button id="btnSave" class="btn btn5 btn5h icon-save">Save Profile</button>
 			

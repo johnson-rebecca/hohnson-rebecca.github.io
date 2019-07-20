@@ -309,17 +309,20 @@
 </style>
 <script>
 var listUsers = [];
+const currentYear = new Date().getFullYear();
+var statusYear;
+
 document.addEventListener("DOMContentLoaded", function() {
 	document.getElementById("lnkLogout").addEventListener("click", logOut, false);
-	getRemaining('12/25/' + currentYear, 'countdown', timer);
-	getRemainingShip('11/20/' + currentYear, 'daystilShipDue', timer);
 	checkLoggedIn();
 	buildStandardListUsers();
 	sortListUsers();
 	loadStatus();
-});
+	getRemaining('12/25/' + statusYear, 'countdown', timer);
+	getRemainingShip('11/20/' + statusYear, 'daystilShipDue', timer);
 
-const currentYear = new Date().getFullYear()
+
+});
 
 const getRemaining = (dt, id, timer) => {
     const end = new Date(dt)
@@ -384,7 +387,6 @@ function logOut(){
 function loadStatus(){
 	var username = localStorage.getItem("loggedUser");
 	var user = JSON.parse(localStorage.getItem(username));
-	//console.log(user);
 	document.getElementById('displayUsername').innerHTML = user.username;
 	document.getElementById('displayGiftYear').innerHTML = user.giftYear;
 	var selRecipient  = user.assignedRecipient;
@@ -396,6 +398,7 @@ function loadStatus(){
 		var div = document.getElementById('displayPins');
 		div.innerHTML = displayGiftPin(giftPin);
 	}
+	statusYear = (user.giftYear != '') ? parseInt(user.giftYear) : currentYear;
 }
 
 
