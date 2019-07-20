@@ -5,11 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Recipient - Blair Family Gift Exchange Helper</title>
+  <title>Discover Ideas - Blair Family Gift Exchange Helper</title>
 
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles11_12.css">
 <style>
 .status_section{
 	text-align:left;
@@ -440,10 +441,16 @@
 	}
 }
 
+
 </style>
 <script>
 var listUsers = [];
 var currentProfile;
+var CURRENT_JSON_RESULTS;
+var savedIdeas = [];
+
+HTMLCollection.prototype.forEach = Array.prototype.forEach;
+NodeList.prototype.forEach = Array.prototype.forEach;
 
 function Profile(username, giftYear, assignedRecipient, jsonresults, savedFavorites, lastSearchedUser, plannedGift, shippedDate, trackingnbr) {
 	this.username = username;
@@ -461,9 +468,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("load", loadPage);
 	document.getElementById("lnkLogout").addEventListener("click", logOut, false);
 	document.getElementById("recipient").addEventListener("change", loadRecipientDetails, false);
-	document.getElementById("giftYear").addEventListener("change", updateGiftYear, false);
-	document.getElementById("giftYear").addEventListener("blur", validateGiftYear, false);
-	document.getElementById("btnSave").addEventListener("click", updateProfile, false);
 });
 
 function loadPage() {
@@ -473,53 +477,12 @@ function loadPage() {
 	loadForm();
 	buildUserListSelect();
 	loadRecipientDetails();
+	LoadJSON();
 }
 
 function validate(str, min, max) {
   n = parseFloat(str);
   return (!isNaN(n) && n >= min && n <= max);
-}
-
-function validateGiftYear(){
-	var year = document.getElementById('giftYear').value;
-	//first validate field and display error if not filled out
-	if(!validate(year, 1970, 2100)) {
-		//add class to username
-		document.getElementById("giftYear").classList.add('error-vibrate');
-		document.getElementById("giftYear").placeholder = 'Gift Year required (1970 - 2100).';
-		setTimeout(function(){
-			document.getElementById("giftYear").classList.remove('error-vibrate');
-			document.getElementById("giftYear").placeholder = 'Enter Gift Year';
-		}, 3000);
-    return false;
-  }
-  else {
-	updateGiftYear();
-	return true;
-  }
-}
-
-function validateRecipient(){
-	var lst = document.getElementById('recipient');
-	var selRecipient = lst.options[lst.selectedIndex].value;
-	if(selRecipient == '' || selRecipient == '0') {
-		//add class to recipient
-		console.log(selRecipient);
-		document.getElementById("recipient").classList.add('error-vibrate');
-		//document.getElementById("giftYear").placeholder = 'Gift Year required (1970 - 2100).';
-		setTimeout(function(){
-			document.getElementById("recipient").classList.remove('error-vibrate');
-			//document.getElementById("giftYear").placeholder = 'Enter Gift Year';
-		}, 3000);
-		return false;
-	}
-	else {
-		return true;
-	}
-}
-
-function updateGiftYear(){
-	currentProfile.giftYear = document.getElementById('giftYear').value;
 }
 
 function buildUserListSelect(){
@@ -544,15 +507,10 @@ function loadRecipientDetails() {
 	var lst = document.getElementById('recipient');
 	var selRecipient = lst.options[lst.selectedIndex].value;
 	if (selRecipient != '0') {
-		currentProfile.assignedRecipient = selRecipient;
+		currentProfile.lastSearchedUser = selRecipient;
 		var lstIdx = findWithAttr(listUsers, 'id', selRecipient);
-		var interests = ((listUsers[lstIdx].interests != '')? listUsers[lstIdx].interests : 'no info provided');
-		var colors = ((listUsers[lstIdx].colors != '')? listUsers[lstIdx].colors : 'no info provided');	
-		document.getElementById('divSubjects').innerHTML = interests;
-		document.getElementById('divSubjects').classList.add('revealDiv');
-		document.getElementById('divColors').innerHTML = colors;
-		document.getElementById('divColors').classList.add('revealDiv');
 	}
+	//LoadJSON();
 }
 
 function checkLoggedIn(){
@@ -577,32 +535,159 @@ function logOut(){
 function loadForm(){
 	var username = localStorage.getItem("loggedUser");
 	var user = JSON.parse(localStorage.getItem(username));
-	document.getElementById('giftYear').value = user.giftYear;
-	document.getElementById('shipped').value = user.shippedDate;
 	currentProfile = user;
+	savedIdeas = currentProfile.savedFavorites;
 }
 
 function updateProfile(){
-var validYear = validateGiftYear() ;
-var validSel = validateRecipient();
-//validate form first -- only update if valid
-//validate Date//validate recipient
-if(!(validYear && validSel)) {
-	//set error class on button
-		document.getElementById("btnSave").classList.add('btnerror');
-		setTimeout(function(){
-			document.getElementById("btnSave").classList.remove('btnerror');
-		}, 2000);
+	var username = localStorage.getItem("loggedUser");
+	localStorage.setItem(username, JSON.stringify(currentProfile));
 }
-else {
-		currentProfile.giftYear = document.getElementById('giftYear').value;
-		var username = currentProfile.username;
-		localStorage.setItem(username, JSON.stringify(currentProfile));
-		document.getElementById('btnSave').classList.add('btnsuccess');
-		setTimeout(function(){
-			document.getElementById("btnSave").classList.remove('btnsuccess');
-		}, 2000);
+
+function LoadJSON(){
+// this requests the file and executes a callback with the parsed result once
+//   it is available
+//	get selected user
+	var e = document.getElementById("recipient");
+	var selectedUser = e.options[e.selectedIndex].value;
+	//console.log(selectedUser);
+	//var user = listUsers[selIndex].id;
+	var lstIdx = findWithAttr(listUsers, 'id', selectedUser);
+	var board = listUsers[lstIdx].boardname;
+	var div = document.getElementById('displayPins');
+	
+	currentProfile.lastSearchedUser = selectedUser;
+	updateProfile();
+	
+	getJSONFile('https://api.pinterest.com/v3/pidgets/boards/' + selectedUser  + '/' + board + '/pins/', function(json){
+		div.innerHTML = displayPins(json.data.pins);
+		CURRENT_JSON_RESULTS = json;
+		currentProfile.jsonresults = json;
+		//console.log (json);
+
+	});
+}
+
+function getJSONFile(path, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                if (callback) callback(data);
+            }
+        }
+    };
+    xhr.open('GET', path, true);
+    xhr.send(); 
+}
+
+function getJSONFileForValidation(path, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            //if (xhr.status === 200) {
+                var status = xhr.status;
+                if (callback) callback(status);
+            //}
+        }
+    };
+    xhr.open('GET', path, true);
+    xhr.send(); 
+}
+
+function activateButton(btn, pinId) {
+	var self = btn,
+		activatedClass = 'btnactivated',
+		selectedClass = 'heartSelected';
+		
+	if(btn.classList.contains('icon-gift')){
+		//remove giftSelected class from all others first
+		var giftsSet = document.getElementsByClassName('giftSelected');
+		for(var i = 0; i < giftsSet.length; i += 1) {
+			giftsSet[i].classList.remove('giftSelected');
+        }
+		selectedClass = 'giftSelected';
 	}
+	
+	//set class and timeout
+	if(!btn.classList.contains(activatedClass)) {
+		btn.classList.add(activatedClass);
+		setTimeout( function() {
+			self.classList.remove(activatedClass);
+			self.classList.add(selectedClass);
+		}, 1000 );
+	}
+	
+	//update profile
+	if(btn.classList.contains('icon-heart')){
+		var pin = CURRENT_JSON_RESULTS.data.pins[pinId];
+		var pinId = pin.id;
+
+		if(!isPinExists(pinId)){
+			savedIdeas.push(pin);
+		}
+	
+		currentProfile.savedFavorites = savedIdeas;
+		updateProfile();
+	}
+	else { // save planned gift -- will overwrite an existing choice and remove set class from others
+		currentProfile.plannedGift = CURRENT_JSON_RESULTS.data.pins[pinId];
+		updateProfile();
+	
+	}
+	
+}
+
+//build up pin result display
+function displayPins(data){
+	var html = "";
+	for(var i = 0; i < data.length; i++) {
+		var obj = data[i];
+		var imgObj = obj.images;
+		html += "<div class='pincontainer insetshadow'>";
+		html += "<div style='padding:2px;'>";
+		if(isPinExists(obj.id)){
+			html += "<button id='btnLike_" + i + "' class='btn btn5 btn5e btnicon-only icon-heart inline heartSelected' onclick='activateButton(this, " + i + ");'>Like</button>";
+		}
+		else {
+			html += "<button id='btnLike_" + i + "' class='btn btn5 btn5e btnicon-only icon-heart inline' onclick='activateButton(this, " + i + ");'>Like</button>";
+		}
+		if(isGiftPinExists(obj.id)){
+			html += "<button id='btnGift_" + i + "' class='btn btn5 btn5g btnicon-only icon-gift inline giftSelected' onclick='activateButton(this, " + i + ");'>Gift</button>";
+		}
+		else {
+			html += "<button id='btnGift_" + i + "' class='btn btn5 btn5g btnicon-only icon-gift inline' onclick='activateButton(this, " + i + ");'>Gift</button>";
+		}
+		html += "</div>";
+		if(obj.link){
+			html += "<a target='_blank' href='" + obj.link + "'/>";
+		}
+		html += "<img class='imgpin' src='" + obj.images["237x"].url +"'/>";
+		if(obj.link){
+		html +=  "</a>";
+		}
+		html += "<br/>" + obj.description;
+		html += "</div>";
+
+	}
+	return html;
+}
+
+function isPinExists(value){
+	for(var i = 0; i < savedIdeas.length; i += 1) {
+        if(savedIdeas[i].id === value) {
+            return true;
+        }
+    }
+	return false;
+}
+
+function isGiftPinExists(value){
+	if(currentProfile.plannedGift.id === value) {
+		return true;
+	}
+	return false;
 }
 </script>
 </head>
@@ -633,10 +718,10 @@ else {
             <a class="link" href="status.html">Status</a>
           </li>
           <li class="item">
-            <a class="link -active" href="recipient.html">Recipient</a>
+            <a class="link" href="recipient.html">Recipient</a>
           </li>
 		   <li class="item">
-            <a class="link" href="discover.html">Discover Ideas</a>
+            <a class="link -active" href="discover.html">Discover Ideas</a>
           </li>
           <li class="item">
             <a class="link" href="favorites.html">Favorites</a>
@@ -664,26 +749,12 @@ else {
 			<a href="index.html"> - Return to login -</a>
 		</div>
 		<div id="authenticated">
-			<label for="giftyear">Gift Year (1970 - 2100):</label>
-			<input type="number" id="giftYear" min="1970" max="2100" placeholder="Enter Year"/>
-			<label for="recipient">Recipient Dropdown:</label>
-			<select id="recipient" class="highlight-select">
+			<label for="recipient" class="inline">Search pinned ideas:</label>
+			<select id="recipient" class="highlight-select inline">
 				<option value="0">- Choose a User-</option>
 			</select>
-			<label for="favesubjects">Subjects:</label>
-			<div id="divSubjects" class="hiddenDiv">
-				[Info loaded after selection made]
+			<div id="displayPins"/>
 			</div>
-			<label for="favecolors">Colors:</label>
-			<div id="divColors" class="hiddenDiv">
-				[Info loaded after selection made]
-			</div>
-			<label for="shipped">Shipped Date:</label>
-			<input type="date" id="shipped"/>
-			<label for="tracking">Tracking Number:</label>
-			<input type="text" id="tracking"/>
-			<br/>
-			<button id="btnSave" class="btn btn5 btn5h icon-save">Save Profile</button>
 			
 			 <hr class="-major">
 

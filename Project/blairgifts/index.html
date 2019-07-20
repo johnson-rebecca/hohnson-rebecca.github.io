@@ -11,89 +11,6 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <style>
-#txtUserName {
-  border: 1px solid transparent;
-  transition: all .5s ease-out !important;
-  -webkit-transition: all .5s ease-out;
-  -moz-transition: all .5s ease-out;
-  -o-transition: all .5s ease-out;
-}
-#txtUserName:focus { 
-    outline: none;
-    border-color: #9ecaed;
-    box-shadow: 0 0 10px #9ecaed;
-}
-.error-vibrate {
-	-webkit-animation: error-vibrate 0.3s linear 6 both;
-	        animation: error-vibrate 0.3s linear 6 both;
-			  outline: none;
-		 border-color: red;
-		   box-shadow: 0 0 10px red;
-}
-
-.jello-horizontal {
-	-webkit-animation: jello-horizontal 0.9s both;
-	        animation: jello-horizontal 0.9s both;
-}
-
-/**
- * ----------------------------------------
- * animation error-vibrate
- * ----------------------------------------
- */
-@-webkit-keyframes error-vibrate {
-  0% {
-    -webkit-transform: translate(0);
-            transform: translate(0);
-  }
-  20% {
-    -webkit-transform: translate(-2px, 2px);
-            transform: translate(-2px, 2px);
-  }
-  40% {
-    -webkit-transform: translate(-2px, -2px);
-            transform: translate(-2px, -2px);
-  }
-  60% {
-    -webkit-transform: translate(2px, 2px);
-            transform: translate(2px, 2px);
-  }
-  80% {
-    -webkit-transform: translate(2px, -2px);
-            transform: translate(2px, -2px);
-  }
-  100% {
-    -webkit-transform: translate(0);
-            transform: translate(0);
-  }
-}
-@keyframes error-vibrate {
-  0% {
-    -webkit-transform: translate(0);
-            transform: translate(0);
-  }
-  20% {
-    -webkit-transform: translate(-2px, 2px);
-            transform: translate(-2px, 2px);
-  }
-  40% {
-    -webkit-transform: translate(-2px, -2px);
-            transform: translate(-2px, -2px);
-  }
-  60% {
-    -webkit-transform: translate(2px, 2px);
-            transform: translate(2px, 2px);
-  }
-  80% {
-    -webkit-transform: translate(2px, -2px);
-            transform: translate(2px, -2px);
-  }
-  100% {
-    -webkit-transform: translate(0);
-            transform: translate(0);
-  }
-}
-
 /**
  * ----------------------------------------
  * animation jello-horizontal
@@ -598,7 +515,12 @@ function addProfile(){
 	else{
 		//add prevented
 		//display error msg
-		document.getElementById('usernameErrorMsg').innerHTML = "User already exists.";
+		if(username != '') {
+			document.getElementById('usernameErrorMsg').innerHTML = "User already exists.";
+		}
+		else {
+			document.getElementById('usernameErrorMsg').innerHTML = "Please enter username.";
+		}
 		document.getElementById('usernameErrorMsg').classList.remove('tracking-out-contract');		
 		document.getElementById('usernameErrorMsg').classList.add('tracking-in-expand');
 		//set error class on button
@@ -657,7 +579,7 @@ function logOut(){
             <a class="link" href="recipient.html">Recipient</a>
           </li>
 		   <li class="item">
-            <a class="link" href="recipient.html">Discover Ideas</a>
+            <a class="link" href="discover.html">Discover Ideas</a>
           </li>
           <li class="item">
             <a class="link" href="favorites.html">Favorites</a>

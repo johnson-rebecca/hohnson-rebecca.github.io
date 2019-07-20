@@ -308,11 +308,14 @@
 
 </style>
 <script>
-
+var listUsers = [];
 document.addEventListener("DOMContentLoaded", function() {
+	document.getElementById("lnkLogout").addEventListener("click", logOut, false);
 	getRemaining('12/25/' + currentYear, 'countdown', timer);
 	getRemainingShip('11/20/' + currentYear, 'daystilShipDue', timer);
 	checkLoggedIn();
+	buildStandardListUsers();
+	sortListUsers();
 	loadStatus();
 });
 
@@ -384,8 +387,40 @@ function loadStatus(){
 	//console.log(user);
 	document.getElementById('displayUsername').innerHTML = user.username;
 	document.getElementById('displayGiftYear').innerHTML = user.giftYear;
+	var selRecipient  = user.assignedRecipient;
+	var lstIdx = findWithAttr(listUsers, 'id', selRecipient);
+	var recipientDisplay = listUsers[lstIdx].displaynameFL();
+	document.getElementById('displayRecipient').innerHTML = recipientDisplay
+	var giftPin = user.plannedGift;
+	if(giftPin != null){
+		var div = document.getElementById('displayPins');
+		div.innerHTML = displayGiftPin(giftPin);
+	}
 }
 
+
+//build up pin result display
+function displayGiftPin(pin){
+	var html = "";
+	var obj = pin;
+	var imgObj = obj.images;
+	html += "<div class='pincontainer insetshadow'>";
+	//html += "<div style='padding:2px;'>";
+	//html += "<button id='btnLike_" + i + "' class='btn btn5 btn5e btnicon-only icon-heart inline' onclick='activateButton(this, " + i + ");'>Like</button>";
+	//html += "<button id='btnGift_" + i + "' class='btn btn5 btn5g btnicon-only icon-gift inline' onclick='activateButton(this, " + i + ");'>Gift</button>";
+	//html += "</div>";
+	if(obj.link){
+		html += "<a target='_blank' href='" + obj.link + "'/>";
+	}
+	html += "<img class='imgpin' src='" + obj.images["237x"].url +"'/>";
+	if(obj.link){
+	html +=  "</a>";
+	}
+	html += "<br/>" + obj.description;
+	html += "</div>";
+
+	return html;
+}
 
 </script>
 </head>
@@ -419,7 +454,7 @@ function loadStatus(){
             <a class="link" href="recipient.html">Recipient</a>
           </li>
 		   <li class="item">
-            <a class="link" href="recipient.html">Discover Ideas</a>
+            <a class="link" href="discover.html">Discover Ideas</a>
           </li>
           <li class="item">
             <a class="link" href="favorites.html">Favorites</a>
@@ -489,6 +524,9 @@ function loadStatus(){
 		</div> 
 		 <hr class="-major">
 		<p>Planned Gift</p>
+		<div id="displayPins"/>
+		</div>
+	
 	
 	</div> <!-- div authenticated end -->
 
