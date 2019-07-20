@@ -663,7 +663,8 @@ main {
   margin: 0 auto;
   padding-top: 4.5rem; }
   main > section {
-    padding: .05rem;
+    padding: .5rem;
+	padding-left: 1rem;
     max-width: 40rem;
     margin: .05rem auto; }
     main > section > .subtitle {
