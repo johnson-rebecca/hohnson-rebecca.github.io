@@ -559,6 +559,10 @@ function activateButton(btn, pinId) {
 //build up pin result display
 function displayGiftPin(pin){
 	var html = "";
+	if(pin == null){
+		html += 'No planned gift data saved.';
+		return html;
+	}
 	var obj = pin;
 	var imgObj = obj.images;
 	html += "<div class='pincontainer insetshadow'>";

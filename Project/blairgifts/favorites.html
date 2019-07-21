@@ -518,13 +518,25 @@ function activateButton(btn, pinId) {
 		activatedClass = 'btnactivated',
 		selectedClass = 'heartSelected';
 		
+		
 	if(btn.classList.contains('icon-gift')){
-		//remove giftSelected class from all others first
-		var giftsSet = document.getElementsByClassName('giftSelected');
-		for(var i = 0; i < giftsSet.length; i += 1) {
-			giftsSet[i].classList.remove('giftSelected');
-        }
-		selectedClass = 'giftSelected';
+		var isSelected = btn.classList.contains('giftSelected');
+		if(isSelected) {
+			console.log('isselected');
+			//remove giftSelected class from this oject and clear gift status
+			btn.classList.remove('giftSelected');
+			currentProfile.plannedGift = null;
+			selectedClass = '';
+		}
+		else {
+			//remove giftSelected class from all others first
+			var giftsSet = document.getElementsByClassName('giftSelected');
+			for(var i = 0; i < giftsSet.length; i += 1) {
+				giftsSet[i].classList.remove('giftSelected');
+			}
+			selectedClass = 'giftSelected';
+			currentProfile.plannedGift = currentProfile.savedFavorites[pinId];
+		}
 	}
 	
 	//set class and timeout
@@ -532,26 +544,26 @@ function activateButton(btn, pinId) {
 		btn.classList.add(activatedClass);
 		setTimeout( function() {
 			self.classList.remove(activatedClass);
-			self.classList.add(selectedClass);
+			if(selectedClass != ''){
+				self.classList.add(selectedClass);
+			}
 		}, 1000 );
 	}
 	
 	//update profile
 	if(btn.classList.contains('icon-heart')){
-		var pin = CURRENT_JSON_RESULTS.data.pins[pinId];
-		var pinId = pin.id;
+		<!-- var pin = CURRENT_JSON_RESULTS.data.pins[pinId]; -->
+		<!-- var pinId = pin.id; -->
 
-		if(!isPinExists(pinId)){
-			savedIdeas.push(pin);
-		}
+		<!-- if(!isPinExists(pinId)){ -->
+			<!-- savedIdeas.push(pin); -->
+		<!-- } -->
 	
-		currentProfile.savedFavorites = savedIdeas;
-		updateProfile();
+		<!-- currentProfile.savedFavorites = savedIdeas; -->
+		<!-- updateProfile(); -->
 	}
 	else { // save planned gift -- will overwrite an existing choice and remove set class from others
-		currentProfile.plannedGift = CURRENT_JSON_RESULTS.data.pins[pinId];
 		updateProfile();
-	
 	}
 	
 }
@@ -559,6 +571,10 @@ function activateButton(btn, pinId) {
 //build up pin result display
 function displayPins(data){
 	var html = "";
+	if(data == null){
+		html += "No favorites saved at this time.";
+		return html;
+	}
 	for(var i = 0; i < data.length; i++) {
 		var obj = data[i];
 		var imgObj = obj.images;
@@ -592,7 +608,11 @@ function displayPins(data){
 }
 
 function isPinExists(value){
-	for(var i = 0; i < savedIdeas.length; i += 1) {
+	var savedIdeasCount = (savedIdeas.length == null) ? 0 : savedIdeas.length;
+	if(savedIdeasCount == 0) {
+		return false;
+	}
+	for(var i = 0; i < savedIdeasCount; i += 1) {
         if(savedIdeas[i].id === value) {
             return true;
         }
@@ -601,10 +621,21 @@ function isPinExists(value){
 }
 
 function isGiftPinExists(value){
-	if(currentProfile.plannedGift.id === value) {
+	if(currentProfile.plannedGift == null){
+		return false;
+	}
+	if(currentProfile.plannedGift.id == value) {
 		return true;
 	}
 	return false;
+}
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
 }
 </script>
 </head>

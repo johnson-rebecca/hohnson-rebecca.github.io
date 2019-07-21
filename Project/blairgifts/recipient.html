@@ -506,10 +506,8 @@ function validateRecipient(){
 		//add class to recipient
 		console.log(selRecipient);
 		document.getElementById("recipient").classList.add('error-vibrate');
-		//document.getElementById("giftYear").placeholder = 'Gift Year required (1970 - 2100).';
 		setTimeout(function(){
 			document.getElementById("recipient").classList.remove('error-vibrate');
-			//document.getElementById("giftYear").placeholder = 'Enter Gift Year';
 		}, 3000);
 		return false;
 	}
@@ -544,6 +542,12 @@ function loadRecipientDetails() {
 	var lst = document.getElementById('recipient');
 	var selRecipient = lst.options[lst.selectedIndex].value;
 	if (selRecipient != '0') {
+		if(selRecipient != currentProfile.assignedRecipient){
+			//when recipient changes, clear the saved favorites and planned gift 
+			currentProfile.savedFavorites = null;
+			currentProfile.plannedGift = null;
+			currentProfile.lastSearchedUser = null;
+		}
 		currentProfile.assignedRecipient = selRecipient;
 		var lstIdx = findWithAttr(listUsers, 'id', selRecipient);
 		var interests = ((listUsers[lstIdx].interests != '')? listUsers[lstIdx].interests : 'no info provided');
