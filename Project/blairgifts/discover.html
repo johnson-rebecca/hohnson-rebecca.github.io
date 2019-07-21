@@ -515,7 +515,7 @@ function loadRecipientDetails() {
 	var selRecipient = lst.options[lst.selectedIndex].value;
 	if (selRecipient != '0') {
 		currentProfile.lastSearchedUser = selRecipient;
-		console.log(currentProfile.lastSearchedUser);
+		//console.log(currentProfile.lastSearchedUser);
 		//var lstIdx = findWithAttr(listUsers, 'id', selRecipient);
 	}
 	LoadJSON();
@@ -631,6 +631,18 @@ function activateButton(btn, pinId) {
 		}
 	}
 	
+	var isRemove = false;
+	var removeIdx = -1;
+	if(btn.classList.contains('icon-heart') && btn.classList.contains('heartSelected')){
+		//console.log('need to remove');
+		isRemove = true;
+		removeIdx = getSavedPinIndex(CURRENT_JSON_RESULTS.data.pins[pinId].id);
+		btn.classList.remove('heartSelected');
+		selectedClass = '';
+		//console.log('need to remove ' + removeIdx);
+		savedIdeas.splice(removeIdx, 1);
+	}
+	
 	//set class and timeout
 	if(!btn.classList.contains(activatedClass)) {
 		btn.classList.add(activatedClass);
@@ -644,18 +656,19 @@ function activateButton(btn, pinId) {
 	
 	//update profile
 	if(btn.classList.contains('icon-heart')){
-		var pin = CURRENT_JSON_RESULTS.data.pins[pinId];
-		var pinId = pin.id;
+		if(!isRemove) {
+			var pin = CURRENT_JSON_RESULTS.data.pins[pinId];
+			var pinId = pin.id;
 
-		if(!isPinExists(pinId)){
-			savedIdeas.push(pin);
+			if(!isPinExists(pinId)){
+				savedIdeas.push(pin);
+			}
 		}
 	
 		currentProfile.savedFavorites = savedIdeas;
 		updateProfile();
 	}
 	else { // save planned gift -- will overwrite an existing choice and remove set class from others
-		//currentProfile.plannedGift = CURRENT_JSON_RESULTS.data.pins[pinId];
 		updateProfile();
 	
 	}
@@ -708,6 +721,21 @@ function isPinExists(value){
         }
     }
 	return false;
+}
+
+function getSavedPinIndex(value){
+	var savedIdeasCount = (savedIdeas.length == null) ? 0 : savedIdeas.length;
+	if(savedIdeasCount == 0) {
+		return -1;
+	}
+	
+	for(var i = 0; i < savedIdeasCount; i += 1) {
+		console.log(savedIdeas[i].id + ' : ' + value);
+        if(savedIdeas[i].id === value) {
+            return i; //matching index
+        }
+    }
+	return -1;
 }
 
 function isGiftPinExists(value){

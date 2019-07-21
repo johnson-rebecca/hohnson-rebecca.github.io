@@ -322,6 +322,10 @@
 	color: transparent;
 }
 
+.hide {
+	display: none;
+}
+
 .btnsuccess:after,
 .btnerror:after {
 	z-index: 1;
@@ -539,6 +543,20 @@ function activateButton(btn, pinId) {
 		}
 	}
 	
+	var isRemove = false;
+	var removeIdx = -1;
+	if(btn.classList.contains('icon-heart') && btn.classList.contains('heartSelected')){
+		isRemove = true;
+		removeIdx = getSavedPinIndex(savedIdeas[pinId].id);
+		btn.classList.remove('heartSelected');
+		selectedClass = '';
+		savedIdeas.splice(removeIdx, 1);
+		currentProfile.savedFavorites = savedIdeas;
+		setTimeout( function() {
+			document.getElementById('pinContainer_' + pinId).classList.add('hide');
+		}, 1000 );
+	}
+	
 	//set class and timeout
 	if(!btn.classList.contains(activatedClass)) {
 		btn.classList.add(activatedClass);
@@ -552,20 +570,25 @@ function activateButton(btn, pinId) {
 	
 	//update profile
 	if(btn.classList.contains('icon-heart')){
-		<!-- var pin = CURRENT_JSON_RESULTS.data.pins[pinId]; -->
-		<!-- var pinId = pin.id; -->
-
-		<!-- if(!isPinExists(pinId)){ -->
-			<!-- savedIdeas.push(pin); -->
-		<!-- } -->
-	
-		<!-- currentProfile.savedFavorites = savedIdeas; -->
-		<!-- updateProfile(); -->
+		updateProfile();
 	}
 	else { // save planned gift -- will overwrite an existing choice and remove set class from others
 		updateProfile();
 	}
+}
+
+function getSavedPinIndex(value){
+	var savedIdeasCount = (savedIdeas.length == null) ? 0 : savedIdeas.length;
+	if(savedIdeasCount == 0) {
+		return -1;
+	}
 	
+	for(var i = 0; i < savedIdeasCount; i += 1) {
+        if(savedIdeas[i].id === value) {
+            return i; //matching index
+        }
+    }
+	return -1;
 }
 
 //build up pin result display
@@ -578,7 +601,7 @@ function displayPins(data){
 	for(var i = 0; i < data.length; i++) {
 		var obj = data[i];
 		var imgObj = obj.images;
-		html += "<div class='pincontainer insetshadow'>";
+		html += "<div id='pinContainer_" + i + "' class='pincontainer insetshadow'>";
 		html += "<div style='padding:2px;'>";
 		if(isPinExists(obj.id)){
 			html += "<button id='btnLike_" + i + "' class='btn btn5 btn5e btnicon-only icon-heart inline heartSelected' onclick='activateButton(this, " + i + ");'>Like</button>";
